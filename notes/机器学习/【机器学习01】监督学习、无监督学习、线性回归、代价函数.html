@@ -1,0 +1,172 @@
+<div id="article_content" class="article_content clearfix">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/kdoc_html_views-1a98987dfd.css">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-a50b13a894.css">
+                <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <p></p>
+<div class="toc">
+ <h4><a name="t0"></a>文章目录</h4>
+ <ul><li><a href="#_8" target="_self">一、监督学习</a></li><li><ul><li><a href="#11__9" target="_self">1.1 什么是监督学习</a></li><li><a href="#12__19" target="_self">1.2 监督学习的应用实例</a></li><li><a href="#13__35" target="_self">1.3 监督学习的两种类型</a></li><li><ul><li><a href="#131__Regression_39" target="_self">1.3.1 回归 (Regression)</a></li><li><a href="#132__Classification_49" target="_self">1.3.2 分类 (Classification)</a></li></ul>
+   </li><li><a href="#14__68" target="_self">1.4 总结</a></li></ul>
+  </li><li><a href="#_74" target="_self">二、无监督学习</a></li><li><ul><li><a href="#21__vs__78" target="_self">2.1 监督学习 vs 无监督学习</a></li><li><a href="#22__Clustering_89" target="_self">2.2 聚类 (Clustering)</a></li><li><ul><li><a href="#223__93" target="_self">2.2.3 聚类的应用实例</a></li></ul>
+   </li><li><a href="#23__112" target="_self">2.3 其他无监督学习算法</a></li><li><a href="#24__123" target="_self">2.4 小结与思考</a></li></ul>
+  </li><li><a href="#_144" target="_self">三、线性回归模型</a></li><li><ul><li><a href="#31__148" target="_self">3.1 回顾：什么是回归问题</a></li><li><a href="#32__161" target="_self">3.2 模型的专业术语</a></li><li><a href="#33__Model_Representation_182" target="_self">3.3 模型的表示 (Model Representation)</a></li><li><a href="#34__201" target="_self">3.4 总结</a></li></ul>
+  </li><li><a href="#_210" target="_self">四、代价函数：如何衡量模型的好坏</a></li><li><ul><li><a href="#41__w__b_216" target="_self">4.1 理解模型的参数 w 和 b</a></li><li><a href="#42__Jw_b_231" target="_self">4.2 定义代价函数 J(w, b)</a></li><li><a href="#43__259" target="_self">4.3 直观理解代价函数</a></li><li><ul><li><a href="#431_b__0_263" target="_self">4.3.1 简化情况：b = 0</a></li><li><a href="#432_w__b_283" target="_self">4.3.2 一般情况：`w` 和 `b`</a></li><li><a href="#433__Contour_Plot_295" target="_self">4.3.3 可视化工具：等高线图 (Contour Plot)</a></li></ul>
+  </li></ul>
+ </li></ul>
+</div>
+<p></p> 
+<hr> 
+<p><em>视频链接</em><br> <a href="%E3%80%90%E3%80%90%E5%AE%98%E6%96%B9%E4%B8%AD%E8%8B%B1%E3%80%912025%E5%B9%B4%E5%85%AC%E8%AE%A4%E6%9C%80%E5%A5%BD%E7%9A%84%E3%80%90%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%AF%BE%E7%A8%8B%E3%80%91%E9%99%84%E8%AF%BE%E4%BB%B6%E3%80%81%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE%EF%BC%81%EF%BC%81%EF%BC%81--%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%91%20https://www.bilibili.com/video/BV1owrpYKEtP/?p=10&amp;share_source=copy_web&amp;vd_source=f084482bdc948a56dc505d2067a9fd4f" rel="nofollow">吴恩达机器学习p1-p9</a></p> 
+<hr> 
+<h2><a name="t1"></a><a id="_8"></a>一、监督学习</h2> 
+<h3><a name="t2"></a><a id="11__9"></a>1.1 什么是监督学习</h3> 
+<p>什么是监督学习（Supervised learning）呢？</p> 
+<p>简单来说，监督学习就是我们给<span class="words-blog hl-git-1" data-tit="算法" data-pretit="算法">算法</span>一个数据集，其中包含了“正确答案”。算法的任务就是学习输入与输出之间的映射关系，以便对新的、未知的数据进行预测。</p> 
+<p>就像下图展示的，我们有输入（X），通过某种学习算法，映射到输出标签（Y）。整个过程的核心思想是，我们通过提供一系列带有“正确答案”的样本来“监督”算法进行学习。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/e245a2c568574287a66612b1998acf36.png" alt="在这里插入图片描述"></p> 
+<h3><a name="t3"></a><a id="12__19"></a>1.2 监督学习的应用实例</h3> 
+<p>监督学习在现实世界中有着非常广泛的应用。<span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;吴恩达\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="吴恩达" data-pretit="吴恩达">吴恩达</span>老师在课程中也为我们列举了很多生动的例子：</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/ae93fc6aa31e454eb1e0ec8f4b73d297.png" alt="在这里插入图片描述"></p> 
+<p>从上图中我们可以看到：</p> 
+<ul><li><strong>垃圾邮件过滤 (Spam filtering)</strong>：输入是邮件内容，输出是判断这封邮件是否为垃圾邮件（通常用0/1表示）。</li><li><strong>语音识别 (Speech recognition)</strong>：输入是音频片段，输出是对应的文字记录。</li><li><strong>机器翻译 (Machine translation)</strong>：输入是一种语言的文本（比如英语），输出是另一种语言的文本（比如西班牙语）。</li><li><strong>在线广告 (Online advertising)</strong>：输入是广告信息和用户信息，输出是用户是否会点击这个广告（0/1）。</li><li><strong>自动驾驶 (Self-driving car)</strong>：输入是汽车的图像、雷达信息等，输出是路面上其他车辆的位置。</li><li><strong>视觉检测 (Visual inspection)</strong>：输入是产品的图片（比如手机），输出是判断产品是否存在缺陷（0/1）。</li></ul> 
+<p>这些例子都遵循着从输入X到输出Y的模式，并且都是通过学习大量已知答案的<span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;数据集\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="数据集" data-pretit="数据集">数据集</span>来实现的。</p> 
+<h3><a name="t4"></a><a id="13__35"></a>1.3 监督学习的两种类型</h3> 
+<p>在监督学习内部，我们通常会根据输出（Y）的类型，将其分为两大类：<strong>回归（Regression）</strong> 和 <strong>分类（Classification）</strong>。</p> 
+<h4><a name="t5"></a><a id="131__Regression_39"></a>1.3.1 回归 (<span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;Regression\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="Regression" data-pretit="regression">Regression</span>)</h4> 
+<p>当我们要预测一个连续的数值时，这类问题就被称为回归问题。</p> 
+<p>最经典的例子就是<span style="color: #FC5531" class="new-words-blog" data-href="https://so.csdn.net/so/search?q=房价预测" data-report-view="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://so.csdn.net/so/search?q=房价预测&quot;,&quot;extra&quot;:{&quot;wordId&quot;:1276,&quot;businessId&quot;:1,&quot;word&quot;:&quot;房价预测&quot;,&quot;blogTemplateId&quot;:-1}}" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://so.csdn.net/so/search?q=房价预测&quot;,&quot;extra&quot;:{&quot;wordId&quot;:1276,&quot;businessId&quot;:1,&quot;word&quot;:&quot;房价预测&quot;,&quot;blogTemplateId&quot;:-1}}" data-report-query="spm=1001.2101.3001.11407" data-tit="房价预测">
+              房价预测 <i style="background-image: url(https://i-operation.csdnimg.cn/images/e7c3df7a602f4267be505af7ecfc3f88.png);" alt="房价预测" class="words-blog-icon"></i>
+              </span>。如下图所示，我们可以根据房屋的面积（House size）来预测其价格（Price）。在这个例子中，价格是一个连续变化的数值，理论上可以有无限多种可能的输出。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/9abb078cea71454397155fbe34d16660.png" alt="在这里插入图片描述"></p> 
+<p>我们的<span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;模型\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="模型" data-pretit="模型">模型</span>（图中的直线或曲线）会尝试去拟合这些数据点。当我们有一个新的输入（比如房屋面积为750平方英尺），模型就能给出一个预测的价格（比如15万美元）。这就是一个典型的回归问题，其目标是<strong>预测一个数字</strong>。</p> 
+<h4><a name="t6"></a><a id="132__Classification_49"></a>1.3.2 分类 (Classification)</h4> 
+<p>与回归不同，当我们要预测的输出是一个离散的、有限的类别时，这类问题被称为分类问题。</p> 
+<p>课程中以乳腺癌检测为例。如下图所示，我们根据肿瘤的大小（Tumor size）来判断它是良性的（benign）还是恶性的（malignant）。这里的输出只有两个明确的类别（良性/恶性），我们可以用0和1来代表。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/be995cde69b44b4096c58309db7ad288.png" alt="在这里插入图片描述"></p> 
+<p>分类问题的目标是<strong>预测一个类别</strong>。这个类别可以是两个（比如良性/恶性），也可以是多个。</p> 
+<p>例如，在乳腺癌检测中，我们甚至可以有更细分的类别，比如良性、恶性1型、恶性2型。这些都是离散的、数量有限的输出。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/91b4297251324d258525d115135eb23c.png" alt="[图片]"></p> 
+<p>当我们的数据有多个特征（输入）时，分类模型会尝试找到一个决策边界，来区分不同的类别。如下图所示，我们可以同时根据“年龄（Age）”和“肿瘤大小（Tumor size）”这两个特征来判断肿瘤的性质。图中那条紫色的曲线就是一个决策边界的例子，它能够将良性肿瘤（蓝圈）和恶性肿瘤（红叉）区分开来。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/b30e046837fe40f286fc69ff4c08ed51.png" alt="在这里插入图片描述"></p> 
+<h3><a name="t7"></a><a id="14__68"></a>1.4 总结</h3> 
+<p>好了，今天我们初步认识了监督学习，总结一下核心要点：</p> 
+<ol><li><strong>监督学习</strong>：通过带有“正确答案”的数据集进行学习，让机器找到从输入X到输出Y的最佳映射关系。</li><li><strong>回归</strong>：预测一个连续的数值，例如房价、气温。</li><li><strong>分类</strong>：预测一个离散的类别，例如邮件是否是垃圾邮件、肿瘤是良性还是恶性。</li></ol> 
+<h2><a name="t8"></a><a id="_74"></a>二、无监督学习</h2> 
+<p>上一节我们讨论了监督学习，其核心是使用带有明确“正确答案”的数据进行训练。然而，在很多现实场景中，我们拥有的数据并没有标签。这时，就轮到无监督学习（Unsupervised Learning）大显身手了。</p> 
+<h3><a name="t9"></a><a id="21__vs__78"></a>2.1 监督学习 vs 无监督学习</h3> 
+<p>让我们再次直观地对比一下这两种学习方式。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/bcae94c4bd024d7ea87934d4c8561388.png" alt="在这里插入图片描述"></p> 
+<ul><li><strong>监督学习 (Supervised learning)</strong>：处理的是<strong>有标签 (labeled)</strong> 的数据。就像左图所示，我们提前为数据点标记好了类别（紫色圆圈和红色叉），算法的目标是学习如何区分它们，并画出一条决策边界。</li><li><strong>无监督学习 (Unsupervised learning)</strong>：处理的是<strong>无标签 (unlabeled)</strong> 的数据。如右图所示，我们只有一堆数据点，没有任何关于它们类别的信息。算法的目标是在这些数据中自主地发现有趣的结构或模式。最常见的任务之一就是将数据分成不同的簇（cluster），这个过程也叫做<strong>聚类 (Clustering)</strong>。</li></ul> 
+<p>简单来说，无监督学习的数据只有输入X，没有输出标签Y。算法必须靠自己去数据中寻找内在的结构。</p> 
+<h3><a name="t10"></a><a id="22__Clustering_89"></a>2.2 聚类 (Clustering)</h3> 
+<p>聚类是无监督学习中最核心、最广泛应用的技术之一。它的目标是将相似的数据点归到同一个组（或簇）里。</p> 
+<h4><a name="t11"></a><a id="223__93"></a>2.2.3 聚类的应用实例</h4> 
+<p>吴恩达老师在课程中列举了几个非常经典的聚类应用：</p> 
+<ol><li> <p><strong>谷歌新闻 (Google News)</strong><br> 每天，互联网上都会涌现出成千上万篇关于同一事件的新闻报道。谷歌新闻的一个核心功能就是自动将这些报道聚合在一起，形成一个新闻专题。这就是一个典型的聚类应用：算法自动分析文章内容，将讲述同一个故事的文章聚集到一起。</p> <p><img src="https://i-blog.csdnimg.cn/direct/4b57d18c7a7b44b0871fc1e39f2726a1.png" alt="在这里插入图片描述"></p> </li><li> <p><strong>基因芯片 (DNA Microarray)</strong><br> 在生物信息学领域，研究人员可以使用基因芯片技术测量成千上万个基因在不同个体中的表达水平。通过聚类算法，我们可以根据基因表达的相似性将不同的个体进行分组，这可能帮助我们识别出不同的疾病亚型或发现具有特定生物学意义的基因模式。</p> </li></ol> 
+<p><img src="https://i-blog.csdnimg.cn/direct/7c5bd5df94d7455db601d253c4b53cae.png" alt="在这里插入图片描述"></p> 
+<ol start="3"><li><strong>客户细分 (Grouping Customers)</strong><br> 在市场营销中，企业拥有大量的客户数据。通过对这些数据进行聚类，可以将客户分成不同的细分市场（Market Segments）。例如，可以根据用户的学习行为、兴趣偏好等，将他们分为“追求技能提升”、“关注职业发展”或“希望了解AI前沿”等不同群体，从而为不同群体提供更加个性化的服务和产品推荐。</li></ol> 
+<p><img src="https://i-blog.csdnimg.cn/direct/71b790432fcf42ee8c29159c6d598363.png" alt="在这里插入图片描述"></p> 
+<h3><a name="t12"></a><a id="23__112"></a>2.3 其他无监督学习算法</h3> 
+<p>除了聚类，无监督学习还包含其他一些重要的算法类型，例如：</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/dd9ee52039674fd9888202872fd789df.png" alt="在这里插入图片描述"></p> 
+<ul><li><strong>降维 (Dimensionality reduction)</strong>：在保留数据最重要特征的前提下，减少数据的变量个数（维度）。</li><li><strong>异常检测 (Anomaly detection)</strong>：从数据中识别出那些与正常数据模式显著不同的“异常点”或“离群点”。</li></ul> 
+<p>我们会在后续的课程中对这些算法进行更详细的探讨。</p> 
+<h3><a name="t13"></a><a id="24__123"></a>2.4 小结与思考</h3> 
+<p>为了检验大家是否理解了监督学习与无监督学习的区别，可以看看下面这个小问题：</p> 
+<p><strong>问题</strong>：在下列的例子中，哪些适合使用无监督学习算法来解决？</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/47f9be7cff034b1f8a2e9702769a0a8a.png" alt="在这里插入图片描述"></p> 
+<ul><li><strong>A</strong>: 给定一批已标记为“垃圾邮件”或“非垃圾邮件”的邮件，学习一个垃圾邮件过滤器。</li><li><strong>B</strong>: 从网络上获取大量新闻文章，将关于同一个故事的文章分组。</li><li><strong>C</strong>: 给定一个客户数据库，自动发现不同的市场细分并对客户进行分组。</li><li><strong>D</strong>: 给定一个已诊断为“患糖尿病”或“未患糖尿病”的患者数据集，学习如何对新患者进行分类。</li></ul> 
+<hr> 
+<p><strong>答案解析：</strong></p> 
+<ul><li><strong>A 和 D</strong> 属于<strong>监督学习</strong>。因为它们的数据集都带有明确的标签（“垃圾邮件/非垃圾邮件”，“患病/未患病”），我们的目标是学习一个分类器。</li><li><strong>B 和 C</strong> 属于<strong>无监督学习</strong>。在这两个场景中，我们没有预先定义的标签。我们的目标是从数据本身发现结构，无论是将新闻分组（B），还是将客户分群（C），都属于聚类的范畴。</li></ul> 
+<hr> 
+<h2><a name="t14"></a><a id="_144"></a>三、线性<span style="color: #FC5531" class="new-words-blog" data-href="https://so.csdn.net/so/search?q=回归模型" data-report-view="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://so.csdn.net/so/search?q=回归模型&quot;,&quot;extra&quot;:{&quot;wordId&quot;:1224,&quot;businessId&quot;:1,&quot;word&quot;:&quot;回归模型&quot;,&quot;blogTemplateId&quot;:-1}}" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://so.csdn.net/so/search?q=回归模型&quot;,&quot;extra&quot;:{&quot;wordId&quot;:1224,&quot;businessId&quot;:1,&quot;word&quot;:&quot;回归模型&quot;,&quot;blogTemplateId&quot;:-1}}" data-report-query="spm=1001.2101.3001.11407" data-tit="回归模型">
+              回归模型 <i style="background-image: url(https://i-operation.csdnimg.cn/images/e7c3df7a602f4267be505af7ecfc3f88.png);" alt="回归模型" class="words-blog-icon"></i>
+              </span></h2> 
+<p>在前面的内容中，我们已经知道，像房价预测这类问题属于<strong>监督学习</strong>中的回归问题。现在，让我们深入探讨如何构建一个模型来解决这类问题。我们将从最基础的<strong>线性回归（Linear Regression</strong>模型开始。</p> 
+<h3><a name="t15"></a><a id="31__148"></a>3.1 回顾：什么是回归问题</h3> 
+<p>我们再来看一下这张熟悉的房价预测图。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/1601ae3766e64490b16b6935d10e49e8.png" alt="在这里插入图片描述"></p> 
+<p>我们的目标是建立一个模型，它能根据房屋的面积（size）来预测其价格（price）。</p> 
+<ul><li><strong>回归模型 (Regression model)</strong>：预测的是一个连续的数值（Numbers），理论上有无限多种可能的输出。</li><li><strong>分类模型 (Classification model)</strong>：预测的是一个离-散的类别（Categories），可能的输出数量是有限的。</li></ul> 
+<p>而这两种模型都属于<strong>监督学习模型 (Supervised learning model)</strong>，因为我们用来训练它们的数据都包含了“正确答案”。</p> 
+<h3><a name="t16"></a><a id="32__161"></a>3.2 模型的专业术语</h3> 
+<p>在正式建立模型之前，我们需要先统一一下“专业语言”，了解一些<span style="color: #4F46E5" class="new-words-blog" data-href="https://taotoken.net/?utm_source=blogglc" data-report-view="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://taotoken.net/?utm_source=blogglc&quot;,&quot;extra&quot;:{&quot;wordId&quot;:179201,&quot;businessId&quot;:6,&quot;word&quot;:&quot;机器学习&quot;,&quot;blogTemplateId&quot;:-1}}" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://taotoken.net/?utm_source=blogglc&quot;,&quot;extra&quot;:{&quot;wordId&quot;:179201,&quot;businessId&quot;:6,&quot;word&quot;:&quot;机器学习&quot;,&quot;blogTemplateId&quot;:-1}}" data-report-query="spm=1001.2101.3001.11407" data-tit="机器学习">
+              机器学习 <i style="background-image: url(https://i-operation.csdnimg.cn/images/7f533e06978e4b73acc2236e7daf01bd.png);" alt="机器学习" class="words-blog-icon"></i>
+              </span>中的基本术语。</p> 
+<p>我们用来构建模型的数据，通常被称为<strong>数据集 (Data set)</strong>。在我们的例子中，数据集就是一系列房屋面积及其对应的真实价格。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/92cf9a3c31f14bcf94c0c35149160527.png" alt="在这里插入图片描述"></p> 
+<p>这张图非常直观地展示了数据点和数据表之间的关系。图上的每一个红叉，都对应着数据表中的一行。</p> 
+<p>为了更精确地描述，吴恩达老师引入了一套标准的数学符号：</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/9cde3d772f0c4c5caf372b88218745ce.png" alt="在这里插入图片描述"></p> 
+<ul><li><strong>x</strong>: 表示<strong>输入变量 (input variable)</strong>，也常被称为<strong>特征 (feature)</strong>。在我们的例子中，<code onclick="mdcp.copyCode(event)">x</code>就是房屋的面积。</li><li><strong>y</strong>: 表示<strong>输出变量 (output variable)</strong>，也常被称为<strong>目标 (target)</strong>。在我们的例子中，<code onclick="mdcp.copyCode(event)">y</code>就是房屋的价格。</li><li><strong>m</strong>: 表示<strong>训练样本的数量 (number of training examples)</strong>。图中的例子里，我们有47个训练样本，所以 <code onclick="mdcp.copyCode(event)">m=47</code>。</li><li><strong>(x, y)</strong>: 表示一个<strong>单个的训练样本 (single training example)</strong>。</li><li><strong>(x⁽ⁱ⁾, y⁽ⁱ⁾)</strong>: 表示第 <code onclick="mdcp.copyCode(event)">i</code> 个训练样本。这里的上标 <code onclick="mdcp.copyCode(event)">(i)</code> 只是一个<strong>索引 (index)</strong>，代表第几行数据，它<strong>不是</strong>数学上的指数或次方。 
+  <ul><li>例如，<code onclick="mdcp.copyCode(event)">(x⁽¹⁾, y⁽¹⁾)</code> 就代表第一个训练样本，即 <code onclick="mdcp.copyCode(event)">(2104, 400)</code>。</li></ul> </li></ul> 
+<h3><a name="t17"></a><a id="33__Model_Representation_182"></a>3.3 模型的表示 (<span style="color: #FC5531" class="new-words-blog" data-href="https://so.csdn.net/so/search?q=model" data-report-view="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://so.csdn.net/so/search?q=model&quot;,&quot;extra&quot;:{&quot;wordId&quot;:421,&quot;businessId&quot;:1,&quot;word&quot;:&quot;model&quot;,&quot;blogTemplateId&quot;:-1}}" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://so.csdn.net/so/search?q=model&quot;,&quot;extra&quot;:{&quot;wordId&quot;:421,&quot;businessId&quot;:1,&quot;word&quot;:&quot;model&quot;,&quot;blogTemplateId&quot;:-1}}" data-report-query="spm=1001.2101.3001.11407" data-tit="Model">
+              Model <i style="background-image: url(https://i-operation.csdnimg.cn/images/e7c3df7a602f4267be505af7ecfc3f88.png);" alt="Model" class="words-blog-icon"></i>
+              </span> Representation)</h3> 
+<p>了解了基本术语后，我们来看看一个机器学习模型是如何工作的，以及如何用数学语言来表示它。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/fc82ee3f53e94915b13714abd527baea.png" alt="在这里插入图片描述"></p> 
+<p>上图左侧清晰地展示了模型训练和预测的流程：</p> 
+<ol><li>我们将<strong>训练集 (training set)</strong>（包含了特征 <code onclick="mdcp.copyCode(event)">x</code> 和目标 <code onclick="mdcp.copyCode(event)">y</code>）喂给一个<strong>学习算法 (learning algorithm)</strong>。</li><li>学习算法会输出一个<strong>函数 <code onclick="mdcp.copyCode(event)">f</code></strong>。这个函数 <code onclick="mdcp.copyCode(event)">f</code> 就是我们最终得到的<strong>模型 (model)</strong>，在一些文献中它也被称为<strong>假设 (hypothesis)</strong>。</li><li>当有新的输入 <code onclick="mdcp.copyCode(event)">x</code>（例如，一个全新的房屋面积）时，我们就可以用这个模型 <code onclick="mdcp.copyCode(event)">f</code> 来进行预测。模型输出的预测值，我们通常用 <strong>ŷ</strong> (读作 “y-hat”) 来表示。</li></ol> 
+<p>那么，这个模型 <code onclick="mdcp.copyCode(event)">f</code> 的具体形式是什么呢？对于线性回归，我们希望找到一条直线来拟合我们的数据。初中数学告诉我们，一条直线的方程可以表示为 <code onclick="mdcp.copyCode(event)">y = wx + b</code>。在机器学习中，我们沿用这个形式，将模型写作：</p> 
+<p><strong>f_w,b(x) = wx + b</strong></p> 
+<p>这个模型只有一个输入特征 <code onclick="mdcp.copyCode(event)">x</code>（房屋面积），因此它被称为<strong>单变量线性回归 (Univariate linear regression)</strong>。“Univariate”中的“uni”就是“单一”的意思。</p> 
+<p>我们的核心任务，就是通过学习算法，找到最优的参数 <code onclick="mdcp.copyCode(event)">w</code> 和 <code onclick="mdcp.copyCode(event)">b</code>，使得这条直线能够最好地拟合我们的<span style="color: #3391E5" class="new-words-blog" data-href="https://download.csdn.net/download/qq_31136513/88084895?utm_source=kw_dl_0616" data-report-view="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/qq_31136513/88084895?utm_source=kw_dl_0616&quot;,&quot;extra&quot;:{&quot;wordId&quot;:165326,&quot;businessId&quot;:4,&quot;word&quot;:&quot;训练数据&quot;,&quot;blogTemplateId&quot;:-1}}" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/qq_31136513/88084895?utm_source=kw_dl_0616&quot;,&quot;extra&quot;:{&quot;wordId&quot;:165326,&quot;businessId&quot;:4,&quot;word&quot;:&quot;训练数据&quot;,&quot;blogTemplateId&quot;:-1}}" data-report-query="spm=1001.2101.3001.11407" data-tit="训练数据">
+              训练数据 
+              </span>。</p> 
+<h3><a name="t18"></a><a id="34__201"></a>3.4 总结</h3> 
+<p>今天我们正式开启了线性回归模型的大门，重点掌握了以下内容：</p> 
+<ol><li><strong>核心术语</strong>：了解了特征(x)、目标(y)、训练集、样本数量(m)等基本概念及其数学符号。</li><li><strong>模型流程</strong>：明白了训练集通过学习算法生成模型 <code onclick="mdcp.copyCode(event)">f</code>，模型 <code onclick="mdcp.copyCode(event)">f</code> 再对新输入进行预测（输出ŷ）的基本流程。</li><li><strong>模型表示</strong>：知道了单变量线性回归的模型 <code onclick="mdcp.copyCode(event)">f(x) = wx + b</code>，即一条直线。</li></ol> 
+<hr> 
+<h2><a name="t19"></a><a id="_210"></a>四、代价函数：如何衡量模型的好坏</h2> 
+<p>在上文我们定义了线性回归模型 <code onclick="mdcp.copyCode(event)">f(x) = wx + b</code>。我们知道，通过调整参数 <code onclick="mdcp.copyCode(event)">w</code> 和 <code onclick="mdcp.copyCode(event)">b</code>，我们可以得到不同的直线。那么，接下来的问题是：<strong>如何自动地为我们的模型找到最合适的 <code onclick="mdcp.copyCode(event)">w</code> 和 <code onclick="mdcp.copyCode(event)">b</code> 呢？</strong></p> 
+<p>要回答这个问题，我们首先需要一种方法来衡量模型的好坏。这就是<strong>代价函数（Cost Function</strong>的作用。</p> 
+<h3><a name="t20"></a><a id="41__w__b_216"></a>4.1 理解模型的参数 w 和 b</h3> 
+<p>首先，我们再来回顾一下模型 <code onclick="mdcp.copyCode(event)">f(x) = wx + b</code> 中的两个<strong>参数（parameters）</strong> <code onclick="mdcp.copyCode(event)">w</code> 和 <code onclick="mdcp.copyCode(event)">b</code> 究竟是做什么的。在一些文献中，它们也被称为<strong>系数（coefficients）<strong>或</strong>权重（weights）</strong>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/b1376af72adb45c4b347d571c5d39102.png" alt="在这里插入图片描述"></p> 
+<p>通过下面这组图，我们可以非常直观地理解它们的作用：</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/c9d46c5f167f48e7928e420618fa57ba.png" alt="在这里插入图片描述"></p> 
+<ul><li><strong>b (y-intercept)</strong>：当 <code onclick="mdcp.copyCode(event)">w=0</code> 时，<code onclick="mdcp.copyCode(event)">f(x) = b</code>，这是一条水平线。<code onclick="mdcp.copyCode(event)">b</code> 决定了直线与y轴的截距。</li><li><strong>w (slope)</strong>：<code onclick="mdcp.copyCode(event)">w</code> 决定了直线的斜率。它表示 <code onclick="mdcp.copyCode(event)">x</code> 每增加1，<code onclick="mdcp.copyCode(event)">f(x)</code> 变化的量。<code onclick="mdcp.copyCode(event)">w</code> 越大，直线越陡峭。</li></ul> 
+<p>通过选择不同的 <code onclick="mdcp.copyCode(event)">w</code> 和 <code onclick="mdcp.copyCode(event)">b</code>，我们的直线模型就能以不同的方式去拟合数据。我们的目标，就是找到那个能“最好地”拟合数据的 <code onclick="mdcp.copyCode(event)">w</code> 和 <code onclick="mdcp.copyCode(event)">b</code>。</p> 
+<h3><a name="t21"></a><a id="42__Jw_b_231"></a>4.2 定义代价函数 J(w, b)</h3> 
+<p>为了衡量拟合的好坏，我们需要量化模型预测值与真实值之间的“差距”或“误差”。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/7d8f3d0334144168a1cb559e9d47bded.png" alt="在这里插入图片描述"></p> 
+<p>对于第 <code onclick="mdcp.copyCode(event)">i</code> 个训练样本 <code onclick="mdcp.copyCode(event)">(x⁽ⁱ⁾, y⁽ⁱ⁾)</code>：</p> 
+<ul><li>真实值是 <code onclick="mdcp.copyCode(event)">y⁽ⁱ⁾</code>。</li><li>模型的预测值是 <code onclick="mdcp.copyCode(event)">ŷ⁽ⁱ⁾ = f(x⁽ⁱ⁾) = wx⁽ⁱ⁾ + b</code>。</li><li>两者之间的误差就是 <code onclick="mdcp.copyCode(event)">ŷ⁽ⁱ⁾ - y⁽ⁱ⁾</code>。</li></ul> 
+<p>为了得到一个总体的误差评估，一个非常有效且常用的方法是计算所有样本<strong>误差的平方和的平均值</strong>。这就是我们的代价函数，通常用 <code onclick="mdcp.copyCode(event)">J(w, b)</code> 来表示：</p> 
+<p><strong>J(w,b) = (1 / 2m) * Σ [ (f(x⁽ⁱ⁾) - y⁽ⁱ⁾)² ]</strong> (从 i=1 到 m)</p> 
+<p>这个公式被称为<strong>平方误差代价函数（Squared error cost function）</strong>，它是解决回归问题最常用的代价函数。让我们来拆解一下这个公式：</p> 
+<ol><li><strong>f(x⁽ⁱ⁾) - y⁽ⁱ⁾</strong>：计算单个样本的预测值和真实值之间的误差。</li><li><strong>(…)²</strong>：对误差取平方。这有两个好处： 
+  <ul><li>可以确保误差值为正，避免正负误差相互抵消。</li><li>可以放大较大误差的惩罚，使得模型更倾向于去拟合那些偏差大的点。</li></ul> </li><li><strong>Σ […]</strong>：将所有 <code onclick="mdcp.copyCode(event)">m</code> 个训练样本的平方误差求和。</li><li><strong>(1 / 2m)</strong>：求平均值。除以 <code onclick="mdcp.copyCode(event)">m</code> 是为了让代价函数的值不受样本数量的影响。而乘以 <code onclick="mdcp.copyCode(event)">1/2</code> 是一个数学上的小技巧，它可以在后续计算（求导）时简化公式，但并不会影响我们找到最优 <code onclick="mdcp.copyCode(event)">w</code> 和 <code onclick="mdcp.copyCode(event)">b</code> 的最终结果。</li></ol> 
+<p>我们的<strong>目标</strong>就是：<strong>找到能使代价函数 J(w, b) 最小的 w 和 b 的值</strong>。</p> 
+<p><code onclick="mdcp.copyCode(event)">minimize J(w, b)</code></p> 
+<h3><a name="t22"></a><a id="43__259"></a>4.3 直观理解代价函数</h3> 
+<p>为了更清晰地理解代价函数 <code onclick="mdcp.copyCode(event)">J</code> 是如何工作的，吴恩达老师用了一个非常巧妙的方法：先简化模型，再将其推广到一般情况。</p> 
+<h4><a name="t23"></a><a id="431_b__0_263"></a>4.3.1 简化情况：b = 0</h4> 
+<p>我们暂时假设 <code onclick="mdcp.copyCode(event)">b=0</code>，这样模型就变成了 <code onclick="mdcp.copyCode(event)">f(x) = wx</code>，代价函数也简化为 <code onclick="mdcp.copyCode(event)">J(w)</code>。现在我们只需要关注一个参数 <code onclick="mdcp.copyCode(event)">w</code>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/f808ff50c81a48509cbae5c9da3eeb86.png" alt="在这里插入图片描述"></p> 
+<p>左边的图是我们的模型 <code onclick="mdcp.copyCode(event)">f(x)</code> 关于输入 <code onclick="mdcp.copyCode(event)">x</code> 的函数，右边的图是我们的代价函数 <code onclick="mdcp.copyCode(event)">J(w)</code> 关于参数 <code onclick="mdcp.copyCode(event)">w</code> 的函数。请注意这两个图的坐标轴是完全不同的。</p> 
+<ul><li> <p><strong>当 <code onclick="mdcp.copyCode(event)">w=1</code> 时</strong>：<br> <img src="https://i-blog.csdnimg.cn/direct/5860ee80f5d44b879de939053f66a7bc.png" alt="在这里插入图片描述"><br> 我们发现，当 <code onclick="mdcp.copyCode(event)">w=1</code> 时，模型 <code onclick="mdcp.copyCode(event)">f(x) = 1*x</code> 完美地穿过了所有训练数据点。此时，每个点的误差 <code onclick="mdcp.copyCode(event)">(wx⁽ⁱ⁾ - y⁽ⁱ⁾)</code> 都为0，因此总的代价 <code onclick="mdcp.copyCode(event)">J(1) = 0</code>。这是我们能得到的最小代价。</p> </li><li> <p><strong>当 <code onclick="mdcp.copyCode(event)">w</code> 不为1时</strong>：<br> <img src="https://i-blog.csdnimg.cn/direct/2c3ffcc7b5b34e6c99bad2b76ae81038.png" alt="在这里插入图片描述"><br> 如果我们选择不同的 <code onclick="mdcp.copyCode(event)">w</code> 值（比如 <code onclick="mdcp.copyCode(event)">w=0.5</code>, <code onclick="mdcp.copyCode(event)">w=0</code>, <code onclick="mdcp.copyCode(event)">w=-0.5</code> 等），模型就无法完美拟合数据，会产生误差。将这些 <code onclick="mdcp.copyCode(event)">w</code> 值对应的 <code onclick="mdcp.copyCode(event)">J(w)</code> 计算出来并绘制成图，我们会得到一个类似抛物线的形状。</p> </li></ul> 
+<p>从上图可以看出，代价函数 <code onclick="mdcp.copyCode(event)">J(w)</code> 的最低点，正是在 <code onclick="mdcp.copyCode(event)">w=1</code> 时取到。因此，对于这个简化的模型，<strong>线性回归的目标就是找到这个抛物线的最低点，并返回其对应的 <code onclick="mdcp.copyCode(event)">w</code> 值</strong>。</p> 
+<h4><a name="t24"></a><a id="432_w__b_283"></a>4.3.2 一般情况：<code onclick="mdcp.copyCode(event)">w</code> 和 <code onclick="mdcp.copyCode(event)">b</code></h4> 
+<p>现在，我们把参数 <code onclick="mdcp.copyCode(event)">b</code> 加回来。代价函数 <code onclick="mdcp.copyCode(event)">J(w, b)</code> 变成了两个参数的函数。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/3f0ef659092c45808131abfa0b59e5f0.png" alt="在这里插入图片描述"></p> 
+<p>如果说 <code onclick="mdcp.copyCode(event)">J(w)</code> 是一个2D的抛物线，那么 <code onclick="mdcp.copyCode(event)">J(w, b)</code> 就是一个3D的“碗”形曲面。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/e10afc4e07314e6e963de5fe51e62304.png" alt="在这里插入图片描述"></p> 
+<p>这个3D曲面上的每一点，都对应着一组 <code onclick="mdcp.copyCode(event)">(w, b)</code> 参数，以及由这组参数计算出的代价值 <code onclick="mdcp.copyCode(event)">J</code>（也就是曲面的高度）。我们的目标，就是找到这个“碗”底部的最低点。</p> 
+<h4><a name="t25"></a><a id="433__Contour_Plot_295"></a>4.3.3 可视化工具：等高线图 (Contour Plot)</h4> 
+<p>3D图像虽然直观，但在纸面上绘制和分析并不方便。因此，我们常常使用<strong>等高线图</strong>来从“正上方”俯视这个3D曲面。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/72c985347b324892b92f6096fd691372.png" alt="在这里插入图片描述"></p> 
+<p>等高线图就像我们地理课上学的地形图：</p> 
+<ul><li>图上的每一个椭圆（等高线），都代表着一组能得到<strong>相同代价值 <code onclick="mdcp.copyCode(event)">J</code></strong> 的 <code onclick="mdcp.copyCode(event)">(w, b)</code> 组合。</li><li>最中心的那个点，就是“碗”的最低点，也就是我们寻找的<strong>代价函数的最小值点</strong>。</li></ul> 
+<p>通过下面这组动图，我们可以清晰地看到模型、代价函数曲面和等高线图之间的联动关系：</p> 
+<ol><li> <p><strong>一个糟糕的拟合</strong>：<br> <img src="https://i-blog.csdnimg.cn/direct/00c615fb8cf5402380776864d68b369d.png" alt="在这里插入图片描述"><br> 当 <code onclick="mdcp.copyCode(event)">w=-0.15, b=500</code> 时，我们在等高线图上处于一个远离中心的位置。对应的，左边的拟合直线与数据点偏差很大，误差很高，因此在3D曲面上的位置也很高。</p> </li><li> <p><strong>一个更好的拟合</strong>：<br> <img src="https://i-blog.csdnimg.cn/direct/0714a87029374106b97220e93f04a4fb.png" alt="在这里插入图片描述"><br> 当我们选择 <code onclick="mdcp.copyCode(event)">w=0.13, b=71</code>，这个点在等高线图上更靠近中心。此时，左边的拟合直线与数据点的贴合程度明显变好，总误差（代价 <code onclick="mdcp.copyCode(event)">J</code>）也显著降低。</p> </li></ol> 
+<p>我们的最终目标，就是找到等高线图最中心点对应的 <code onclick="mdcp.copyCode(event)">(w, b)</code>，因为它能让我们的模型产生的总误差最小，也就是对数据拟合得最好。</p> 
+<p>下一篇文章，我们将介绍一种强大的算法——<strong>梯度下降</strong>，它能够自动地、高效地为我们找到这个代价函数的最低点。</p>
+                </div><div data-report-view="{&quot;mod&quot;:&quot;1585297308_001&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6548&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/2502_90283908/article/details/153266938&quot;,&quot;extend1&quot;:&quot;pc&quot;,&quot;ab&quot;:&quot;new&quot;}"><div></div></div>
+                <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-e1cc28b339.css" rel="stylesheet">
+                <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-d1e89cace4.css" rel="stylesheet">
+        </div>
