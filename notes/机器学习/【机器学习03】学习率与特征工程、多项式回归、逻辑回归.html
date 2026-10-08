@@ -1,0 +1,151 @@
+<div id="article_content" class="article_content clearfix">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/kdoc_html_views-1a98987dfd.css">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-a50b13a894.css">
+                <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <p></p>
+<div class="toc">
+ <h4><a name="t0"></a>文章目录</h4>
+ <ul><li><a href="#_20" target="_self">一、线性回归的实践技巧</a></li><li><ul><li><a href="#11__24" target="_self">1.1 调试梯度下降</a></li><li><ul><li><a href="#111__Learning_Curve_28" target="_self">1.1.1 学习曲线 (Learning Curve)</a></li><li><a href="#112___37" target="_self">1.1.2 如何选择学习率 α</a></li></ul>
+   </li><li><a href="#12__Feature_Engineering_50" target="_self">1.2 特征工程 (Feature Engineering)</a></li><li><a href="#13__Polynomial_Regression_58" target="_self">1.3 多项式回归 (Polynomial Regression)</a></li></ul>
+  </li><li><a href="#_78" target="_self">二、逻辑回归与分类问题</a></li><li><ul><li><a href="#21__82" target="_self">2.1 什么是分类问题</a></li><li><ul><li><a href="#211__95" target="_self">2.1.1 线性回归用于分类的局限</a></li></ul>
+   </li><li><a href="#22__103" target="_self">2.2 逻辑回归模型</a></li><li><ul><li><a href="#221_Sigmoid__107" target="_self">2.2.1 Sigmoid 函数</a></li><li><a href="#222__117" target="_self">2.2.2 模型表示与解读</a></li></ul>
+   </li><li><a href="#23__Decision_Boundary_133" target="_self">2.3 决策边界 (Decision Boundary)</a></li><li><ul><li><a href="#231__148" target="_self">2.3.1 线性决策边界</a></li><li><a href="#232__156" target="_self">2.3.2 非线性决策边界</a></li></ul>
+  </li></ul>
+  </li><li><a href="#_213" target="_self">三、逻辑回归的代价函数</a></li><li><ul><li><a href="#31__219" target="_self">3.1 平方误差代价函数的局限性</a></li><li><a href="#32__Logistic_Loss_Function_232" target="_self">3.2 逻辑损失函数 (Logistic Loss Function)</a></li><li><ul><li><a href="#321__y1__245" target="_self">3.2.1 当 y=1 时</a></li><li><a href="#322__y0__253" target="_self">3.2.2 当 y=0 时</a></li></ul>
+   </li><li><a href="#33__263" target="_self">3.3 代价函数与梯度下降</a></li><li><ul><li><a href="#331__274" target="_self">3.3.1 简化版代价函数</a></li><li><a href="#332__295" target="_self">3.3.2 逻辑回归的梯度下降</a></li></ul>
+  </li></ul>
+ </li></ul>
+</div>
+<p></p> 
+<hr> 
+<p><em>视频链接</em><br> <a href="%E3%80%90%E3%80%90%E5%AE%98%E6%96%B9%E4%B8%AD%E8%8B%B1%E3%80%912025%E5%B9%B4%E5%85%AC%E8%AE%A4%E6%9C%80%E5%A5%BD%E7%9A%84%E3%80%90%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%AF%BE%E7%A8%8B%E3%80%91%E9%99%84%E8%AF%BE%E4%BB%B6%E3%80%81%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE%EF%BC%81%EF%BC%81%EF%BC%81--%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%91%20https://www.bilibili.com/video/BV1owrpYKEtP/?p=32&amp;share_source=copy_web&amp;vd_source=f084482bdc948a56dc505d2067a9fd4f" rel="nofollow">吴恩达机器学习p21-p31</a></p> 
+<p>注明：受<span style="color: #3391E5" class="new-words-blog" data-href="https://download.csdn.net/download/qq_49632590/87129020?utm_source=kw_dl_0616" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/qq_49632590/87129020?utm_source=kw_dl_0616&quot;,&quot;extra&quot;:{&quot;wordId&quot;:174244,&quot;businessId&quot;:4,&quot;word&quot;:&quot;Markdown语法&quot;,&quot;blogTemplateId&quot;:-1}}" data-report-query="spm=1001.2101.3001.11407" data-tit="markdown语法">
+              markdown语法 
+              </span>所限， <code onclick="mdcp.copyCode(event)">x⃗</code>表示x向量</p> 
+<hr> 
+<h2><a name="t1"></a><a id="_20"></a>一、线性回归的实践技巧</h2> 
+<p>在前一篇文章中，我们已经学习了线性回归的模型、代价函数以及梯度下降<span style="color: #FC5531" class="new-words-blog" data-href="https://so.csdn.net/so/search?q=算法" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://so.csdn.net/so/search?q=算法&quot;,&quot;extra&quot;:{&quot;wordId&quot;:46,&quot;businessId&quot;:1,&quot;word&quot;:&quot;算法&quot;,&quot;blogTemplateId&quot;:-1}}" data-report-query="spm=1001.2101.3001.11407" data-tit="算法">
+              算法 <i style="background-image: url(https://i-operation.csdnimg.cn/images/e7c3df7a602f4267be505af7ecfc3f88.png);" alt="算法" class="words-blog-icon"></i>
+              </span>。在这一部分，我们将探讨一些让模型训练更高效、功能更强大的实用技巧。</p> 
+<h3><a name="t2"></a><a id="11__24"></a>1.1 调试梯度下降</h3> 
+<p>梯度下降是一个迭代过程，我们如何确保它在正确地工作呢？关键在于监控代价函数 <code onclick="mdcp.copyCode(event)">J</code> 的变化。</p> 
+<h4><a name="t3"></a><a id="111__Learning_Curve_28"></a>1.1.1 学习曲线 (Learning Curve)</h4> 
+<p>一个行之有效的方法是绘制<strong>学习曲线（Learning Curve）</strong>，即以梯度下降的<strong>迭代次数（iterations</strong>为横轴，代价函数 <code onclick="mdcp.copyCode(event)">J(w⃗, b)</code> 的值为纵轴。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/7097ae846637403293709d7f4b0d39ff.png" alt="在这里插入图片描述"></p> 
+<ul><li><strong>正常表现</strong>：一条正常的学习曲线应该是<strong>单调递减</strong>的。随着迭代次数的增加，代价 <code onclick="mdcp.copyCode(event)">J</code> 的值会不断下降，最终趋于平缓，表明算法已经<strong>收敛（converged）</strong>。</li><li><strong>自动收敛测试</strong>：在代码中，我们可以设置一个自动收敛的判断标准。例如，设定一个很小的阈值 <code onclick="mdcp.copyCode(event)">ε</code> (epsilon，如 0.001)，如果在一次迭代中，<code onclick="mdcp.copyCode(event)">J</code> 值的下降小于这个阈值，我们就可以认为算法已经收敛。</li></ul> 
+<h4><a name="t4"></a><a id="112___37"></a>1.1.2 如何选择学习率 α</h4> 
+<p>学习率 <code onclick="mdcp.copyCode(event)">α</code> 的选择对梯度下降的性能至关重要。学习曲线可以帮助我们诊断 <code onclick="mdcp.copyCode(event)">α</code> 是否合适。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/c2650ce5459c4cddb437a7b674a65c8b.png" alt="在这里插入图片描述"></p> 
+<ul><li><strong><code onclick="mdcp.copyCode(event)">α</code> 过大</strong>：如果学习曲线不降反升，或者上下剧烈震荡，这通常意味着学习率 <code onclick="mdcp.copyCode(event)">α</code> 设置得太大了，导致算法在最低点附近“反复横跳”，甚至发散。<strong>解决方法是使用更小的 <code onclick="mdcp.copyCode(event)">α</code></strong>。</li><li><strong><code onclick="mdcp.copyCode(event)">α</code> 过小</strong>：如果代价 <code onclick="mdcp.copyCode(event)">J</code> 下降得非常缓慢，说明学习率 <code onclick="mdcp.copyCode(event)">α</code> 可能太小了，需要很长时间才能收敛。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/4cd4318fa3cd4b1995193aec386383b9.png" alt="在这里插入图片描述"></p> 
+<p>在实践中，选择 <code onclick="mdcp.copyCode(event)">α</code> 的一个好方法是<strong>尝试一系列呈倍数增长的数值</strong>，例如：<code onclick="mdcp.copyCode(event)">..., 0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1, ...</code>（每次大约乘以3）。通过比较不同 <code onclick="mdcp.copyCode(event)">α</code> 值下的学习曲线，我们可以快速找到一个既能确保收敛又不会太慢的合适值。</p> 
+<h3><a name="t5"></a><a id="12__Feature_Engineering_50"></a>1.2 <span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;特征工程\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="特征工程" data-pretit="特征工程">特征工程</span> (Feature Engineering)</h3> 
+<p>除了调整算法本身，我们还可以通过<strong>特征工程</strong>来提升模型的性能。特征工程指的是利用我们对问题的理解和直觉，通过对原始特征进行变换或组合，来创造出新的、可能更有用的特征。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/379c10cdcfda4f0487e5fc8958eebba3.png" alt="在这里插入图片描述"></p> 
+<p>例如，在房价预测中，我们有两个原始特征：房屋的临街宽度 <code onclick="mdcp.copyCode(event)">x₁</code> (frontage) 和纵深 <code onclick="mdcp.copyCode(event)">x₂</code> (depth)。我们知道，房屋的<strong>面积（area</strong>是决定价格的关键因素。因此，我们可以创造一个新特征 <code onclick="mdcp.copyCode(event)">x₃ = x₁ * x₂</code>，并将其加入到模型中。这样，模型就可能更好地捕捉到房价与面积之间的关系。</p> 
+<h3><a name="t6"></a><a id="13__Polynomial_Regression_58"></a>1.3 <span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;多项式\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="多项式" data-pretit="多项式">多项式</span>回归 (Polynomial Regression)</h3> 
+<p>有时候，数据点之间的关系并不是一条直线。为了拟合这些非线性的数据，我们可以使用<strong>多项式回归（Polynomial Regression）</strong>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/777557d5d16b4607959f3b1ef99d9959.png" alt="在这里插入图片描述"></p> 
+<p>实现多项式回归的核心思想，就是通过特征工程，将原始特征的多次方作为新的特征。例如，我们可以将原来的模型：<br> <code onclick="mdcp.copyCode(event)">f(x) = w₁x + b</code><br> 扩展为二次或三次模型：<br> <code onclick="mdcp.copyCode(event)">f(x) = w₁x + w₂x² + b</code><br> <code onclick="mdcp.copyCode(event)">f(x) = w₁x + w₂x² + w₃x³ + b</code></p> 
+<p>通过添加这些高次项特征，我们的模型就能拟合出各种弯曲的曲线，从而更好地适应非线性的数据模式。</p> 
+<p><strong>注意</strong>：在使用多项式回归时，特征的尺度会变得差异巨大（例如 <code onclick="mdcp.copyCode(event)">x</code> 在 1-1000，<code onclick="mdcp.copyCode(event)">x³</code> 就在 1-10⁹），此时<strong>特征缩放变得至关重要</strong>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/10dfaacc33684ade96ba457cace73207.png" alt="在这里插入图片描述"></p> 
+<p>我们甚至可以尝试各种函数变换，比如 <code onclick="mdcp.copyCode(event)">√x</code> 等。如何选择最合适的特征，是<span style="color: #4F46E5" class="new-words-blog" data-href="https://taotoken.net/?utm_source=blogglc" data-report-view="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://taotoken.net/?utm_source=blogglc&quot;,&quot;extra&quot;:{&quot;wordId&quot;:179201,&quot;businessId&quot;:6,&quot;word&quot;:&quot;机器学习&quot;,&quot;blogTemplateId&quot;:-1}}" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://taotoken.net/?utm_source=blogglc&quot;,&quot;extra&quot;:{&quot;wordId&quot;:179201,&quot;businessId&quot;:6,&quot;word&quot;:&quot;机器学习&quot;,&quot;blogTemplateId&quot;:-1}}" data-report-query="spm=1001.2101.3001.11407" data-tit="机器学习">
+              机器学习 <i style="background-image: url(https://i-operation.csdnimg.cn/images/7f533e06978e4b73acc2236e7daf01bd.png);" alt="机器学习" class="words-blog-icon"></i>
+              </span>中一个更深入的课题。</p> 
+<h2><a name="t7"></a><a id="_78"></a>二、<span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;逻辑回归\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="逻辑回归" data-pretit="逻辑回归">逻辑回归</span>与分类问题</h2> 
+<p>到目前为止，我们都在讨论<strong>回归（Regression</strong>问题，即预测一个连续的数值。现在，我们将转向机器学习的另一个核心领域：<strong>分类（Classification）</strong>。</p> 
+<h3><a name="t8"></a><a id="21__82"></a>2.1 什么是分类问题</h3> 
+<p>分类问题的目标是预测一个离散的类别。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/0079c65111ec4f689a92080506d9b9b6.png" alt="在这里插入图片描述"></p> 
+<p>例如：</p> 
+<ul><li>这封邮件是垃圾邮件吗？（是/否）</li><li>这笔交易是欺诈性的吗？（是/否）</li><li>这个肿瘤是恶性的吗？（是/否）</li></ul> 
+<p>当类别只有两种时，我们称之为<strong>二元分类（Binary Classification）</strong>。习惯上，我们用 <code onclick="mdcp.copyCode(event)">0</code> 和 <code onclick="mdcp.copyCode(event)">1</code> 来代表这两个类别。例如，<code onclick="mdcp.copyCode(event)">0</code> 代表“良性肿瘤”（负类），<code onclick="mdcp.copyCode(event)">1</code> 代表“恶性肿瘤”（正类）。</p> 
+<h4><a name="t9"></a><a id="211__95"></a>2.1.1 线性回归用于分类的局限</h4> 
+<p>我们可能会想，能否直接用线性回归来解决分类问题呢？答案是否定的。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/ed0e60cf49ae40288432c9ce539464f9.png" alt="在这里插入图片描述"></p> 
+<p>如果直接用线性回归拟合分类数据，模型的输出值可能会远大于1或远小于0，这在分类场景下没有实际意义。并且，线性模型往往无法很好地拟合分类数据的决策边界。因此，我们需要一个专门为分类问题设计的算法——<strong>逻辑回归（Logistic Regression）</strong>。</p> 
+<h3><a name="t10"></a><a id="22__103"></a>2.2 逻辑回归模型</h3> 
+<p>逻辑回归的核心思想是，将线性回归的输出结果，通过一个特殊的函数，“压缩”到 <code onclick="mdcp.copyCode(event)">0</code> 和 <code onclick="mdcp.copyCode(event)">1</code> 之间。</p> 
+<h4><a name="t11"></a><a id="221_Sigmoid__107"></a>2.2.1 Sigmoid 函数</h4> 
+<p>这个起关键作用的函数被称为 <strong>Sigmoid 函数</strong>，也叫 <strong>Logistic 函数</strong>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/cc6980430bb54ed2b5664a2bcf9bb132.png" alt="在这里插入图片描述"></p> 
+<p>其数学<span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;表达式\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="表达式" data-pretit="表达式">表达式</span>为：<code onclick="mdcp.copyCode(event)">g(z) = 1 / (1 + e⁻ᶻ)</code></p> 
+<p>它的特性是：无论输入 <code onclick="mdcp.copyCode(event)">z</code> 的值有多大或多小，输出 <code onclick="mdcp.copyCode(event)">g(z)</code> 的值永远在 <code onclick="mdcp.copyCode(event)">0</code> 和 <code onclick="mdcp.copyCode(event)">1</code> 之间。</p> 
+<h4><a name="t12"></a><a id="222__117"></a>2.2.2 模型表示与解读</h4> 
+<p>逻辑回归模型将线性部分 <code onclick="mdcp.copyCode(event)">z = w⃗ · x⃗ + b</code> 的输出，作为 Sigmoid 函数的输入。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/acdd2a1d5efa4972825781d8730bcc6b.png" alt="在这里插入图片描述"></p> 
+<p>完整的模型表达式为：<br> <strong>f_w⃗,b(x⃗) = g(w⃗ · x⃗ + b) = 1 / (1 + e⁻⁽ʷ⃗·ˣ⃗⁺ᵇ⁾)</strong></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/bf040eea617841d9b675722ead4ecdb4.png" alt="在这里插入图片描述"></p> 
+<p>逻辑回归模型的输出值 <code onclick="mdcp.copyCode(event)">f(x)</code> 有一个非常好的概率解释：它代表了在给定输入 <code onclick="mdcp.copyCode(event)">x</code> 的条件下，<strong>预测类别为 <code onclick="mdcp.copyCode(event)">1</code> 的概率</strong>。即：<br> <code onclick="mdcp.copyCode(event)">f(x) = P(y=1 | x; w⃗, b)</code></p> 
+<p>例如，如果模型对一个肿瘤样本输出 <code onclick="mdcp.copyCode(event)">0.7</code>，这意味着模型认为该肿瘤有70%的概率是恶性（y=1）的。</p> 
+<h3><a name="t13"></a><a id="23__Decision_Boundary_133"></a>2.3 决策边界 (Decision Boundary)</h3> 
+<p>有了概率输出后，我们如何做出最终的分类决策呢？通常我们以 <code onclick="mdcp.copyCode(event)">0.5</code> 作为阈值。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/5485c1c1e4c34ce4976eacf1a1cc3bbf.png" alt="在这里插入图片描述"></p> 
+<ul><li>如果 <code onclick="mdcp.copyCode(event)">f(x) ≥ 0.5</code>，则预测 <code onclick="mdcp.copyCode(event)">ŷ = 1</code>。</li><li>如果 <code onclick="mdcp.copyCode(event)">f(x) &lt; 0.5</code>，则预测 <code onclick="mdcp.copyCode(event)">ŷ = 0</code>。</li></ul> 
+<p>由于 Sigmoid 函数 <code onclick="mdcp.copyCode(event)">g(z)</code> 在 <code onclick="mdcp.copyCode(event)">z=0</code> 时取值为 <code onclick="mdcp.copyCode(event)">0.5</code>，所以上述决策规则等价于：</p> 
+<ul><li>如果 <code onclick="mdcp.copyCode(event)">z = w⃗ · x⃗ + b ≥ 0</code>，则预测 <code onclick="mdcp.copyCode(event)">ŷ = 1</code>。</li><li>如果 <code onclick="mdcp.copyCode(event)">z = w⃗ · x⃗ + b &lt; 0</code>，则预测 <code onclick="mdcp.copyCode(event)">ŷ = 0</code>。</li></ul> 
+<p>此时，由方程 <strong><code onclick="mdcp.copyCode(event)">z = w⃗ · x⃗ + b = 0</code></strong> 所定义的线（或面、超平面）就成为了<strong>决策边界（Decision Boundary）</strong>。它将特征空间一分为二，一边是预测为 <code onclick="mdcp.copyCode(event)">1</code> 的区域，另一边是预测为 <code onclick="mdcp.copyCode(event)">0</code> 的区域。</p> 
+<h4><a name="t14"></a><a id="231__148"></a>2.3.1 线性决策边界</h4> 
+<p>当 <code onclick="mdcp.copyCode(event)">z</code> 是特征的线性组合时，决策边界就是线性的。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/d0ad9b6975f7496d834bc180b1cf4a27.png" alt="在这里插入图片描述"></p> 
+<p>例如，如果 <code onclick="mdcp.copyCode(event)">z = x₁ + x₂ - 3 = 0</code>，那么决策边界就是一条直线 <code onclick="mdcp.copyCode(event)">x₁ + x₂ = 3</code>。</p> 
+<h4><a name="t15"></a><a id="232__156"></a>2.3.2 非线性决策边界</h4> 
+<p>逻辑回归的强大之处在于，通过结合特征工程（例如多项式特征），它可以学习到非常复杂的非线性决策边界。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/83eb441a31784656b78600c8a3ef6ac7.png" alt="在这里插入图片描述"></p> 
+<p>例如，如果我们创建一个模型 <code onclick="mdcp.copyCode(event)">g(w₁x₁² + w₂x₂² + b)</code>，并假设学习到的参数使得 <code onclick="mdcp.copyCode(event)">z = x₁² + x₂² - 1 = 0</code>，那么决策边界就是一个圆形 <code onclick="mdcp.copyCode(event)">x₁² + x₂² = 1</code>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/24c3441b68fb4108b8b137f90f5639ce.png" alt="在这里插入图片描述"></p> 
+<p>通过引入更复杂的多项式特征，逻辑回归可以拟合出椭圆、甚至任意形状的决策边界，使其能够解决高度复杂的分类问题。</p> 
+<h2><a name="t16"></a><a id="_213"></a>三、逻辑回归的代价函数</h2> 
+<p>我们已经定义了逻辑回归的模型，接下来需要一个代价函数来衡量模型的预测与真实标签之间的差异，从而通过梯度下降来优化参数 <code onclick="mdcp.copyCode(event)">w⃗</code> 和 <code onclick="mdcp.copyCode(event)">b</code>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/279bf741ce4b4af7be4247b4d4fd275b.png" alt="在这里插入图片描述"></p> 
+<h3><a name="t17"></a><a id="31__219"></a>3.1 平方误差代价函数的局限性</h3> 
+<p>我们可能会想，是否可以直接沿用线性回归中的平方误差代价函数？</p> 
+<p><code onclick="mdcp.copyCode(event)">J(w⃗, b) = (1/m) * Σ [ (f(x⁽ⁱ⁾) - y⁽ⁱ⁾)² ]</code></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/0aaffc340f854b49aa91cc827c5c805a.png" alt="在这里插入图片描述"></p> 
+<p>答案是否定的。因为逻辑回归的模型 <code onclick="mdcp.copyCode(event)">f(x)</code> 是一个非线性的 Sigmoid 函数，如果将它代入平方误差代价函数，会得到一个<strong>非凸（non-convex</strong>的函数。这种函数有很多局部最小值点，梯度下降算法很可能陷入其中一个，而无法保证找到全局最优解。</p> 
+<p>因此，我们需要为逻辑回归设计一个全新的、能够保证是凸函数的代价函数。</p> 
+<h3><a name="t18"></a><a id="32__Logistic_Loss_Function_232"></a>3.2 逻辑<span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;损失函数\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="损失函数" data-pretit="损失函数">损失函数</span> (Logistic Loss Function)</h3> 
+<p>为了构建总的代价函数（Cost Function），我们首先为单个训练样本定义一个<strong>损失函数（Loss Function）</strong> <code onclick="mdcp.copyCode(event)">L(f(x), y)</code>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/cbf5c1aadb3a4700a7ca1a579e143c1e.png" alt="在这里插入图片描述"></p> 
+<p>逻辑回归的损失函数定义如下：</p> 
+<ul><li><strong>如果真实标签 <code onclick="mdcp.copyCode(event)">y=1</code></strong>: <code onclick="mdcp.copyCode(event)">L = -log(f(x))</code></li><li><strong>如果真实标签 <code onclick="mdcp.copyCode(event)">y=0</code></strong>: <code onclick="mdcp.copyCode(event)">L = -log(1 - f(x))</code></li></ul> 
+<p>我们来直观地理解这个函数是如何工作的：</p> 
+<h4><a name="t19"></a><a id="321__y1__245"></a>3.2.1 当 y=1 时</h4> 
+<p><img src="https://i-blog.csdnimg.cn/direct/10f7398e1eca4c06b564d61b932342b9.png" alt="在这里插入图片描述"></p> 
+<ul><li>如果模型预测 <code onclick="mdcp.copyCode(event)">f(x)</code> 趋近于 <code onclick="mdcp.copyCode(event)">1</code>（与真实标签一致），那么 <code onclick="mdcp.copyCode(event)">-log(f(x))</code> 的值就趋近于 <code onclick="mdcp.copyCode(event)">0</code>。这意味着模型的损失很小，得到了“奖励”。</li><li>如果模型预测 <code onclick="mdcp.copyCode(event)">f(x)</code> 趋近于 <code onclick="mdcp.copyCode(event)">0</code>（与真实标签相反），那么 <code onclick="mdcp.copyCode(event)">-log(f(x))</code> 的值会趋近于无穷大。这意味着模型受到了巨大的“惩罚”。</li></ul> 
+<h4><a name="t20"></a><a id="322__y0__253"></a>3.2.2 当 y=0 时</h4> 
+<p><img src="https://i-blog.csdnimg.cn/direct/10f7398e1eca4c06b564d61b932342b9.png" alt="在这里插入图片描述"></p> 
+<ul><li>如果模型预测 <code onclick="mdcp.copyCode(event)">f(x)</code> 趋近于 <code onclick="mdcp.copyCode(event)">0</code>（与真实标签一致），那么 <code onclick="mdcp.copyCode(event)">1-f(x)</code> 趋近于 <code onclick="mdcp.copyCode(event)">1</code>，<code onclick="mdcp.copyCode(event)">-log(1 - f(x))</code> 的值就趋近于 <code onclick="mdcp.copyCode(event)">0</code>。模型损失很小。</li><li>如果模型预测 <code onclick="mdcp.copyCode(event)">f(x)</code> 趋近于 <code onclick="mdcp.copyCode(event)">1</code>（与真实标签相反），那么 <code onclick="mdcp.copyCode(event)">1-f(x)</code> 趋近于 <code onclick="mdcp.copyCode(event)">0</code>，<code onclick="mdcp.copyCode(event)">-log(1 - f(x))</code> 的值会趋近于无穷大，模型受到巨大惩罚。</li></ul> 
+<p>这个损失函数的设计非常巧妙，它确保了当模型预测正确时损失接近0，预测错误时损失会急剧增大。</p> 
+<h3><a name="t21"></a><a id="33__263"></a>3.3 代价函数与梯度下降</h3> 
+<p>逻辑回归的<strong>代价函数 <code onclick="mdcp.copyCode(event)">J(w⃗, b)</code></strong> 就是所有训练样本损失的平均值。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/fd50c9a04dcc45f99fa818c74f7c222c.png" alt="在这里插入图片描述"></p> 
+<p><code onclick="mdcp.copyCode(event)">J(w⃗, b) = (1/m) * Σ [ L(f(x⁽ⁱ⁾), y⁽ⁱ⁾) ]</code> (从 i=1 到 m)</p> 
+<p>这个代价函数（也被称为“对数损失”或“交叉熵损失”）被证明是一个<strong>凸函数</strong>，因此我们可以放心地使用梯度下降来寻找全局最小值。</p> 
+<h4><a name="t22"></a><a id="331__274"></a>3.3.1 简化版代价函数</h4> 
+<p>为了便于数学处理，我们可以将分段定义的损失函数用一个等价的式子来表示：</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/53a72b6d7ae34011a2633e3500362929.png" alt="在这里插入图片描述"></p> 
+<p><code onclick="mdcp.copyCode(event)">L(f(x), y) = -y * log(f(x)) - (1-y) * log(1 - f(x))</code></p> 
+<ul><li>当 <code onclick="mdcp.copyCode(event)">y=1</code> 时，第二项为0，公式变为 <code onclick="mdcp.copyCode(event)">-log(f(x))</code>。</li><li>当 <code onclick="mdcp.copyCode(event)">y=0</code> 时，第一项为0，公式变为 <code onclick="mdcp.copyCode(event)">-log(1 - f(x))</code>。</li></ul> 
+<p>这与我们之前的分段定义完全一致。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/098fca38db7a436fa3a39e527cb1c1f3.png" alt="[图片]"></p> 
+<p>将这个简化版的损失函数代入，我们就得到了逻辑回归最终的代价函数表达式：</p> 
+<p><strong>J(w⃗, b) = -(1/m) * Σ [ y⁽ⁱ⁾log(f(x⁽ⁱ⁾)) + (1-y⁽ⁱ⁾)log(1-f(x⁽ⁱ⁾)) ]</strong></p> 
+<h4><a name="t23"></a><a id="332__295"></a>3.3.2 逻辑回归的梯度下降</h4> 
+<p>现在，我们只需要计算出这个新的代价函数对 <code onclick="mdcp.copyCode(event)">wⱼ</code> 和 <code onclick="mdcp.copyCode(event)">b</code> 的偏导数，就可以应用梯度下降了。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/883f348e3d604db289630226dc392b1f.png" alt="[图片]"></p> 
+<p>经过微积分推导后，我们得到了一个令人惊讶的简洁结果：<br> <code onclick="mdcp.copyCode(event)">∂/∂wⱼ J(w⃗,b) = (1/m) * Σ [ (f(x⁽ⁱ⁾) - y⁽ⁱ⁾) * xⱼ⁽ⁱ⁾ ]</code><br> <code onclick="mdcp.copyCode(event)">∂/∂b J(w⃗,b) = (1/m) * Σ [ (f(x⁽ⁱ⁾) - y⁽ⁱ⁾) ]</code></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/f182310138924603b703ae4c6a7f1939.png" alt="在这里插入图片描述"></p> 
+<p>大家会发现，这个梯度（导数）的表达式，<strong>竟然和线性回归的梯度表达式一模一样！</strong></p> 
+<p>这当然不是巧合，而是背后有更深的数学原理。但对我们来说，这意味着实现梯度下降时，更新参数的代码部分可以完全复用。</p> 
+<p><strong>唯一的区别在于 <code onclick="mdcp.copyCode(event)">f(x)</code> 的定义</strong>：</p> 
+<ul><li><strong>在线性回归中</strong>： <code onclick="mdcp.copyCode(event)">f(x⃗) = w⃗ · x⃗ + b</code></li><li><strong>在逻辑回归中</strong>： <code onclick="mdcp.copyCode(event)">f(x⃗) = 1 / (1 + e⁻⁽ʷ⃗·ˣ⃗⁺ᵇ⁾)</code></li></ul> 
+<p>之前我们讨论的所有梯度下降的实践技巧，如监控学习曲线、向量化实现、特征缩放等，同样完全适用于逻辑回归。</p>
+                </div><div data-report-view="{&quot;mod&quot;:&quot;1585297308_001&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6548&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/2502_90283908/article/details/153329121&quot;,&quot;extend1&quot;:&quot;pc&quot;,&quot;ab&quot;:&quot;new&quot;}"><div></div></div>
+                <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-e1cc28b339.css" rel="stylesheet">
+                <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-d1e89cace4.css" rel="stylesheet">
+        </div>
