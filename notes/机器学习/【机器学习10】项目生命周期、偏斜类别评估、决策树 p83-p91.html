@@ -1,0 +1,118 @@
+<div id="article_content" class="article_content clearfix">
+      <style>
+        /* MD / 富文本中的 .toc（含博客园搬家等嵌套结构）；.toc-box 在侧栏，不受影响 */
+        #content_views .toc,
+        /* 编辑器常在目录前后插入空 p（:empty 仍占 20px），一并去掉避免顶空隙 */
+        #content_views.markdown_views > p:empty:has(+ .toc),
+        #content_views.markdown_views > .toc + p:empty,
+        /* 富文本旧版目录标记 */
+        #content_views.htmledit_views #main-toc,
+        #content_views.htmledit_views #hr-toc,
+        #content_views.htmledit_views p[id*="-toc"] {
+          display: none !important;
+        }
+        /* 目录去掉后，紧跟的首个标题不再多出一块上边距 */
+        #content_views.markdown_views > .toc + h1,
+        #content_views.markdown_views > .toc + h2,
+        #content_views.markdown_views > .toc + h3,
+        #content_views.markdown_views > .toc + h4,
+        #content_views.markdown_views > .toc + p:empty + h1,
+        #content_views.markdown_views > .toc + p:empty + h2,
+        #content_views.markdown_views > .toc + p:empty + h3,
+        #content_views.markdown_views > .toc + p:empty + h4 {
+          margin-top: 0 !important;
+        }
+      </style>
+      <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/kdoc_html_views-1a98987dfd.css">
+      <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-a50b13a894.css">
+        <div id="content_views" class="markdown_views prism-atom-one-dark">
+          <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+          </svg>
+          <p></p>
+<div class="toc">
+ <h4><a name="t0"></a>文章目录</h4>
+ <ul><li><a href="#__10" target="_self">一 机器学习项目生命周期与部署</a></li><li><ul><li><a href="#11__12" target="_self">1.1 机器学习项目的完整生命周期</a></li><li><a href="#12_MLOps_23" target="_self">1.2 模型部署与MLOps</a></li></ul>
+  </li><li><a href="#__40" target="_self">二 偏斜类别下的模型评估</a></li><li><ul><li><a href="#21__42" target="_self">2.1 准确率的陷阱</a></li><li><a href="#22__56" target="_self">2.2 精确率与召回率</a></li><li><a href="#23__77" target="_self">2.3 指标的权衡</a></li><li><a href="#24_F1_88" target="_self">2.4 F1分数：综合评估指标</a></li></ul>
+  </li><li><a href="#__99" target="_self">三 决策树模型详解</a></li><li><ul><li><a href="#31__101" target="_self">3.1 模型结构与预测</a></li><li><a href="#32__117" target="_self">3.2 决策树学习的核心问题</a></li><li><a href="#33__143" target="_self">3.3 用熵衡量不纯度</a></li><li><a href="#34__160" target="_self">3.4 信息增益：选择最佳分裂</a></li><li><a href="#35__179" target="_self">3.5 决策树学习算法流程</a></li></ul>
+ </li></ul>
+</div>
+<p></p> 
+<hr> 
+<p><em>视频链接</em><br> <a href="%E3%80%90%E3%80%90%E5%AE%98%E6%96%B9%E4%B8%AD%E8%8B%B1%E3%80%912025%E5%B9%B4%E5%85%AC%E8%AE%A4%E6%9C%80%E5%A5%BD%E7%9A%84%E3%80%90%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%AF%BE%E7%A8%8B%E3%80%91%E9%99%84%E8%AF%BE%E4%BB%B6%E3%80%81%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE%EF%BC%81%EF%BC%81%EF%BC%81--%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%91%20https://www.bilibili.com/video/BV1owrpYKEtP/?p=86&amp;share_source=copy_web&amp;vd_source=f084482bdc948a56dc505d2067a9fd4f" rel="nofollow">吴恩达机器学习p83-p91</a></p> 
+<hr> 
+<h2><a name="t1"></a><a id="__10"></a>一 机器学习项目生命周期与部署</h2> 
+<h3><a name="t2"></a><a id="11__12"></a>1.1 机器学习项目的完整生命周期</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/745ab40229c54b8ea6f0a67f13ccb0bf.png" alt="[在此处插入图片1]"></p> 
+<p>一个完整的机器学习项目包含四个主要阶段：</p> 
+<ol><li><strong>项目范围定义 (Scope project)</strong>：此阶段的目标是定义项目。</li><li><strong>数据收集 (Collect data)</strong>：此阶段的目标是定义数据并进行收集。</li><li><strong>模型训练 (Train model)</strong>：此阶段包含训练、错误分析和迭代改进。这是一个循环过程，分析结果可能会指导重新收集数据或调整训练方法。</li><li><strong>生产部署 (Deploy in production)</strong>：此阶段的目标是部署、监控和维护整个系统。部署后，系统的表现可能会反馈至数据收集和模型训练阶段，形成一个更大的迭代循环。</li></ol> 
+<h3><a name="t3"></a><a id="12_MLOps_23"></a>1.2 模型部署与MLOps</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/ee7068b5448b4d3c876ddca7bf598eee.png" alt="[在此处插入图片2]"></p> 
+<p>部署是将训练好的模型投入实际应用的过程。一个常见的架构是：</p> 
+<ul><li><strong>客户端（如 Mobile app）</strong> 通过API调用，将输入数据 <code>x</code>（例如一段音频）发送到<strong>推理服务器（Inference server）</strong>。</li><li>推理服务器内嵌有训练好的<strong>机器学习模型（ML model）</strong>。</li><li>服务器接收输入 <code>x</code>，进行推理计算，并将预测结果 <code>ŷ</code>（例如文本转录）返回给客户端。</li></ul> 
+<p>将模型部署到生产环境需要大量的软件工程工作，这一领域被称为<strong>MLOps（机器学习运维）</strong>。MLOps关注以下几方面：</p> 
+<ul><li>确保预测的可靠性和效率。</li><li>系统的扩展性（Scaling）。</li><li>记录系统行为的日志（Logging）。</li><li>对系统状态进行监控（System monitoring）。</li><li>建立模型更新的流程（Model updates）。</li></ul> 
+<h2><a name="t4"></a><a id="__40"></a>二 偏斜类别下的模型评估</h2> 
+<h3><a name="t5"></a><a id="21__42"></a>2.1 准确率的陷阱</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/c9fdbe0a9476471b9b87e39e3dd3da67.png" alt="[在此处插入图片3]"></p> 
+<p>当数据集中正负样本数量严重不均衡时，即存在<strong>偏斜类别（skewed classes）</strong>，准确率（Accuracy）会成为一个有误导性的评估指标。</p> 
+<p>以一个罕见病分类为例：</p> 
+<ul><li>一个分类器 <code>f(x)</code> 被训练用于检测疾病（<code>y=1</code> 代表患病）。</li><li>该分类器在测试集上达到了1%的错误率（即99%的准确率）。</li><li>然而，该疾病在人群中的真实患病率仅为0.5%。</li><li>一个不进行任何学习，只是简单地对所有人都预测<code>y=0</code>（健康）的程序，其错误率仅为0.5%，准确率高达99.5%。</li><li>这个结果（0.5%错误率）优于训练好的模型（1%错误率），这表明在偏斜类别问题中，高准确率并不能证明模型的有效性。</li></ul> 
+<h3><a name="t6"></a><a id="22__56"></a>2.2 精确率与召回率</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/2d93198f4c2849cbb203d6e117b3f8aa.png" alt="[在此处插入图片4]"></p> 
+<p>为解决偏斜类别下的评估问题，我们使用精确率（Precision）和召回率（Recall）。这些指标基于一个<strong>混淆矩阵（Confusion Matrix）</strong>，该矩阵展示了模型的四种预测结果：</p> 
+<ul><li><strong>真正例 (True Positive, TP)</strong>: 15</li><li><strong>假正例 (False Positive, FP)</strong>: 5</li><li><strong>假负例 (False Negative, FN)</strong>: 10</li><li><strong>真负例 (True Negative, TN)</strong>: 70</li></ul> 
+<p><strong>精确率 (Precision)</strong>：</p> 
+<ul><li><strong>问题</strong>：在所有被模型预测为<code>y=1</code>的病人中，真实患病的比例是多少？</li><li><strong>公式</strong>：<code>Precision = TP / (TP + FP)</code></li><li><strong>计算</strong>：<code>15 / (15 + 5) = 0.75</code></li></ul> 
+<p><strong>召回率 (Recall)</strong>：</p> 
+<ul><li><strong>问题</strong>：在所有真实患病的病人中，被模型成功检测出的比例是多少？</li><li><strong>公式</strong>：<code>Recall = TP / (TP + FN)</code></li><li><strong>计算</strong>：<code>15 / (15 + 10) = 0.6</code></li></ul> 
+<h3><a name="t7"></a><a id="23__77"></a>2.3 指标的权衡</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/40f972ee1b53418c9c703a41c673cfd7.png" alt="[在此处插入图片5]"></p> 
+<p>精确率和召回率之间存在权衡关系，这种关系可以通过调整分类器的**阈值（threshold）**来控制。</p> 
+<ul><li>逻辑回归输出一个0到1之间的概率 <code>f(x)</code>。预测 <code>y=1</code> 的条件是 <code>f(x) &gt;= threshold</code>。</li><li><strong>高阈值（例如 0.99）</strong>：只有在模型极度确信时才预测 <code>y=1</code>。这会使<strong>精确率变高，召回率变低</strong>。</li><li><strong>低阈值（例如 0.01）</strong>：只要模型对 <code>y=1</code> 存在一丝可能性就进行预测。这会使<strong>召回率变高，精确率变低</strong>。</li><li>图中的<strong>精确率-召回率曲线</strong>展示了随着阈值的变化，两个指标此消彼长的关系。</li></ul> 
+<h3><a name="t8"></a><a id="24_F1_88"></a>2.4 F1分数：综合评估指标</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/bd3a45828d76469a968bf3ff53047e45.png" alt="[在此处插入图片6]"></p> 
+<p>为了在只有一个数值的情况下比较不同算法的精确率和召回率表现，我们使用<strong>F1分数（F1 Score）</strong>。</p> 
+<ul><li>简单的算术平均 <code>(P+R)/2</code> 是不可取的，因为它可能会给一个极端但无用的模型高分（如算法3）。</li><li>F1分数是精确率（P）和召回率（R）的<strong>调和平均数（Harmonic Mean）</strong>。</li><li><strong>公式</strong>：<code>F1 Score = 2 * (P * R) / (P + R)</code></li><li>F1分数要求P和R都比较高时，其值才会高。如表格所示，算法1的F1分数为0.444，而算法2的F1分数为0.175，这提供了一个明确的比较基准。</li></ul> 
+<h2><a name="t9"></a><a id="__99"></a>三 决策树模型详解</h2> 
+<h3><a name="t10"></a><a id="31__101"></a>3.1 模型结构与预测</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/83d64ccb7c72414c86ebf3922bdb7136.png" alt="[在此处插入图片7]"></p> 
+<p>决策树是一种用于分类和回归的模型。以一个猫分类任务为例，输入数据 <code>X</code> 包含三个离散特征：耳朵形状（Ear shape）、脸部形状（Face shape）和是否有胡须（Whiskers）。输出标签 <code>y</code> 为1（是猫）或0（不是猫）。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/e218443662e1444185effefe3efe756a.png" alt="[在此处插入图片8]"></p> 
+<p>决策树的结构包含：</p> 
+<ul><li><strong>根节点 (root node)</strong>：树的起点，代表第一个判断特征（例如 Ear shape）。</li><li><strong>决策节点 (decision nodes)</strong>：树的中间节点，代表后续的判断特征。</li><li><strong>叶节点 (leaf nodes)</strong>：树的终点，代表最终的分类结果（Cat 或 Not cat）。<br> 对一个新样本进行预测时，从根节点开始，根据其特征值沿树的分支向下，直至到达一个叶节点，该叶节点即为预测结果。</li></ul> 
+<h3><a name="t11"></a><a id="32__117"></a>3.2 决策树学习的核心问题</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/1a31c99414b64f278535c24a1a76ecf9.png" alt="[在此处插入图片9]"></p> 
+<p>对于同一份数据，可以构建出多种不同结构的决策树。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/4bf880b1b0c5413cb736e9dd69b31fff.png" alt="[在此处插入图片10]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/889f5de2530d4927a9b7fdd88add5058.png" alt="在这里插入图片描述"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/ae030b0dba2e41d685e09aa697f48895.png" alt="[在此处插入图片12]"></p> 
+<p>决策树学习算法主要解决两个核心问题：</p> 
+<ol><li><strong>决策1：如何选择在每个节点上用于分裂的特征？</strong> 
+  <ul><li><strong>原则</strong>：选择能最大化节点<strong>纯度（purity</strong>或最小化<strong>不纯度（impurity</strong>的特征。一个纯的节点意味着其包含的样本尽可能属于同一类别。</li></ul> </li><li><strong>决策2：何时停止分裂？</strong> 
+  <ul><li><strong>停止条件</strong>： 
+    <ul><li>当一个节点已经是100%的同一类别时。</li><li>当分裂会导致树超过预设的最大深度时。</li><li>当分裂带来的纯度提升低于某个阈值时。</li><li>当一个节点中的样本数量低于某个阈值时。</li></ul> </li></ul> </li></ol> 
+<h3><a name="t12"></a><a id="33__143"></a>3.3 用熵衡量不纯度</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/dc64b0e44b9848ecb1faaf7cdeb7d46d.png" alt="[在此处插入图片13]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/6df8c9207b4e4d90a66c2d61e5763631.png" alt="[在此处插入图片14]"></p> 
+<p><strong>熵（Entropy</strong>是用来衡量不纯度的常用指标。</p> 
+<ul><li><code>p₁</code> 被定义为节点中“是猫”的样本所占的比例。</li><li>熵函数 <code>H(p₁)</code> 的图像显示： 
+  <ul><li>当节点完全纯净时（<code>p₁=0</code> 或 <code>p₁=1</code>），熵 <code>H(p₁)=0</code>。</li><li>当节点最不纯时（<code>p₁=0.5</code>），熵达到最大值 <code>H(p₁)=1</code>。</li></ul> </li><li><strong>熵的计算公式</strong> (针对二分类问题)： 
+  <ul><li><code>H(p₁) = -p₁log₂(p₁) - p₀log₂(p₀)</code>，其中 <code>p₀ = 1 - p₁</code>。</li><li>根据约定，<code>0 log₂(0) = 0</code>。</li></ul> </li></ul> 
+<h3><a name="t13"></a><a id="34__160"></a>3.4 信息增益：选择最佳分裂</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/e3906c55c4294745ad7a5a6de947e89b.png" alt="[在此处插入图片15]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/e1983861363c4f2ca539278e8dd9cb2b.png" alt="[在此处插入图片16]"></p> 
+<p><strong>信息增益（Information Gain</strong>是用来决定最佳分裂特征的指标。它衡量了进行一次分裂后，熵（不纯度）的减少量。</p> 
+<ul><li><strong>计算过程</strong>： 
+  <ol><li>计算分裂前父节点的熵 <code>H(p₁_root)</code>。</li><li>计算分裂后所有子节点熵的加权平均值。权重 <code>w</code> 是每个子节点的样本数占父节点总样本数的比例。</li><li><code>Information Gain = H(p₁_root) - (w_left * H(p₁_left) + w_right * H(p₁_right))</code></li></ol> </li><li>在图例中，初始节点熵为 <code>H(0.5)=1</code>。 
+  <ul><li>按“Ear shape”分裂，信息增益为 <code>1 - [ (5/10)H(0.8) + (5/10)H(0.2) ] = 0.28</code>。</li><li>按“Face Shape”分裂，信息增益为 <code>0.03</code>。</li><li>按“Whiskers”分裂，信息增益为 <code>0.12</code>。</li></ul> </li><li>由于“Ear shape”的信息增益最高，因此算法选择它作为第一个分裂特征。</li></ul> 
+<h3><a name="t14"></a><a id="35__179"></a>3.5 决策树学习算法流程</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/e7fb7a8254f84bc9b7d852a156ad8fc1.png" alt="[在此处插入图片17]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/025fa09918a349ec90b3e1786d3a2cc5.png" alt="[在此处插入图片18]"></p> 
+<p>决策树的学习是一个<strong>递归分裂（Recursive splitting</strong>的算法，其流程如下：</p> 
+<ol><li>从根节点开始，该节点包含所有训练样本。</li><li>计算所有可用特征的信息增益，选择信息增益最高的特征。</li><li>根据所选特征将数据集分裂，创建新的分支和子节点。</li><li>对每个子节点，递归地重复步骤2和3，直到满足预设的停止条件。</li></ol> 
+<p>如图所示，在根据“Ear shape”分裂后，算法会对“Pointy”和“Floppy”两个子节点分别应用相同的逻辑，继续寻找最佳分裂特征（“Face shape”和“Whiskers”），从而构建出完整的决策树。</p>
+        </div><div data-report-view="{&quot;mod&quot;:&quot;1585297308_001&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6548&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/2502_90283908/article/details/154201947&quot;,&quot;extend1&quot;:&quot;pc&quot;,&quot;ab&quot;:&quot;new&quot;}"><div></div></div>
+        <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-e1cc28b339.css" rel="stylesheet">
+        <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-d1e89cace4.css" rel="stylesheet">
+    </div>

@@ -1,0 +1,161 @@
+<div id="article_content" class="article_content clearfix">
+      <style>
+        /* MD / 富文本中的 .toc（含博客园搬家等嵌套结构）；.toc-box 在侧栏，不受影响 */
+        #content_views .toc,
+        /* 编辑器常在目录前后插入空 p（:empty 仍占 20px），一并去掉避免顶空隙 */
+        #content_views.markdown_views > p:empty:has(+ .toc),
+        #content_views.markdown_views > .toc + p:empty,
+        /* 富文本旧版目录标记 */
+        #content_views.htmledit_views #main-toc,
+        #content_views.htmledit_views #hr-toc,
+        #content_views.htmledit_views p[id*="-toc"] {
+          display: none !important;
+        }
+        /* 目录去掉后，紧跟的首个标题不再多出一块上边距 */
+        #content_views.markdown_views > .toc + h1,
+        #content_views.markdown_views > .toc + h2,
+        #content_views.markdown_views > .toc + h3,
+        #content_views.markdown_views > .toc + h4,
+        #content_views.markdown_views > .toc + p:empty + h1,
+        #content_views.markdown_views > .toc + p:empty + h2,
+        #content_views.markdown_views > .toc + p:empty + h3,
+        #content_views.markdown_views > .toc + p:empty + h4 {
+          margin-top: 0 !important;
+        }
+      </style>
+      <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/kdoc_html_views-1a98987dfd.css">
+      <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-a50b13a894.css">
+        <div id="content_views" class="markdown_views prism-atom-one-dark">
+          <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+          </svg>
+          <p></p>
+<div class="toc">
+ <h4><a name="t0"></a>文章目录</h4>
+ <ul><li><a href="#__9" target="_self">一 监督学习之外的机器学习</a></li><li><a href="#__21" target="_self">二 无监督学习：发现数据的内在结构</a></li><li><ul><li><a href="#21__23" target="_self">2.1 监督学习与无监督学习的对比</a></li><li><a href="#22__35" target="_self">2.2 聚类的应用</a></li></ul>
+  </li><li><a href="#_K_Kmeans_46" target="_self">三 K-均值聚类算法 (K-means)</a></li><li><ul><li><a href="#31_K_50" target="_self">3.1 K-均值算法的核心步骤</a></li><li><a href="#32_K_73" target="_self">3.2 K-均值算法的迭代过程演示</a></li><li><a href="#33_K_98" target="_self">3.3 K-均值算法伪代码</a></li><li><a href="#34_K_112" target="_self">3.4 K-均值的应用场景</a></li></ul>
+  </li><li><a href="#_K_119" target="_self">四 K-均值算法的优化目标</a></li><li><ul><li><a href="#41_Distortion_123" target="_self">4.1 代价函数：失真（Distortion）</a></li><li><a href="#42_K_136" target="_self">4.2 K-均值算法如何最小化代价函数</a></li></ul>
+  </li><li><a href="#_K_150" target="_self">五 K-均值算法的实践要点</a></li><li><ul><li><a href="#51__152" target="_self">5.1 随机初始化与局部最优</a></li><li><a href="#52__K_178" target="_self">5.2 如何选择聚类数量 K</a></li></ul>
+  </li><li><a href="#__Anomaly_Detection_200" target="_self">六 异常检测 (Anomaly Detection)</a></li><li><ul><li><a href="#61__204" target="_self">6.1 异常检测的基本思想</a></li><li><a href="#62__221" target="_self">6.2 异常检测的应用</a></li><li><a href="#63__231" target="_self">6.3 基于高斯分布的异常检测算法</a></li><li><a href="#64__270" target="_self">6.4 异常检测算法的评估</a></li></ul>
+ </li></ul>
+</div>
+<p></p> 
+<hr> 
+<p><em>视频链接</em><br> <a href="%E3%80%90%E3%80%90%E5%AE%98%E6%96%B9%E4%B8%AD%E8%8B%B1%E3%80%912025%E5%B9%B4%E5%85%AC%E8%AE%A4%E6%9C%80%E5%A5%BD%E7%9A%84%E3%80%90%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%AF%BE%E7%A8%8B%E3%80%91%E9%99%84%E8%AF%BE%E4%BB%B6%E3%80%81%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE%EF%BC%81%EF%BC%81%EF%BC%81--%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%91%20https://www.bilibili.com/video/BV1owrpYKEtP/?p=111&amp;share_source=copy_web&amp;vd_source=f084482bdc948a56dc505d2067a9fd4f" rel="nofollow">吴恩达机器学习p102-p111</a></p> 
+<hr> 
+<h2><a name="t1"></a><a id="__9"></a>一 监督学习之外的机器学习</h2> 
+<p>到目前为止，我们课程的大部分内容都聚焦于<strong>监督学习（Supervised Learning）</strong>。然而，机器学习的领域远不止于此。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/d4e69ca02c9a448b9728d33522c84fb8.png" alt="[在此处插入图片1]"></p> 
+<p>除了监督学习，还有其他几种主要的机器学习范式：</p> 
+<ul><li><strong>无监督学习 (Unsupervised Learning)</strong>：我们接下来将要深入探讨的领域，主要包括<strong>聚类（Clustering）<strong>和</strong>异常检测（Anomaly Detection）</strong>。</li><li><strong>推荐系统 (Recommender Systems)</strong>：广泛应用于电商、视频和音乐平台。</li><li><strong>强化学习 (Reinforcement Learning)</strong>：用于训练智能体（agent）在环境中通过试错来学习最优策略，常用于游戏和机器人控制。</li></ul> 
+<h2><a name="t2"></a><a id="__21"></a>二 无监督学习：发现数据的内在结构</h2> 
+<h3><a name="t3"></a><a id="21__23"></a>2.1 监督学习与无监督学习的对比</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/e83f3578149c45408f5cdcd87f267aa8.png" alt="[在此处插入图片2]"></p> 
+<p>首先，我们回顾一下监督学习。在监督学习中，我们的训练集由成对的输入<code>x</code>和对应的目标输出<code>y</code>组成，即 <code>{(x^(1), y^(1)), (x^(2), y^(2)), ...}</code>。我们的目标是学习一个从<code>x</code>到<code>y</code>的映射关系。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/4b33c3543878490580262d109005b1f2.png" alt="[在此处插入图片3]"></p> 
+<p>与此不同，在<strong>无监督学习</strong>中，我们的训练集只有输入数据<code>x</code>，没有对应的标签<code>y</code>，即 <code>{x^(1), x^(2), ...}</code>。算法的目标不是预测一个标签，而是在数据中发现某种有趣的结构或模式。<strong>聚类（Clustering</strong>是无监督学习中最常见的任务之一，其目标是找到数据中自然形成的分组或“簇”。</p> 
+<h3><a name="t4"></a><a id="22__35"></a>2.2 聚类的应用</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/3bbd39e53e5e47dcb6e8b801e6f43973.png" alt="[在此处插入图片4]"></p> 
+<p>聚类算法在许多领域都有广泛的应用，例如：</p> 
+<ul><li><strong>新闻分组</strong>：自动将成千上万条关于同一事件的新闻报导聚合在一起。</li><li><strong>市场细分</strong>：根据客户的行为和属性，将他们划分为不同的客户群体，以便进行精准营销。</li><li><strong>DNA分析</strong>：根据基因表达模式对个体进行分组。</li><li><strong>天文数据分析</strong>：对星体进行分组，以确定哪些天体共同构成一个星系。</li></ul> 
+<h2><a name="t5"></a><a id="_K_Kmeans_46"></a>三 K-均值聚类算法 (K-means)</h2> 
+<p>K-均值（K-means）是最流行和最广泛使用的聚类算法之一。</p> 
+<h3><a name="t6"></a><a id="31_K_50"></a>3.1 K-均值算法的核心步骤</h3> 
+<p>K-均值算法是一个迭代的过程，它重复执行以下两个核心步骤：</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/1f77bba25a4e46e58eaf2f680632fc39.png" alt="[在此处插入图片5]"></p> 
+<p><strong>步骤 1：分配样本点 (Assign points)</strong></p> 
+<ul><li>对于数据集中的每一个样本点，计算它到每一个<strong>聚类中心（cluster centroids</strong>的距离。</li><li>将该样本点分配给距离它最近的那个聚类中心。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/57f061511e8c42c2bb3fbc53054a206a.png" alt="[在此处插入图片6]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/bfb4f2bac4864a849ae95297928bae1e.png" alt="[在此处插入图片7]"></p> 
+<p><strong>步骤 2：移动聚类中心 (Recompute the centroids)</strong></p> 
+<ul><li>对于每一个聚类中心，找出所有被分配给它的样本点。</li><li>将该聚类中心的位置移动到这些样本点的<strong>平均值（mean</strong>所在的位置。</li></ul> 
+<p>算法会不断地重复这两个步骤，直到聚类中心的位置不再发生变化，或者变化非常小为止。</p> 
+<h3><a name="t7"></a><a id="32_K_73"></a>3.2 K-均值算法的迭代过程演示</h3> 
+<p>让我们通过一个完整的迭代过程来理解算法的运作：</p> 
+<ol><li> <p><strong>初始状态</strong>：随机初始化两个聚类中心（红色叉和蓝色叉）。</p> </li><li> <p><strong>第一次迭代 - 步骤1</strong>：<br> <img src="https://i-blog.csdnimg.cn/direct/29527306506045a59c1ab95e4a0b9e9a.png" alt="[在此处插入图片8]"></p> <p><img src="https://i-blog.csdnimg.cn/direct/a3ed4db3cc2c41229d2fd744e20cd01b.png" alt="[在此处插入图片9]"></p> <p><img src="https://i-blog.csdnimg.cn/direct/ef1856935e4f4d119edffc1118b9c560.png" alt="[在此- 处插入图片10]"></p> <p>遍历所有样本点，并将它们分配给离自己最近的聚类中心。结果是，上半部分的点被染成红色，下半部分的点被染成蓝色。</p> </li><li> <p><strong>第一次迭代 - 步骤2</strong>：<br> <img src="https://i-blog.csdnimg.cn/direct/64ea7be9ab9e4dd49a44dda49dfa441c.png" alt="[在此处插入图片11]"></p> <p>重新计算所有红点的平均位置，并将红色聚类中心移动到该位置。同样，计算所有蓝点的平均位置，并将蓝色聚类中心移动到那里。</p> </li><li> <p><strong>第二次迭代 - 步骤1</strong>：<br> 聚类中心移动后，样本点与它们的距离发生了变化。我们再次执行分配步骤，根据新的聚类中心位置，重新为每个样本点分配归属。</p> </li><li> <p><strong>第二次迭代 - 步骤2</strong>：<br> <img src="https://i-blog.csdnimg.cn/direct/ac8e9636cd6641c1bbcaef6c1e7228b1.png" alt="[在此处插入图片12]"></p> <p>根据第二次分配的结果，再次计算每个簇的平均位置，并移动聚类中心。<br> 经过几轮迭代后，聚类中心会稳定下来，最终将数据清晰地划分为两个簇。</p> </li></ol> 
+<h3><a name="t8"></a><a id="33_K_98"></a>3.3 K-均值算法伪代码</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/4739fcea987044909d56379667878ae7.png" alt="[在此处插入图片13]"></p> 
+<p>K-均值算法的流程可以总结为以下伪代码：</p> 
+<ol><li>随机初始化 <code>K</code> 个聚类中心 <code>μ₁, μ₂, ..., μₖ</code>。</li><li>进入循环，重复以下操作： 
+  <ul><li><strong>分配步骤</strong>：对于每一个样本 <code>x^(i)</code> (从 <code>i=1</code> 到 <code>m</code>)： 
+    <ul><li>计算 <code>x^(i)</code> 到所有 <code>K</code> 个聚类中心的距离。</li><li>将 <code>c^(i)</code> 设为距离 <code>x^(i)</code> 最近的那个聚类中心的索引。</li></ul> </li><li><strong>移动步骤</strong>：对于每一个聚类 <code>k</code> (从 <code>k=1</code> 到 <code>K</code>)： 
+    <ul><li>将 <code>μₖ</code> 更新为所有被分配到聚类 <code>k</code> 的样本点的平均值。</li></ul> </li></ul> </li></ol> 
+<h3><a name="t9"></a><a id="34_K_112"></a>3.4 K-均值的应用场景</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/2c2a0a319eb44d8abe739d30686fa35c.png" alt="[在此处插入图片14]"></p> 
+<p>K-均值算法不仅能处理像左图那样分离清晰的簇，也能处理像右图那样相互重叠、边界不清晰的簇。例如，在T恤尺码设计中，我们可以收集大量用户的身高体重数据，然后使用K-均值（例如 <code>K=3</code>）将他们聚类，找到分别代表S、M、L三种尺码的“原型”身材，从而指导T恤的设计和生产。</p> 
+<h2><a name="t10"></a><a id="_K_119"></a>四 K-均值算法的优化目标</h2> 
+<p>K-均值算法的迭代过程实际上是在优化一个特定的数学目标，即最小化一个<strong>代价函数（Cost Function）</strong>。</p> 
+<h3><a name="t11"></a><a id="41_Distortion_123"></a>4.1 代价函数：失真（Distortion）</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/d010a720bd4a433cbbe2b299d323805c.png" alt="[在此处插入图片15]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/76e6553aeb41446cb313dd460d124576.png" alt="[在此处插入图片16]"></p> 
+<p>K-均值算法的代价函数 <code>J</code>（也称为<strong>失真函数</strong>）被定义为：</p> 
+<ul><li>数据集中每个样本点 <code>x^(i)</code> 到其<strong>所属聚类中心 <code>μ_c^(i)</code></strong> 之间距离的<strong>平方和的平均值</strong>。</li><li>公式： <code>J = (1/m) * Σ ||x^(i) - μ_c^(i)||^2</code></li><li>这个代价函数衡量了所有样本点到它们各自聚类中心的紧凑程度。<code>J</code> 的值越小，说明聚类的效果越好，簇内的点越密集。</li></ul> 
+<h3><a name="t12"></a><a id="42_K_136"></a>4.2 K-均值算法如何最小化代价函数</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/74f9ff6fc2ae4b9ebea7df61c9e80525.png" alt="[在此处插入图片17]"></p> 
+<p>K-均值算法的两个步骤分别对应了对代价函数 <code>J</code> 的两个不同部分的最小化：</p> 
+<ul><li><strong>分配步骤（Assign points）</strong>：在保持聚类中心 <code>μ</code> 不变的情况下，通过调整每个样本点的归属 <code>c^(i)</code> 来最小化 <code>J</code>。显然，将每个 <code>x^(i)</code> 分配给离它最近的 <code>μ</code> 会使 <code>||x^(i) - μ_c^(i)||^2</code> 这一项最小。</li><li><strong>移动步骤（Move centroids）</strong>：在保持样本归属 <code>c</code> 不变的情况下，通过调整聚类中心 <code>μₖ</code> 的位置来最小化 <code>J</code>。可以从数学上证明，将 <code>μₖ</code> 设为该簇内所有点的平均值，可以使与该簇相关的平方和项最小。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/f6a0092b3b8e4c779a447ae93086c804.png" alt="[在此处插入图片18]"></p> 
+<p>上图用一个一维的例子直观地说明了为什么均值是最佳选择。对于一组点，将中心点设为它们的均值，可以使到各点距离的平方和最小。</p> 
+<h2><a name="t13"></a><a id="_K_150"></a>五 K-均值算法的实践要点</h2> 
+<h3><a name="t14"></a><a id="51__152"></a>5.1 随机初始化与局部最优</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/3f0a4c3d15c64a6cb6bf89ca4dcc0785.png" alt="[在此处插入图片19]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/258272f670574b40a3be9fe68385275e.png" alt="[在此处插入图片20]"></p> 
+<p>K-均值算法的最终结果<strong>依赖于聚类中心的初始位置</strong>。</p> 
+<ul><li><strong>初始化方法</strong>：一个常用的方法是从 <code>m</code> 个训练样本中随机选择 <code>K</code> 个，并将这 <code>K</code> 个样本的位置作为初始的聚类中心位置。</li><li><strong>问题</strong>：不同的随机初始化可能会导致K-均值算法收敛到不同的最终聚类结果，其中一些可能是<strong>局部最优解</strong>，而不是全局最优解。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/b8f5975c223f48ff8cffe321e5c44ab9.png" alt="[在此处插入图片21]"></p> 
+<p>如上图所示，对于同一份数据，一次好的初始化（J₁）可能得到理想的聚类结果和很低的代价 <code>J</code>，而一次不好的初始化（J₂, J₃）可能会得到很差的聚类结果和较高的代价 <code>J</code>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/4b3cac7ddb3e4d6bb5677a337cca93a9.png" alt="[在此处插入图片22]"></p> 
+<p><strong>解决方案</strong>：</p> 
+<ul><li>多次运行K-均值算法（通常是50到1000次）。</li><li>在每次运行中，都使用一组新的随机初始化的聚类中心。</li><li>对每一次运行得到的最终聚类结果，计算其代价函数 <code>J</code> 的值。</li><li>最后，选择所有运行中代价 <code>J</code> 最小的那一组聚类结果作为最终答案。</li></ul> 
+<h3><a name="t15"></a><a id="52__K_178"></a>5.2 如何选择聚类数量 K</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/18fd4686915b4f648bedcc7799a2449c.png" alt="[在此处插入图片23]"></p> 
+<p>K-均值算法需要我们预先指定聚类的数量 <code>K</code>。但如何确定最佳的 <code>K</code> 值呢？</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/a29a9bc0dfa74f528bd025bd2b214b3b.png" alt="[在此处插入图片24]"></p> 
+<p><strong>1. 肘部法则 (Elbow Method)</strong></p> 
+<ul><li><strong>方法</strong>：分别用不同的 <code>K</code> 值（例如从1到10）运行K-均值算法，并计算出每个 <code>K</code> 值对应的最低代价 <code>J</code>。然后，将 <code>J</code> 与 <code>K</code> 的关系绘制成图。</li><li><strong>解读</strong>：随着 <code>K</code> 的增加，代价 <code>J</code> 总是会下降。我们寻找的是图中的“肘部”（Elbow），即 <code>J</code> 值急剧下降后变得平缓的那个点。这个点通常被认为是 <code>K</code> 的一个合理选择。</li><li><strong>局限性</strong>：很多时候，代价曲线并没有一个清晰的“肘部”，这使得该方法具有一定的主观性和模糊性。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/cb7abda3f1d14974bfad8206f702b082.png" alt="[在此处插入图片25]"></p> 
+<p><strong>2. 评估下游指标</strong></p> 
+<ul><li><strong>核心思想</strong>：选择 <code>K</code> 的更有效的方法，是看哪个 <code>K</code> 值能更好地服务于我们进行聚类的<strong>最终目的（下游任务）</strong>。</li><li><strong>例子</strong>：在T恤尺码的例子中，我们可以分别尝试 <code>K=3</code> 和 <code>K=5</code>。然后评估哪种聚类结果能带来更好的商业表现，例如，<code>K=5</code>（增加了XS和XL码）是否能更好地满足客户需求并提升销量。最终，我们应该选择那个对下游任务最有帮助的 <code>K</code> 值。</li></ul> 
+<h2><a name="t16"></a><a id="__Anomaly_Detection_200"></a>六 异常检测 (Anomaly Detection)</h2> 
+<p>异常检测是无监督学习的另一个重要分支，其目标是识别出与“正常”数据显著不同的“异常”数据点。</p> 
+<h3><a name="t17"></a><a id="61__204"></a>6.1 异常检测的基本思想</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/4d5d35d17fd8423dbe943d9fcda3896b.png" alt="[在此处插入图片26]"></p> 
+<p>以飞机引擎监控为例，我们拥有大量描述正常引擎运行状态的数据（如产生的热量 <code>x₁</code>、振动强度 <code>x₂</code> 等）。当一个新的引擎 <code>x_test</code> 出现时，我们的任务是判断它的状态是否异常。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/7f1108a3fea0460597bd4a92ac380406.png" alt="[在此处插入图片27]"></p> 
+<p>异常检测的核心方法是<strong>密度估计（Density Estimation）</strong>：</p> 
+<ol><li>我们首先使用大量的正常样本数据来学习一个概率模型 <code>p(x)</code>。这个模型描述了正常数据点的概率分布。</li><li>对于一个新的测试样本 <code>x_test</code>，我们计算它在这个模型下的概率 <code>p(x_test)</code>。</li><li><strong>判断</strong>： 
+  <ul><li>如果 <code>p(x_test)</code> 很高，说明 <code>x_test</code> 与正常数据的分布很吻合，它是一个<strong>正常（ok</strong>样本。</li><li>如果 <code>p(x_test)</code> 非常低（低于我们设定的一个阈值 <code>ε</code>），说明 <code>x_test</code> 是一个在正常数据集中不太可能出现的点，它被判定为<strong>异常（anomaly）</strong>。</li></ul> </li></ol> 
+<h3><a name="t18"></a><a id="62__221"></a>6.2 异常检测的应用</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/17cfeb66a8cd4a4cb5dbb5b93eaf6b35.png" alt="[在此处插入图片28]"></p> 
+<p>异常检测有许多实际应用：</p> 
+<ul><li><strong>欺诈检测</strong>：通过分析用户的行为特征（登录频率、交易模式、打字速度等），建立正常用户行为模型 <code>p(x)</code>，并识别出行为概率极低的异常用户。</li><li><strong>制造业</strong>：监控产品（如飞机引擎、电路板）的各项指标，识别出可能存在缺陷的次品。</li><li><strong>数据中心监控</strong>：监控服务器的特征（内存使用、CPU负载等），及时发现可能出现故障的机器。</li></ul> 
+<h3><a name="t19"></a><a id="63__231"></a>6.3 基于高斯分布的异常检测算法</h3> 
+<p>一个常用且有效的密度估计方法是假设数据特征服从<strong>高斯分布（Gaussian Distribution）</strong>，也称正态分布。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/ce67279fe95e4788bf63a4563da4dddc.png" alt="[在此处插入图片29]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/53cf7fe0d8f24da4addd932dfefcd8cf.png" alt="[在此处插入图片30]"></p> 
+<p>高斯分布由两个参数决定：均值 <code>μ</code>（决定了分布的中心位置）和方差 <code>σ²</code>（决定了分布的宽度）。<code>σ</code> 是标准差。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/f6ba5c01358b4c039ac6bf6f704642fd.png" alt="[在此处插入图片31]"></p> 
+<p><strong>参数估计</strong>：对于一个给定的只包含正常样本的数据集，我们可以通过以下公式来估计每个特征的高斯分布参数（这对应于最大似然估计）：</p> 
+<ul><li><strong>均值 <code>μ</code></strong>: <code>(1/m) * Σ x^(i)</code></li><li><strong>方差 <code>σ²</code></strong>: <code>(1/m) * Σ (x^(i) - μ)²</code> (在机器学习中，分母通常用<code>m</code>而非<code>m-1</code>)</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/00cbecd037d445ec8b0d5caf0b8561b0.png" alt="[在此处插入图片32]"></p> 
+<p><strong>多维特征处理</strong>：当数据有 <code>n</code> 个特征时，一个简化的假设（尽管在实际中不一定成立，但常常效果不错）是<strong>各个特征之间相互独立</strong>。基于此假设，一个样本 <code>x</code> 的联合概率 <code>p(x)</code> 可以通过将它在每个特征上的边缘概率相乘得到：</p> 
+<ul><li><code>p(x) = p(x₁) * p(x₂) * ... * p(xₙ) = Π p(xⱼ; μⱼ, σⱼ²)</code></li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/f18c4cd393d943ee8b9e271429aa8527.png" alt="[在此处插入图片33]"></p> 
+<p><strong>算法总结</strong>：</p> 
+<ol><li>选择 <code>n</code> 个你认为可能指示异常的特征 <code>xⱼ</code>。</li><li>使用正常样本的训练集，为每个特征 <code>j</code> 估计参数 <code>μⱼ</code> 和 <code>σⱼ²</code>。</li><li>对于一个新样本 <code>x</code>，使用高斯分布公式和独立性假设，计算其总概率 <code>p(x)</code>。</li><li>如果 <code>p(x) &lt; ε</code>，则将其标记为异常。</li></ol> 
+<p><img src="https://i-blog.csdnimg.cn/direct/4c5623636262498e90801f5d3e8592b9.png" alt="[在此处插入图片34]"></p> 
+<p>上图展示了一个二维的例子。通过为 <code>x₁</code> 和 <code>x₂</code> 分别建立高斯模型，我们可以计算出二维空间中任意一点的概率 <code>p(x)</code>。图中 <code>x_test^(1)</code> 位于概率高的中心区域，被判为正常；而 <code>x_test^(2)</code> 位于概率低的边缘区域，被判为异常。</p> 
+<h3><a name="t20"></a><a id="64__270"></a>6.4 异常检测算法的评估</h3> 
+<p>尽管异常检测算法的训练过程是无监督的（只使用正常样本），但为了评估其性能和选择超参数（如阈值<code>ε</code>），我们通常需要一些带标签的数据。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/bee6ab8c9c2144589b9f28b39f4033cc.png" alt="[在此处插入图片35]"></p> 
+<p><strong>数据划分策略</strong>：</p> 
+<ul><li><strong>训练集</strong>：包含大量的<strong>正常样本</strong>（<code>y=0</code>）。用于学习概率模型 <code>p(x)</code>。</li><li><strong>交叉验证集 (CV) 和 测试集</strong>：包含大量的正常样本（<code>y=0</code>），并混入一小部分已知的<strong>异常样本</strong>（<code>y=1</code>）。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/f0c396232b3a4de9abb0d6ff64f6efa0.png" alt="[在此处插入图片36]"></p> 
+<p><strong>评估流程</strong>：</p> 
+<ul><li>由于CV集和测试集是<strong>高度偏斜</strong>的数据集（异常样本非常少）。</li><li>因此，我们不应该使用准确率作为评估指标。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/f74e3bbdd5cc4e70928309cde14ae8f5.png" alt="[在此处插入图片37]"></p> 
+<ul><li><strong>正确的评估指标</strong>：应该使用我们之前学过的<strong>精确率/召回率</strong>和<strong>F1分数</strong>。</li><li><strong>超参数调优</strong>：在训练集上拟合好 <code>p(x)</code> 模型后，我们在<strong>交叉验证集</strong>上尝试不同的阈值 <code>ε</code>，并选择那个能够使F1分数最高的 <code>ε</code> 作为最终的参数。然后在测试集上报告最终的性能。</li></ul>
+        </div><div data-report-view="{&quot;mod&quot;:&quot;1585297308_001&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6548&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/2502_90283908/article/details/154299242&quot;,&quot;extend1&quot;:&quot;pc&quot;,&quot;ab&quot;:&quot;new&quot;}"><div></div></div>
+        <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-e1cc28b339.css" rel="stylesheet">
+        <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-d1e89cace4.css" rel="stylesheet">
+    </div>

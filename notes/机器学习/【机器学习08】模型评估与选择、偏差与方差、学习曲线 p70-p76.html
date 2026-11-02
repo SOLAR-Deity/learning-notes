@@ -1,0 +1,153 @@
+<div id="article_content" class="article_content clearfix">
+      <style>
+        /* MD / 富文本中的 .toc（含博客园搬家等嵌套结构）；.toc-box 在侧栏，不受影响 */
+        #content_views .toc,
+        /* 编辑器常在目录前后插入空 p（:empty 仍占 20px），一并去掉避免顶空隙 */
+        #content_views.markdown_views > p:empty:has(+ .toc),
+        #content_views.markdown_views > .toc + p:empty,
+        /* 富文本旧版目录标记 */
+        #content_views.htmledit_views #main-toc,
+        #content_views.htmledit_views #hr-toc,
+        #content_views.htmledit_views p[id*="-toc"] {
+          display: none !important;
+        }
+        /* 目录去掉后，紧跟的首个标题不再多出一块上边距 */
+        #content_views.markdown_views > .toc + h1,
+        #content_views.markdown_views > .toc + h2,
+        #content_views.markdown_views > .toc + h3,
+        #content_views.markdown_views > .toc + h4,
+        #content_views.markdown_views > .toc + p:empty + h1,
+        #content_views.markdown_views > .toc + p:empty + h2,
+        #content_views.markdown_views > .toc + p:empty + h3,
+        #content_views.markdown_views > .toc + p:empty + h4 {
+          margin-top: 0 !important;
+        }
+      </style>
+      <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/kdoc_html_views-1a98987dfd.css">
+      <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-a50b13a894.css">
+        <div id="content_views" class="markdown_views prism-atom-one-dark">
+          <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+          </svg>
+          <p></p>
+<div class="toc">
+ <h4><a name="t0"></a>文章目录</h4>
+ <ul><li><a href="#__9" target="_self">一 调试学习算法的挑战</a></li><li><a href="#__27" target="_self">二 机器学习诊断法</a></li><li><a href="#__38" target="_self">三 评估你的模型</a></li><li><ul><li><a href="#31__40" target="_self">3.1 过拟合问题与数据集划分</a></li><li><a href="#32__54" target="_self">3.2 线性回归的训练与测试流程</a></li><li><a href="#33__74" target="_self">3.3 分类问题的训练与测试流程</a></li></ul>
+  </li><li><a href="#__97" target="_self">四 模型选择问题</a></li><li><ul><li><a href="#41__101" target="_self">4.1 测试集的局限性</a></li><li><a href="#42__118" target="_self">4.2 引入交叉验证集</a></li><li><a href="#43__138" target="_self">4.3 正确的模型选择流程</a></li></ul>
+  </li><li><a href="#__157" target="_self">五 诊断偏差与方差</a></li><li><ul><li><a href="#51__161" target="_self">5.1 理解偏差与方差</a></li><li><a href="#52__181" target="_self">5.2 如何判断是偏差还是方差问题</a></li></ul>
+  </li><li><a href="#__191" target="_self">六 正则化与偏差/方差的关系</a></li><li><a href="#__218" target="_self">七 基准性能与学习曲线</a></li><li><ul><li><a href="#71__220" target="_self">7.1 建立性能基准</a></li><li><a href="#72__247" target="_self">7.2 学习曲线</a></li></ul>
+ </li></ul>
+</div>
+<p></p> 
+<hr> 
+<p><em>视频链接</em><br> <a href="%E3%80%90%E3%80%90%E5%AE%98%E6%96%B9%E4%B8%AD%E8%8B%B1%E3%80%912025%E5%B9%B4%E5%85%AC%E8%AE%A4%E6%9C%80%E5%A5%BD%E7%9A%84%E3%80%90%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%AF%BE%E7%A8%8B%E3%80%91%E9%99%84%E8%AF%BE%E4%BB%B6%E3%80%81%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE%EF%BC%81%EF%BC%81%EF%BC%81--%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%91%20https://www.bilibili.com/video/BV1owrpYKEtP/?p=76&amp;share_source=copy_web&amp;vd_source=f084482bdc948a56dc505d2067a9fd4f" rel="nofollow">吴恩达机器学习p70-76</a></p> 
+<h2><a name="t1"></a><a id="__9"></a>一 调试学习算法的挑战</h2> 
+<p>在机器学习的实践中，我们经常会遇到这样的情况：我们已经实现了一个模型，比如带有正则化的线性回归模型来预测房价，但它在预测新数据时却出现了无法接受的巨大误差。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/72d9d6bc33d442d9b1d8d2859e788592.png" alt="在这里插入图片描述"></p> 
+<p>面对这种情况，我们应该怎么办呢？我们有很多可以尝试的策略：</p> 
+<ul><li>获取更多的训练样本</li><li>尝试使用更少的特征</li><li>尝试获取更多的特征</li><li>尝试添加多项式特征 (如 x₁², x₁x₂, etc)</li><li>尝试减小正则化参数 λ</li><li>尝试增大正则化参数 λ</li></ul> 
+<p>这些方法看起来都有道理，但问题在于，我们应该选择哪一个？随意选择一个方向进行尝试可能会花费我们数周甚至数月的时间，但最终可能收效甚微。因此，我们需要一种更系统、更有效的方法来指导我们优化算法。</p> 
+<h2><a name="t2"></a><a id="__27"></a>二 机器学习诊断法</h2> 
+<p>为了解决上述问题，吴恩达老师引入了“机器学习诊断法”（Machine learning diagnostic）的概念。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/776fc001f5be496b8b5f2d3d97671505.png" alt="在这里插入图片描述"></p> 
+<p>所谓诊断法，它本身就是一种测试。通过运行这些测试，我们可以深入洞察一个学习算法的有效之处和无效之处，从而为我们改进算法性能提供明确的指导。</p> 
+<p>虽然实现这些诊断法本身可能需要花费一些时间，但这样做是非常值得的，因为它能有效避免我们把大量时间浪费在错误的方向上，从而大大提高我们优化模型的效率。</p> 
+<h2><a name="t3"></a><a id="__38"></a>三 评估你的模型</h2> 
+<h3><a name="t4"></a><a id="31__40"></a>3.1 过拟合问题与数据集划分</h3> 
+<p>在评估模型时，我们首先要面对的问题就是“过拟合”（Overfitting）。如下图所示，一个模型可能对训练数据拟合得非常好（图中蓝线穿过了所有的红色训练样本点），但它却无法很好地泛化到训练集之外的新样本上。这种模型的泛化能力很差。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/9af8bd62df2b4afea410192f1579f256.png" alt="在这里插入图片描述"></p> 
+<p>为了能够客观地评估模型的泛化能力，我们需要将我们的数据集进行划分。一个常见的做法是将数据分为“训练集”（training set）和“测试集”（test set）。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/dc332b7072a24bae8b36ff9580cfad12.png" alt="在这里插入图片描述"></p> 
+<p>如图所示，我们可以按照一定的比例，比如70%的数据作为训练集，用于训练模型的参数 <code>w</code> 和 <code>b</code>；剩下的30%作为测试集，用于评估训练好的模型的性能。</p> 
+<h3><a name="t5"></a><a id="32__54"></a>3.2 线性回归的训练与测试流程</h3> 
+<p>对于带有平方误差代价的线性回归问题，其评估流程如下：</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/eefebaaf60b643729e19964141b07deb.png" alt="在这里插入图片描述"></p> 
+<ol><li><strong>参数拟合</strong>：使用<strong>训练集</strong>的数据，通过最小化代价函数 J(w,b) 来找到最优的参数 w 和 b。注意，这里的代价函数是包含正则化项的。</li><li><strong>计算测试误差</strong>：使用训练好的参数 w 和 b，在<strong>测试集</strong>上计算模型的误差，记为 J_test。测试误差反映了模型对新样本的泛化能力。</li><li><strong>计算训练误差</strong>：同样使用训练好的参数 w 和 b，在<strong>训练集</strong>上计算模型的误差，记为 J_train。</li></ol> 
+<p><em>注意：在计算测试集误差 J_test 时，通常我们只关心模型在新数据上的预测表现，因此标准的做法是使用不含正则化项的代价函数。上图幻灯片中将正则化项放在了 J_test 的公式中，这是一种不太常规的表示，但在本课程的语境下，我们遵循讲师的定义。核心思想是使用一份“干净”的、未参与训练的数据来评估模型。</em></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/0cfc931c5c754136bca833987b0fc4e4.png" alt="在这里插入图片描述"></p> 
+<p>对于一个过拟合的模型，我们通常会观察到：</p> 
+<ul><li><strong>J_train 会很低</strong>：因为模型几乎完美地拟合了训练数据。</li><li><strong>J_test 会很高</strong>：因为模型没能学到数据的一般规律，在新的测试数据上表现很差。</li></ul> 
+<h3><a name="t6"></a><a id="33__74"></a>3.3 分类问题的训练与测试流程</h3> 
+<p>同样的方法也适用于分类问题，例如逻辑回归。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/50a7ce23fb744a629211b0b90b558415.png" alt="在这里插入图片描述"></p> 
+<ol><li><strong>参数拟合</strong>：使用<strong>训练集</strong>，通过最小化逻辑回归的代价函数（带有正则化项）来找到最优参数 w 和 b。</li><li><strong>计算测试误差</strong>：在<strong>测试集</strong>上计算代价函数的值 J_test。</li><li><strong>计算训练误差</strong>：在<strong>训练集</strong>上计算代价函数的值 J_train。</li></ol> 
+<p>与回归问题类似，计算测试误差和训练误差时，我们通常使用不含正则化项的代价函数，以反映模型本身的预测性能。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/1881fc929a9a4b57ba3632e44baaff80.png" alt="在这里插入图片描述"></p> 
+<p>对于分类问题，除了使用代价函数作为误差度量外，我们还可以使用一种更直观的度量方法：<strong>误分类率</strong>（misclassification error）。</p> 
+<ul><li><strong>J_test(w,b)</strong> = 测试集中被模型错误分类的样本比例。</li><li><strong>J_train(w,b)</strong> = 训练集中被模型错误分类的样本比例。</li></ul> 
+<p>这种0/1误差度量方式简单明了，更容易解释。</p> 
+<h2><a name="t7"></a><a id="__97"></a>四 模型选择问题</h2> 
+<p>在实际应用中，我们往往需要从多个模型中选择一个最优的。这个过程就叫做“模型选择”（Model selection）。</p> 
+<h3><a name="t8"></a><a id="41__101"></a>4.1 测试集的局限性</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/f21a05bc3c1940c589bdcf732fe5f6f6.png" alt="在这里插入图片描述"></p> 
+<p>我们知道，训练误差 J_train 通常会比模型的真实泛化误差要低，因为它是在模型“见过”的数据上计算的。相比之下，测试误差 J_test 是对模型泛化能力的一个更好的估计。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/e08e2eee1b2a4f4ab113bf6c35d98486.png" alt="在这里插入图片描述"></p> 
+<p>假设我们现在要选择一个多项式回归模型的最佳次数 <code>d</code>。我们可以构建10个不同的模型，<code>d</code> 从1到10。一个很自然的想法是：</p> 
+<ol><li>用训练集训练这10个模型。</li><li>用测试集分别评估这10个模型，计算出10个 J_test。</li><li>选择那个 J_test 最小的模型，比如 <code>d=5</code> 的模型。</li></ol> 
+<p><strong>但这里有一个严重的问题</strong>：我们用测试集来选择了模型的超参数 <code>d</code>。这意味着，我们得到的这个 J_test(w&lt;5&gt;, b&lt;5&gt;) 很可能是对泛化误差的一个<strong>过于乐观的估计</strong>。因为我们已经让模型为了在测试集上表现更好而调整了超参数 <code>d</code>，测试集在某种程度上已经“泄露”给了模型选择过程。这样得到的模型，在遇到全新的、真正未知的数据时，表现可能并不会像这个 J_test 显示的那么好。</p> 
+<h3><a name="t9"></a><a id="42__118"></a>4.2 引入交叉验证集</h3> 
+<p>为了解决上述问题，我们需要引入第三个数据集：“交叉验证集”（Cross validation set），有时也称为“开发集”（development set, dev set）。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/9f3e4d98bd654f3ea456fbb05adaf5c9.png" alt="在这里插入图片描述"></p> 
+<p>现在，我们将整个数据集划分为三部分：</p> 
+<ul><li><strong>训练集 (Training set)</strong>：例如60%的数据，用于训练模型的参数 w, b。</li><li><strong>交叉验证集 (Cross validation set)</strong>：例如20%的数据，用于模型选择（如选择多项式次数 <code>d</code> 或正则化参数 <code>λ</code>）。</li><li><strong>测试集 (Test set)</strong>：例如20%的数据，用于在模型选择完成后，对最终选定的模型进行一次性的、最终的性能评估。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/6a3926da141f43aba7f4d7057f10e033.png" alt="在这里插入图片描述"></p> 
+<p>相应地，我们现在有三个误差指标：</p> 
+<ul><li><strong>训练误差 J_train</strong>：在训练集上计算。</li><li><strong>交叉验证误差 J_cv</strong>：在交叉验证集上计算。</li><li><strong>测试误差 J_test</strong>：在测试集上计算。</li></ul> 
+<h3><a name="t10"></a><a id="43__138"></a>4.3 正确的模型选择流程</h3> 
+<p>有了这三个数据集，正确的模型选择和评估流程应该是这样的：</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/943a1fc8f6da4929a0b3764745035084.png" alt="在这里插入图片描述"></p> 
+<ol><li>使用<strong>训练集</strong>训练所有候选模型（例如，d=1 到 d=10 的多项式模型）。</li><li>使用<strong>交叉验证集</strong>评估所有这些模型，计算 J_cv。</li><li>选择 J_cv 最小的那个模型作为我们的最终模型（例如，上图中 <code>d=4</code> 的模型）。</li><li>最后，为了得到对最终模型泛化能力的无偏估计，我们使用<strong>测试集</strong>来计算 J_test。这个 J_test 值将作为我们对外报告的模型性能指标。</li></ol> 
+<p><strong>核心思想是</strong>：测试集绝对不能参与任何训练或模型选择的过程，它只能在所有工作都完成之后，像“期末考试”一样，被用来评估最终模型的泛化能力。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/0c9d5eebda3a4e99b56ad021e557d45e.png" alt="在这里插入图片描述"></p> 
+<p>这个流程同样适用于选择神经网络的结构。我们可以设计多种不同的网络结构（不同的层数、不同的单元数），用训练集训练它们，用交叉验证集选出表现最好的那个结构，最后用测试集来评估它的最终性能。</p> 
+<h2><a name="t11"></a><a id="__157"></a>五 诊断偏差与方差</h2> 
+<p>现在，我们回到最初的问题：如何系统地判断模型出了什么问题？偏差（Bias）和方差（Variance）是两个核心的诊断工具。</p> 
+<h3><a name="t12"></a><a id="51__161"></a>5.1 理解偏差与方差</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/28fdbc6b189c461abcbefa97dd4512ce.png" alt="在这里插入图片描述"></p> 
+<ul><li><strong>高偏差 (High bias)</strong>：也称作“欠拟合”（Underfit）。模型过于简单，无法捕捉数据中的基本规律。例如，用一条直线去拟合非线性的数据。 
+  <ul><li><strong>表现</strong>：训练误差 J_train 会很高，同时交叉验证误差 J_cv 也会很高。</li></ul> </li><li><strong>高方差 (High variance)</strong>：也称作“过拟合”（Overfit）。模型过于复杂，过度拟合了训练数据中的噪声和细节，导致其泛化能力很差。 
+  <ul><li><strong>表现</strong>：训练误差 J_train 会很低，但交叉验证误差 J_cv 会很高。</li></ul> </li><li><strong>“刚刚好” (Just right)</strong>：模型复杂程度适中，很好地平衡了偏差和方差。 
+  <ul><li><strong>表现</strong>：训练误差 J_train 会很低，同时交叉验证误差 J_cv 也会很低。</li></ul> </li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/6c0a15362384490ca0ab4e52852160d2.png" alt="在这里插入图片描述"></p> 
+<p>我们可以通过绘制 J_train 和 J_cv 随模型复杂度（例如多项式次数 <code>d</code>）变化的曲线来直观地理解这一点。</p> 
+<ul><li>随着 <code>d</code> 增大，J_train 倾向于单调递减。</li><li>J_cv 则会先减小（因为模型拟合能力增强），然后增大（因为模型开始过拟合）。</li><li>我们的目标是找到那个使 J_cv 最小化的复杂度 <code>d</code>。</li></ul> 
+<h3><a name="t13"></a><a id="52__181"></a>5.2 如何判断是偏差还是方差问题</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/d8c3abe699024404ae0537ce15ce29fb.png" alt="在这里插入图片描述"></p> 
+<p>根据 J_train 和 J_cv 的值，我们可以做出如下诊断：</p> 
+<ul><li><strong>高偏差问题</strong>：如果 J_train 本身就很高，并且 J_cv 与 J_train 的值很接近（J_cv ≈ J_train），这说明模型连训练数据都拟合不好，是欠拟合了。</li><li><strong>高方差问题</strong>：如果 J_train 很低，但 J_cv 远大于 J_train（J_cv &gt;&gt; J_train），这说明模型在训练集上表现很好，但在验证集上表现很差，是过拟合了。</li><li><strong>高偏差且高方差问题</strong>：如果 J_train 很高，并且 J_cv 比 J_train 还要高很多（J_cv &gt;&gt; J_train），这说明模型既有欠拟合的问题，又有过拟合的问题。</li></ul> 
+<h2><a name="t14"></a><a id="__191"></a>六 正则化与偏差/方差的关系</h2> 
+<p>正则化是控制模型复杂度，从而调节偏差和方差的有效工具。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/23cf0453765c4d7ca97bc8024128b8a9.png" alt="在这里插入图片描述"></p> 
+<p>我们通过调整正则化参数 <code>λ</code> 来控制模型的偏差-方差平衡：</p> 
+<ul><li><strong>大的 λ</strong>：对参数 w 的惩罚很重，会使参数趋近于0，导致模型非常简单（例如近似一条水平线），从而产生<strong>高偏差（欠拟合）</strong>。此时 J_train 和 J_cv 都会很大。</li><li><strong>小的 λ</strong> (例如 λ=0)：对参数 w 几乎没有惩罚，允许模型变得非常复杂以拟合所有训练数据，从而导致<strong>高方差（过拟合）</strong>。此时 J_train 会很小，但 J_cv 会很大。</li><li><strong>适中的 λ</strong>：能在两者之间找到一个很好的平衡，使得 J_train 和 J_cv 都比较小。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/c26fe7613f4e462e98e33d92d14195b1.png" alt="在这里插入图片描述"></p> 
+<p>选择最佳 <code>λ</code> 的过程与选择多项式次数 <code>d</code> 的过程完全一样，是一个典型的模型选择问题：</p> 
+<ol><li>选取一系列 <code>λ</code> 的候选值（例如 0, 0.01, 0.02, …, 10）。</li><li>对于每一个 <code>λ</code>，使用训练集训练模型得到对应的参数 w, b。</li><li>在交叉验证集上评估每一个模型，计算 J_cv。</li><li>选择使 J_cv 最小的那个 <code>λ</code> 作为最终参数。</li><li>最后，使用测试集评估最终选定模型的性能。</li></ol> 
+<p><img src="https://i-blog.csdnimg.cn/direct/8cca48df15554f5189768d0798610ebe.png" alt="在这里插入图片描述"></p> 
+<p>我们可以绘制 J_train 和 J_cv 随 <code>λ</code> 变化的曲线。随着 <code>λ</code> 从小到大变化，模型从高方差区域（左侧）过渡到高偏差区域（右侧）。我们的目标是找到 J_cv 曲线的最低点对应的 <code>λ</code> 值。</p> 
+<h2><a name="t15"></a><a id="__218"></a>七 基准性能与学习曲线</h2> 
+<h3><a name="t16"></a><a id="71__220"></a>7.1 建立性能基准</h3> 
+<p>为了判断我们的误差（例如10.8%）到底算高还是算低，我们需要一个参考标准，即性能基准（Baseline level of performance）。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/26da1d8b115a4a4fa6ba774bf7c970de.png" alt="在这里插入图片描述"></p> 
+<p>例如，在语音识别任务中，如果人类的错误率（Human level performance）是10.6%，而我们的模型训练误差是10.8%，交叉验证误差是14.8%。</p> 
+<ul><li><strong>可避免的偏差 (Avoidable bias)</strong>：训练误差与基准性能的差距 (10.8% - 10.6% = 0.2%)。这个差距很小，说明模型的偏差问题不大。</li><li><strong>方差 (Variance)</strong>：交叉验证误差与训练误差的差距 (14.8% - 10.8% = 4.0%)。这个差距很大，说明模型的主要问题是方差太高（过拟合）。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/77ff3a1118f04d719979a5cce46d0522.png" alt="在这里插入图片描述"></p> 
+<p>如何确定基准性能？可以参考：</p> 
+<ul><li>人类在该任务上的表现水平。</li><li>其他现有算法的性能。</li><li>根据经验进行的合理猜测。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/1965cf23b8b2473e97500a81eec3c13a.png" alt="在这里插入图片描述"></p> 
+<p>通过比较训练误差、交叉验证误差和基准性能，我们可以更精确地诊断问题所在：</p> 
+<ul><li><strong>例1（高方差）</strong>：可避免偏差小 (0.2%)，方差大 (4.0%)。主要矛盾是过拟合。</li><li><strong>例2（高偏差）</strong>：可避免偏差大 (4.4%)，方差小 (0.5%)。主要矛盾是欠拟合。</li><li><strong>例3（高偏差和高方差）</strong>：可避免偏差大 (4.4%)，方差也大 (4.7%)。两者都是问题。</li></ul> 
+<h3><a name="t17"></a><a id="72__247"></a>7.2 学习曲线</h3> 
+<p>学习曲线（Learning curves）是另一种强大的诊断工具。它描绘了模型的训练误差和交叉验证误差随着训练样本数量 <code>m_train</code> 变化的趋势。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/1eec49b20a074f719e7c952014c7868a.png" alt="在这里插入图片描述"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/7c925806c5234794b88e05f0092555ee.png" alt="在这里插入图片描述"></p> 
+<p><strong>高偏差（欠拟合）模型的学习曲线特征</strong>：</p> 
+<ul><li>随着训练样本增多，J_train 逐渐升高（因为模型越来越难拟合所有数据），J_cv 逐渐降低。</li><li>最终，J_train 和 J_cv 会收敛到一起，并且都处于一个<strong>较高的水平</strong>。</li><li><strong>结论</strong>：如果一个算法存在高偏差问题，那么<strong>增加更多的训练数据是徒劳的</strong>，因为曲线已经趋于平坦，增加数据并不会显著降低误差。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/ad54698c5155478788dc597152b8409d.png" alt="在这里插入图片描述"></p> 
+<p><strong>高方差（过拟合）模型的学习曲线特征</strong>：</p> 
+<ul><li>J_train 始终处于一个很低的水平。</li><li>J_cv 则远高于 J_train，两者之间存在一个<strong>巨大的差距（gap）</strong>。</li><li>随着训练样本增多，J_train 会缓慢上升，而 J_cv 会显著下降，两者之间的差距会减小。</li><li><strong>结论</strong>：如果一个算法存在高方差问题，那么<strong>增加更多的训练数据是很有可能帮助改善模型性能的</strong>，因为这会帮助模型学到更普适的规律，减小过拟合。</li></ul> 
+<p>通过上述的诊断法、模型选择流程以及偏差/方差分析工具，我们就能回到文章开头的那个问题，不再是盲目尝试，而是可以根据模型的具体“症状”，“对症下药”地选择最有效的优化策略。</p>
+        </div><div data-report-view="{&quot;mod&quot;:&quot;1585297308_001&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6548&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/2502_90283908/article/details/153740813&quot;,&quot;extend1&quot;:&quot;pc&quot;,&quot;ab&quot;:&quot;new&quot;}"><div></div></div>
+        <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-e1cc28b339.css" rel="stylesheet">
+        <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-d1e89cace4.css" rel="stylesheet">
+    </div>

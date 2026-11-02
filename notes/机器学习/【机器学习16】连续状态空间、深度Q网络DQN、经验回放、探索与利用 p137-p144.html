@@ -1,0 +1,122 @@
+<div id="article_content" class="article_content clearfix">
+      <style>
+        /* MD / 富文本中的 .toc（含博客园搬家等嵌套结构）；.toc-box 在侧栏，不受影响 */
+        #content_views .toc,
+        /* 编辑器常在目录前后插入空 p（:empty 仍占 20px），一并去掉避免顶空隙 */
+        #content_views.markdown_views > p:empty:has(+ .toc),
+        #content_views.markdown_views > .toc + p:empty,
+        /* 富文本旧版目录标记 */
+        #content_views.htmledit_views #main-toc,
+        #content_views.htmledit_views #hr-toc,
+        #content_views.htmledit_views p[id*="-toc"] {
+          display: none !important;
+        }
+        /* 目录去掉后，紧跟的首个标题不再多出一块上边距 */
+        #content_views.markdown_views > .toc + h1,
+        #content_views.markdown_views > .toc + h2,
+        #content_views.markdown_views > .toc + h3,
+        #content_views.markdown_views > .toc + h4,
+        #content_views.markdown_views > .toc + p:empty + h1,
+        #content_views.markdown_views > .toc + p:empty + h2,
+        #content_views.markdown_views > .toc + p:empty + h3,
+        #content_views.markdown_views > .toc + p:empty + h4 {
+          margin-top: 0 !important;
+        }
+      </style>
+      <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/kdoc_html_views-1a98987dfd.css">
+      <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-a50b13a894.css">
+        <div id="content_views" class="markdown_views prism-atom-one-dark">
+          <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+          </svg>
+          <p></p>
+<div class="toc">
+ <h4><a name="t0"></a>文章目录</h4>
+ <ul><li><a href="#__15" target="_self">一 连续状态空间下的强化学习</a></li><li><a href="#_QLearning_38" target="_self">二 深度强化学习：神经网络与Q-Learning的结合</a></li><li><ul><li><a href="#21__Lunar_Lander_42" target="_self">2.1 案例研究：月球登陆器 (Lunar Lander)</a></li><li><a href="#22_Q_DQN_83" target="_self">2.2 使用神经网络近似Q函数 (DQN)</a></li><li><a href="#23__103" target="_self">2.3 学习过程：将强化学习问题转化为监督学习</a></li><li><a href="#24__Experience_Replay_124" target="_self">2.4 学习算法：经验回放 (Experience Replay)</a></li><li><a href="#25__146" target="_self">2.5 改进的神经网络架构与实现</a></li><li><a href="#26__158" target="_self">2.6 核心挑战：探索与利用的平衡</a></li><li><a href="#27_Minibatch__177" target="_self">2.7 训练细节：Mini-batch 梯度下降</a></li><li><a href="#28__Soft_Update_195" target="_self">2.8 训练细节：软更新 (Soft Update)</a></li><li><a href="#29__211" target="_self">2.9 强化学习的局限性</a></li></ul>
+ </li></ul>
+</div>
+<p></p> 
+<hr> 
+<p><em>视频链接</em><br> <a href="%E3%80%90%E3%80%90%E5%AE%98%E6%96%B9%E4%B8%AD%E8%8B%B1%E3%80%912025%E5%B9%B4%E5%85%AC%E8%AE%A4%E6%9C%80%E5%A5%BD%E7%9A%84%E3%80%90%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%AF%BE%E7%A8%8B%E3%80%91%E9%99%84%E8%AF%BE%E4%BB%B6%E3%80%81%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE%EF%BC%81%EF%BC%81%EF%BC%81--%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%91%20https://www.bilibili.com/video/BV1owrpYKEtP/?p=146&amp;share_source=copy_web&amp;vd_source=f084482bdc948a56dc505d2067a9fd4f" rel="nofollow">吴恩达机器学习p137-144</a></p> 
+<hr> 
+<h2><a name="t1"></a><a id="__15"></a>一 连续状态空间下的强化学习</h2> 
+<p>在上一篇文章中，我们使用火星车的例子介绍了强化学习。在该示例中，环境的<strong>状态空间（State Space）<strong>是</strong>离散的（Discrete）</strong>，即智能体只能处于有限的、可数的几个状态之一（例如6个位置）。然而，现实世界中绝大多数有意义的强化学习问题，其状态空间都是<strong>连续的（Continuous）</strong>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/dbb45c80fa55457ca0bb53d8d9bcd5e7.png" alt="[在此处插入图片1]"></p> 
+<ul><li> <p><strong>离散状态 (Discrete State)</strong>：状态的数量是有限且可数的。例如火星车的6个位置，我们可以用一个简单的表格来存储每个状态的信息。</p> </li><li> <p><strong>连续状态 (Continuous State)</strong>：状态由一组可以取任意实数值的变量来描述，因此理论上存在无限多个可能的状态。例如，要精确描述一辆卡车的状态<code>s</code>，我们需要一个状态向量，其中可能包含：</p> 
+  <ul><li><code>x</code>, <code>y</code>: 卡车在二维平面上的坐标。</li><li><code>θ</code>: 卡车的朝向角度。</li><li><code>ẋ</code>, <code>ẏ</code>: 卡车在x和y方向上的速度。</li><li><code>θ̇</code>: 卡车的角速度（角度的变化率）。<br> 由于这些量都是实数，因此状态<code>s</code>可以在一个高维的连续空间中取任何值。</li></ul> </li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/ae87bae993264dc091bc40743f40a5c3.png" alt="[在此处插入图片2]"></p> 
+<ul><li><strong>自动驾驶直升机案例</strong>：这是一个典型的、高维度的连续状态空间问题。要完全描述直升机的飞行状态<code>s</code>，需要一个包含12个或更多维度变量的向量，例如三维空间坐标<code>(x, y, z)</code>、三个姿态角（滚转<code>φ</code>、俯仰<code>θ</code>、偏航<code>ω</code>）以及这六个量各自的时间导数（即线速度和角速度）。</li></ul> 
+<p>在状态空间是连续的或者维度非常高的情况下，我们之前为每个状态都存储一个Q值的表格方法（Tabular Q-learning）变得完全不可行。我们不可能创建一个包含无限多行的表格。因此，我们需要一个能够处理连续输入并能对未见过的状态进行泛化的函数近似器。这自然而然地将我们引向了神经网络。</p> 
+<h2><a name="t2"></a><a id="_QLearning_38"></a>二 深度强化学习：神经网络与Q-Learning的结合</h2> 
+<p>当我们将深度学习（特别是神经网络）作为函数近似器，与强化学习的框架结合起来，以解决具有复杂、高维或连续状态空间的问题时，这个强大的领域就被称为<strong>深度强化学习（Deep Reinforcement Learning）</strong>。</p> 
+<h3><a name="t3"></a><a id="21__Lunar_Lander_42"></a>2.1 案例研究：月球登陆器 (Lunar Lander)</h3> 
+<p>我们将通过一个经典且直观的RL问题——<strong>月球登陆器（Lunar Lander）</strong>——来详细讲解深度Q学习（Deep Q-Learning, DQN）的完整原理和实现细节。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/803edf3197b44e5aba31a6c2d6a557c4.png" alt="[在此处插入图片3]"></p> 
+<p><strong>环境定义 (Environment Definition)</strong>:</p> 
+<ul><li><strong>目标</strong>：操控一个登陆器，使其安全、平稳地降落在两面黄色旗帜之间的着陆平台上。</li><li><strong>状态 <code>s</code></strong>: 登陆器的状态由一个8维的连续向量精确描述，包括： 
+  <ul><li><code>(x, y)</code>: 登陆器质心的二维坐标。</li><li><code>(ẋ, ẏ)</code>: 登陆器质心的二维速度。</li><li><code>θ</code>: 登陆器的角度（姿态）。</li><li><code>θ̇</code>: 登陆器的角速度。</li><li><code>l</code>, <code>r</code>: 两个布尔值（0或1），分别表示左腿或右腿是否与地面接触。</li></ul> </li><li><strong>行动 <code>a</code></strong>: 智能体有4个离散的行动可以选择： 
+  <ol><li>什么都不做 (do nothing / coast)</li><li>启动左侧的侧向推进器 (fire left thruster)</li><li>启动主推进器 (fire main thruster)</li><li>启动右侧的侧向推进器 (fire right thruster)</li></ol> </li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/7dbb00e65e56420ba24b08d2e18b8064.png" alt="[在此处插入图片4]"></p> 
+<p><strong>奖励函数 (Reward Function)</strong>:<br> 奖励函数的设计是强化学习应用工程中的关键。它通过数值信号来引导智能体学习期望的行为。对于月球登陆器，一个精心设计的奖励函数如下：</p> 
+<ul><li><strong>主要目标奖励与惩罚</strong>： 
+  <ul><li><strong>成功降落</strong>: 成功到达着陆平台会获得 <code>+100</code> 到 <code>+140</code> 分的大量奖励。奖励的多少取决于降落的速度和平稳性。</li><li><strong>坠毁</strong>: 如果登陆器坠毁，会受到 <code>-100</code> 分的重罚。</li><li><strong>平稳软着陆</strong>: 如果登陆器最终静止在平台上，会额外获得 <code>+100</code> 分。</li></ul> </li><li><strong>过程引导与燃料消耗惩罚</strong>： 
+  <ul><li><strong>接近奖励</strong>: 向着陆平台移动会持续获得小的正奖励，而远离则会受到小的负奖励。这提供了一个密集信号，引导智能体朝正确方向飞行。</li><li><strong>触地奖励</strong>: 每条腿接触地面，奖励 <code>+10</code> 分。</li><li><strong>燃料惩罚</strong>: 为了鼓励智能体节省燃料，每次使用推进器都会受到惩罚。使用主推进器惩罚 <code>-0.3</code> 分，使用侧推进器惩罚 <code>-0.03</code> 分。</li></ul> </li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/82167dc4e35e4a1fbd9af2ad88f39514.png" alt="[在此处插入图片5]"></p> 
+<p><strong>学习目标 (Learning Goal)</strong>:<br> 我们的最终目标是学习一个策略 <code>π</code>。这个策略接收当前8维的状态向量<code>s</code>作为输入，然后输出一个最合适的行动<code>a = π(s)</code>。选择这个行动的依据是，它能够<strong>最大化未来的累积折扣回报（Return）</strong>。在这个问题中，折扣因子 <code>γ</code> 被设定为一个较高的值，如 <code>0.985</code>。这表明智能体需要具备“远见”，它必须权衡短期内的燃料消耗和姿态调整，以实现最终安全着陆的长期目标。</p> 
+<h3><a name="t4"></a><a id="22_Q_DQN_83"></a>2.2 使用神经网络近似Q函数 (DQN)</h3> 
+<p>由于状态 <code>s</code> 是连续的，我们训练一个<strong>神经网络</strong>来近似 <code>Q(s, a)</code> 函数。这个网络被称为<strong>DQN（Deep Q-Network）</strong>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/fc104883d35f446bbf68c5c58f261565.png" alt="[在此处插入图片6]"></p> 
+<p><strong>方法一：将 (状态, 行动) 作为输入</strong></p> 
+<ul><li><strong>网络输入 <code>x</code></strong>：将状态 <code>s</code> 和行动 <code>a</code> <strong>拼接（concatenate</strong>成一个大的向量，作为神经网络的单一输入。 
+  <ul><li>状态 <code>s</code> 是一个8维的连续向量。</li><li>行动 <code>a</code> 是一个离散的量（4种可能），我们可以使用**独热编码（one-hot encoding）**将其转换为一个4维的二元向量。例如，<code>[0, 1, 0, 0]</code> 代表“启动左侧推进器”。</li><li>拼接后，输入向量 <code>x</code> 的总维度为 <code>8 + 4 = 12</code> 维。</li></ul> </li><li><strong>网络结构</strong>：一个典型的结构可以是：输入层(12) -&gt; 隐藏层(64) -&gt; 隐藏层(64) -&gt; 输出层(1)。</li><li><strong>网络输出 <code>y</code></strong>：网络只有一个输出单元，其输出的单个数值就是对 <code>Q(s, a)</code> 的近似值。</li><li><strong>决策过程的缺陷</strong>： 
+  <ol><li>在某个给定的状态 <code>s</code>，为了决定采取哪个行动，我们需要分别计算所有可能行动的Q值：<code>Q(s, nothing)</code>, <code>Q(s, left)</code>, <code>Q(s, main)</code>, <code>Q(s, right)</code>。</li><li>这意味着，我们需要构建<strong>四个</strong>不同的输入向量，并将它们分别送入神经网络进行<strong>四次</strong>独立的前向传播计算。</li><li>最后，比较这四个输出的Q值，选择最大的那个所对应的行动 <code>a</code>。<br> 这个过程在计算上是相当低效的。</li></ol> </li></ul> 
+<h3><a name="t5"></a><a id="23__103"></a>2.3 学习过程：将强化学习问题转化为监督学习</h3> 
+<p>Q-Learning的本质是让我们的Q函数估计值 <code>Q(s, a)</code> 不断地去逼近贝尔曼方程所定义的目标值。这个过程可以被巧妙地重新构建为一个监督学习问题。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/0121eae1631849208cfaec0574fb4745.png" alt="[在此处插入图片7]"></p> 
+<p><strong>回顾贝尔曼方程</strong>: <code>Q(s, a) = R(s') + γ * max_a' Q(s', a')</code></p> 
+<p><strong>构建监督学习训练集</strong>:</p> 
+<ol><li> <p><strong>收集数据</strong>：首先，让智能体与环境（月球登陆器）进行交互，收集大量的<strong>经验元组（experience tuples）</strong> <code>(s, a, R(s'), s')</code>。这个元组记录了一次完整的状态转移：在状态<code>s</code>，采取行动<code>a</code>，得到了奖励<code>R(s')</code>，并最终转移到了新状态<code>s'</code>。</p> </li><li> <p><strong>构建训练样本 <code>(x, y)</code></strong>：</p> 
+  <ul><li><strong>输入 <code>x</code></strong>: <code>x = (s, a)</code>，即我们在经验元组中记录的状态-行动对。</li><li><strong>目标输出 <code>y</code> (Target Value)</strong>: <code>y = R(s') + γ * max_a' Q(s', a')</code> 
+    <ul><li>这个<code>y</code>值是根据贝尔曼方程计算出的“目标Q值”，我们希望我们的网络对输入<code>x</code>的预测能够逼近这个<code>y</code>。</li><li><code>R(s')</code> 和 <code>s'</code> 这两个值直接从我们收集的经验元组中获得。</li><li><code>max_a' Q(s', a')</code> 这一项，需要用我们<strong>当前</strong>的神经网络，来计算新状态 <code>s'</code> 下所有可能行动 <code>a'</code> 的Q值，然后取其中的最大值。</li></ul> </li></ul> </li><li> <p><strong>训练网络</strong>：我们现在有了一批 <code>(x, y)</code> 训练样本。我们的目标就是训练神经网络 <code>f_w,B(x)</code>，使其输出尽可能地接近目标 <code>y</code>。这变成了一个标准的监督学习回归问题，我们可以使用<strong>均方误差（Mean Squared Error</strong>作为损失函数，并通过梯度下降来更新网络的权重 <code>w</code> 和偏置 <code>B</code>。</p> </li></ol> 
+<h3><a name="t6"></a><a id="24__Experience_Replay_124"></a>2.4 学习算法：经验回放 (Experience Replay)</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/8ff502ccccf94113bd82e96af418398e.png" alt="[在此处插入图片8]"></p> 
+<p>综合起来，一个带有<strong>经验回放</strong>机制的完整深度Q学习算法流程如下：</p> 
+<ol><li><strong>初始化</strong>：随机初始化一个神经网络 <code>Q</code>，作为我们对 <code>Q(s, a)</code> 的初始猜测。</li><li><strong>初始化经验回放缓冲区 (Replay Buffer)</strong>：创建一个固定大小的内存区域（例如，能存储最近的10,000个经验元组）。</li><li><strong>主循环 (Repeat)</strong>：<br> a. <strong>与环境交互</strong>: 智能体根据某种策略（后面会讲）在月球登陆器环境中选择并执行一个行动<code>a</code>，从环境中获得一个经验元组 <code>(s, a, R(s'), s')</code>。<br> b. <strong>存储经验</strong>: 将这个新的经验元组存入<strong>Replay Buffer</strong>。如果缓冲区满了，就遵循“先进先出”的原则，覆盖掉最旧的那个经验。<br> c. <strong>训练神经网络</strong>:<br> i. 从Replay Buffer中<strong>随机采样</strong>一个<strong>小批量（mini-batch</strong>的经验元组（例如1000个）。<br> ii. 对于这个mini-batch中的每一个元组，使用贝尔曼方程构建其对应的训练样本 <code>(x, y)</code>。<br> iii. 使用这个包含1000个样本的mini-batch，通过梯度下降更新神经网络的参数，使其预测值 <code>Q_new(s, a)</code> 逼近目标 <code>y</code>。<br> d. <strong>更新Q网络</strong>: 将训练好的新网络 <code>Q_new</code> 的参数，更新到主Q网络 <code>Q</code> 中（具体更新方式稍后讨论）。</li></ol> 
+<p><strong>经验回放的关键作用</strong>：</p> 
+<ul><li><strong>打破数据相关性</strong>：智能体连续收集的经验是高度相关的（例如，连续几帧的画面非常相似），直接用这些按顺序排列的数据进行训练会导致网络不稳定且难以收敛。从缓冲区中随机采样，可以彻底打乱数据的时间顺序，使得训练样本更接近于独立同分布，这对于基于梯度下降的优化至关重要。</li><li><strong>提高数据利用率</strong>：每一个宝贵的经验元组都可能被多次采样和用于训练，而不是用一次就丢弃，这极大地提高了数据的使用效率，尤其是在与环境交互成本较高时。</li></ul> 
+<h3><a name="t7"></a><a id="25__146"></a>2.5 改进的神经网络架构与实现</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/18d2ae3939254551b8a9674c84652ea6.png" alt="[在此处插入图片9]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/ad8a443a8a7545f29c54ea20b89b0696.png" alt="[在此处插入图片10]"></p> 
+<p>前面那种需要为每个行动都进行一次前向传播的网络结构，效率太低。一个更高效、更常用的架构是：</p> 
+<ul><li><strong>网络输入 <code>x</code></strong>：只输入状态 <code>s</code>（一个8维向量）。</li><li><strong>网络输出 <code>y</code></strong>：网络的输出层有<strong>4个</strong>神经元，分别对应4个可能的行动。这4个神经元的输出值，直接、并行地给出了 <code>Q(s, nothing)</code>, <code>Q(s, left)</code>, <code>Q(s, main)</code>, <code>Q(s, right)</code> 的估计值。</li><li><strong>巨大优势</strong>：这种架构只需要<strong>一次</strong>前向传播，就可以同时计算出当前状态下所有行动的Q值，极大地提高了决策和训练的效率。在决策时，我们只需对这4个输出值取<code>argmax</code>即可找到最优行动。</li></ul> 
+<h3><a name="t8"></a><a id="26__158"></a>2.6 核心挑战：探索与利用的平衡</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/5d8eee4c47a14f8c8dadb51eec1ed8eb.png" alt="[在此处插入图片11]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/d395d81b8f11407db95b3e304926f253.png" alt="[在此处插入图片12]"></p> 
+<p>在算法的第3.a步，智能体需要“采取行动”。但此时我们的Q网络还在学习中，其对Q值的估计可能非常不准确。那么，应该如何选择行动呢？这里存在一个经典的困境：</p> 
+<ul><li><strong>利用 (Exploitation)</strong>：完全相信当前的Q网络，选择那个它认为能最大化 <code>Q(s, a)</code> 的行动。这样做的好处是能立即获得当前看来最高的回报，但如果Q网络的认知是错误的，智能体可能会陷入一个局部最优解，永远发现不了真正更好的策略。</li><li><strong>探索 (Exploration)</strong>：不理会当前的Q网络，完全随机地选择一个行动。这样做的好处是有机会发现新的、更好的状态-行动路径，从而修正Q网络的错误认知，但代价是可能会执行一些明显很差的行动，导致短期回报降低。</li></ul> 
+<p><strong>ε-贪心策略 (Epsilon-Greedy Policy)</strong> 是一种在“探索”与“利用”之间进行权衡的经典实用方法：</p> 
+<ul><li>设定一个小的概率 <code>ε</code>（epsilon），例如 <code>ε=0.05</code>。</li><li><strong>行动选择规则</strong>： 
+  <ul><li>以 <code>1 - ε</code> 的概率（例如95%），选择<strong>利用（Greedy）</strong>，即执行当前Q网络认为最优的行动 <code>a = argmax_a' Q(s, a')</code>。</li><li>以 <code>ε</code> 的概率（例如5%），选择<strong>探索（Exploration）</strong>，即在所有可能的行动中完全随机地选择一个。</li></ul> </li><li><strong>策略退火（Annealing）</strong>：一个更优化的策略是让<code>ε</code>的值随着训练的进行而衰减。在训练初期，当Q网络还很“无知”时，设定一个较高的<code>ε</code>值（例如1.0，即完全随机探索），以鼓励智能体广泛地探索环境。随着训练的进行，Q网络变得越来越可靠，我们就可以逐渐减小<code>ε</code>值（例如线性地衰减到0.01），使得智能体从初期的广泛探索，平滑地过渡到后期的稳定利用，最终收敛到最优策略。</li></ul> 
+<h3><a name="t9"></a><a id="27_Minibatch__177"></a>2.7 训练细节：Mini-batch 梯度下降</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/8ea87a8f6ee041e8be4418e1870b1585.png" alt="[在此处插入图片13]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/832cd817f7e74516b739f20684435a83.png" alt="[在此处插入图片15]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/7e55598c6a3f4a5d8f13075a3b60c6a9.png" alt="[在此处插入图片16]"></p> 
+<p>在训练神经网络时，如果我们的Replay Buffer非常大（例如存储了100万个经验元组），在每次更新参数时都计算整个缓冲区的梯度（<strong>批梯度下降, Batch Gradient Descent</strong>）是完全不可行的。</p> 
+<ul><li><strong>Mini-batch 梯度下降</strong>： 
+  <ul><li>我们将大的Replay Buffer看作是训练集，从中随机抽取一个小的<strong>批次（mini-batch）</strong>，例如<code>m'=1000</code>个样本。</li><li>在每一次参数更新的迭代中，我们只在这个mini-batch上计算平均梯度并据此更新网络参数。</li><li><strong>优势</strong>： 
+    <ul><li><strong>效率</strong>：每次迭代的计算量与整个数据集的大小无关，非常高效。</li><li><strong>收敛性</strong>：虽然每次更新的方向带有一定的随机性（噪声），不如批梯度下降那么精确，但大量的、快速的更新使得总体上能更快地向最优解收敛。梯度中的噪声在某种程度上还能帮助算法跳出局部最小值。</li></ul> </li><li>在DQN的学习算法中（步骤3.c.i），从Replay Buffer中随机采样一批数据进行训练，这正是在应用Mini-batch梯度下降的核心思想。</li></ul> </li></ul> 
+<h3><a name="t10"></a><a id="28__Soft_Update_195"></a>2.8 训练细节：软更新 (Soft Update)</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/8dda744673f649178f35c0bfe918d07e.png" alt="[在此处插入图片17]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/c7ef00dfc4f149878ab5af431c683bde.png" alt="[在此处插入图片18]"></p> 
+<p>在DQN算法流程的第3.d步，我们提到“更新Q网络”。一个朴素的想法是，每训练完一个mini-batch，就将训练得到的新网络 <code>Q_new</code> 的参数 <code>W_new, B_new</code>，直接、完整地复制给主网络 <code>Q</code>（<code>Set Q = Q_new</code>）。这种“硬更新”有时会导致训练过程不稳定，因为目标<code>y</code>值的计算依赖于Q网络本身，当Q网络频繁剧烈变动时，目标<code>y</code>也会剧烈摆动，使得学习过程难以收敛。</p> 
+<p>一种更先进、能显著提升稳定性的技术是<strong>软更新（Soft Update）</strong>，它通常与<strong>目标网络（Target Network</strong>的概念结合使用：</p> 
+<ul><li>我们会维护两个网络：一个是在线网络<code>Q_online</code>（参数为<code>W, B</code>），它在每个mini-batch上都进行训练；另一个是目标网络<code>Q_target</code>（参数为<code>W_target, B_target</code>），它专门用于计算贝尔曼方程中的目标<code>y</code>，即 <code>y = R(s') + γ * max_a' Q_target(s', a')</code>。</li><li>在软更新中，我们不直接复制参数，而是在每个训练步之后，进行一次微小的、加权平均式的更新： 
+  <ul><li><code>W_target = τ * W_online + (1 - τ) * W_target</code></li><li><code>B_target = τ * B_online + (1 - τ) * B_target</code></li></ul> </li><li><code>τ</code>（tau）是一个非常小的数，例如0.01或0.001。这意味着每次只将在线网络参数的1%“融合”到目标网络中，而保留99%的旧参数。这使得目标网络的变化非常缓慢和平滑，为在线网络的学习提供了一个极其稳定的“锚点”，从而大大增加了训练的稳定性。</li></ul> 
+<h3><a name="t11"></a><a id="29__211"></a>2.9 强化学习的局限性</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/2f0eb6c9181f45d3b23572cd323aaaf9.png" alt="[在此处插入图片19]"></p> 
+<p>尽管深度强化学习在游戏、模拟等领域取得了惊人的、超越人类的成就，但在将其应用于现实世界时，也面临着一些重要的挑战和局限性：</p> 
+<ul><li><strong>模拟与现实的鸿沟 (Sim-to-Real Gap)</strong>：在完美的、可重复的模拟器中让RL算法工作，通常远比在充满噪声、延迟和不可预测性的真实物理机器人上要容易得多。将模拟器中训练好的策略成功迁移到现实世界是一个活跃的研究领域。</li><li><strong>应用范围相对较窄</strong>：目前，强化学习在工业界成功部署的应用数量，远少于监督学习和无监督学习。它通常需要大量的交互数据（有时是数百万次尝试），并且对环境建模和奖励函数设计非常敏感。</li><li><strong>巨大的未来潜力</strong>：尽管存在挑战，强化学习仍然是人工智能领域最令人兴奋和最具前瞻性的研究方向之一。它被认为是解决更通用的决策智能、实现通用人工智能（AGI）等终极问题的关键路径，其未来的应用潜力是无限的。</li></ul>
+        </div><div data-report-view="{&quot;mod&quot;:&quot;1585297308_001&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6548&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/2502_90283908/article/details/154453205&quot;,&quot;extend1&quot;:&quot;pc&quot;,&quot;ab&quot;:&quot;new&quot;}"><div></div></div>
+        <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-e1cc28b339.css" rel="stylesheet">
+        <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-d1e89cace4.css" rel="stylesheet">
+    </div>

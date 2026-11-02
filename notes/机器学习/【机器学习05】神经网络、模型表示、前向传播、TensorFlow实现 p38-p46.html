@@ -1,0 +1,131 @@
+<div id="article_content" class="article_content clearfix">
+      <style>
+        /* MD / 富文本中的 .toc（含博客园搬家等嵌套结构）；.toc-box 在侧栏，不受影响 */
+        #content_views .toc,
+        /* 编辑器常在目录前后插入空 p（:empty 仍占 20px），一并去掉避免顶空隙 */
+        #content_views.markdown_views > p:empty:has(+ .toc),
+        #content_views.markdown_views > .toc + p:empty,
+        /* 富文本旧版目录标记 */
+        #content_views.htmledit_views #main-toc,
+        #content_views.htmledit_views #hr-toc,
+        #content_views.htmledit_views p[id*="-toc"] {
+          display: none !important;
+        }
+        /* 目录去掉后，紧跟的首个标题不再多出一块上边距 */
+        #content_views.markdown_views > .toc + h1,
+        #content_views.markdown_views > .toc + h2,
+        #content_views.markdown_views > .toc + h3,
+        #content_views.markdown_views > .toc + h4,
+        #content_views.markdown_views > .toc + p:empty + h1,
+        #content_views.markdown_views > .toc + p:empty + h2,
+        #content_views.markdown_views > .toc + p:empty + h3,
+        #content_views.markdown_views > .toc + p:empty + h4 {
+          margin-top: 0 !important;
+        }
+      </style>
+      <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/kdoc_html_views-1a98987dfd.css">
+      <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-a50b13a894.css">
+        <div id="content_views" class="markdown_views prism-atom-one-dark">
+          <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+          </svg>
+          <p></p>
+<div class="toc">
+ <h4><a name="t0"></a>文章目录</h4>
+ <ul><li><a href="#_Introduction_to_Neural_Networks_10" target="_self">一、神经网络简介 (Introduction to Neural Networks)</a></li><li><ul><li><a href="#11__17" target="_self">1.1 什么是神经网络</a></li><li><a href="#12__36" target="_self">1.2 神经网络为何现在如此强大？</a></li></ul>
+  </li><li><a href="#_45" target="_self">二、神经网络的模型表示</a></li><li><ul><li><a href="#21__47" target="_self">2.1 单个神经元：逻辑回归单元</a></li><li><a href="#22__Layers_56" target="_self">2.2 构建网络：层 (Layers)</a></li><li><a href="#23__73" target="_self">2.3 神经网络如何自动学习特征</a></li></ul>
+  </li><li><a href="#_Forward_Propagation_96" target="_self">三、前向传播 (Forward Propagation)</a></li><li><ul><li><a href="#31__100" target="_self">3.1 逐层计算详解</a></li><li><a href="#32__117" target="_self">3.2 更复杂的网络与数学符号</a></li><li><a href="#33__148" target="_self">3.3 完整示例：手写数字识别</a></li><li><a href="#34__169" target="_self">3.4 神经网络的应用实例</a></li></ul>
+  </li><li><a href="#_TensorFlow_176" target="_self">四、代码实现：使用 TensorFlow</a></li><li><ul><li><a href="#41___NumPy__193" target="_self">4.1 [附录] 关于 NumPy 数组的说明</a></li></ul>
+ </li></ul>
+</div>
+<p></p> 
+<hr> 
+<p><em>视频链接</em><br> <a href="%E3%80%90%E3%80%90%E5%AE%98%E6%96%B9%E4%B8%AD%E8%8B%B1%E3%80%912025%E5%B9%B4%E5%85%AC%E8%AE%A4%E6%9C%80%E5%A5%BD%E7%9A%84%E3%80%90%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%AF%BE%E7%A8%8B%E3%80%91%E9%99%84%E8%AF%BE%E4%BB%B6%E3%80%81%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE%EF%BC%81%EF%BC%81%EF%BC%81--%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%91%20https://www.bilibili.com/video/BV1owrpYKEtP/?p=47&amp;share_source=copy_web&amp;vd_source=f084482bdc948a56dc505d2067a9fd4f" rel="nofollow">吴恩达机器学习p38-46</a></p> 
+<hr> 
+<h2><a name="t1"></a><a id="_Introduction_to_Neural_Networks_10"></a>一、神经网络简介 (Introduction to Neural Networks)</h2> 
+<p>经过对线性回归和逻辑回归的学习，我们已经掌握了构建强大预测模型的基础。现在，我们将进入一个更高级、更强大的算法领域：<strong>神经网络（Neural Networks）</strong>，以及决策树等。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/6d26a56ea02d410492096bcc165c90d3.png" alt="[图片]"></p> 
+<h3><a name="t2"></a><a id="11__17"></a>1.1 什么是神经网络</h3> 
+<p>神经网络（NN）是一类算法，其最初的灵感来源于对生物大脑工作方式的模仿。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/0484f65e3c804f38ba11b370b790fae2.png" alt="[图片]"></p> 
+<p>它并非一个全新的概念，早在20世纪80年代和90年代初就已被使用。但由于当时计算能力和数据量的限制，它在90年代后期一度失宠。然而，自2005年左右以来，得益于大数据和计算能力的飞速发展，神经网络迎来了巨大的复兴，并迅速在语音、图像、自然语言处理（NLP）等众多领域取得了突破性进展。</p> 
+<p>在大脑中，神经元（Neuron）是基本的信息处理单元。它通过树突（Dendrites）接收输入信号，处理后通过轴突（Axon）产生输出信号。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/cc15b16b883d481ca4f4c29ca8e2c6d8.png" alt="[图片]"></p> 
+<p>人工神经网络就是对这个过程的一个简化数学建模。我们将一个生物神经元抽象成一个接收数字输入、进行计算、然后输出一个数字的数学单元。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/6d452bee432f4a31b75eee302cf11ca3.png" alt="[图片]"></p> 
+<h3><a name="t3"></a><a id="12__36"></a>1.2 神经网络为何现在如此强大？</h3> 
+<p>神经网络的再度崛起，主要得益于两个关键因素的结合：<strong>海量的可用数据（大数据）</strong> 和 <strong>强大的计算能力（更快的处理器，特别是GPU）</strong>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/2ea51d4ead764d9bbcc6990e32a9bf2d.png" alt="[图片]"></p> 
+<p>上图清晰地展示了，当数据量非常大时，大型神经网络（绿色曲线）的性能远超传统的机器学习算法（红色曲线）。数据越多，模型越大，性能就越强。</p> 
+<h2><a name="t4"></a><a id="_45"></a>二、神经网络的模型表示</h2> 
+<h3><a name="t5"></a><a id="21__47"></a>2.1 单个神经元：逻辑回归单元</h3> 
+<p>我们其实已经接触过最简单的神经元了——它本质上就是一个我们前面学过的<strong>逻辑回归单元</strong>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/66cb30e89b4d4abd95ebffb9e6ab7775.png" alt="[图片]"></p> 
+<p>这个“神经元”接收输入 <code>x</code>（例如商品价格），通过一个 <strong>激活函数（activation function）</strong>（这里是Sigmoid函数），计算并输出一个 <strong>激活值（activation）</strong> <code>a</code>，这个 <code>a</code> 值代表了某个事件发生的概率（例如，商品成为爆款的概率）。</p> 
+<h3><a name="t6"></a><a id="22__Layers_56"></a>2.2 构建网络：层 (Layers)</h3> 
+<p>神经网络的强大之处在于，它将许许多多这样的单个神经元，组织成一个个“层（Layer）”。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/063c7c84d08d4d18b4713234ec615a9d.png" alt="[图片]"></p> 
+<p>一个典型的神经网络由三部分组成：</p> 
+<ul><li><strong>输入层 (Input Layer)</strong>：接收原始的特征数据 <code>x⃗</code>（如价格、运费、营销投入等）。</li><li><strong>隐藏层 (Hidden Layer)</strong>：位于输入层和输出层之间，负责进行大部分的计算。隐藏层能够学习到数据中更抽象、更深层次的特征（如“性价比”、“品牌知名度”等）。</li><li><strong>输出层 (Output Layer)</strong>：输出最终的预测结果 <code>a</code>。</li></ul> 
+<p>当一个网络包含多个隐藏层时，它也被称为<strong>多层感知机（Multilayer Perceptron, MLP）</strong>。我们可以通过增加隐藏层的数量和每层神经元的数量，来构建更加复杂的<strong>神经网络架构（architecture）</strong>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/cae69285702c458b9fd4427c58f1b11a.png" alt="[图片]"></p> 
+<h3><a name="t7"></a><a id="23__73"></a>2.3 神经网络如何自动学习特征</h3> 
+<p>神经网络，特别是深度神经网络（有很多隐藏层的网络），最神奇的能力之一就是<strong>自动学习特征的层次化表示</strong>。</p> 
+<p>以人脸识别为例，首先，我们需要将一张图像转化为神经网络可以处理的数字。我们把图像的每个像素点的灰度值“拉直”，形成一个长长的输入向量 <code>x⃗</code>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/e305b672c8d94be6b10a594650863739.png" alt="[图片]"></p> 
+<p>然后，将这个向量输入神经网络：</p> 
+<ul><li><strong>第一个隐藏层</strong>：可能会学习到如何识别一些基础的视觉元素，比如不同方向的边缘、角点。</li><li><strong>第二个隐藏层</strong>：将第一层的边缘和角点信息组合，学习识别更复杂的部件，比如眼睛、鼻子。</li><li><strong>更深的隐藏层</strong>：继续组合，学习识别人脸的轮廓。</li><li><strong>输出层</strong>：接收到人脸轮廓这一高度抽象的特征后，最终判断出这张脸属于谁。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/7144218ef4774472a41a2c03a4fa9842.png" alt="[图片]"></p> 
+<p>这种从简单到复杂的特征逐层学习和抽象的能力，是神经网络在图像识别、车辆检测等复杂任务上取得巨大成功的关键。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/3b34da07055647d580019b02aa738199.png" alt="[图片]"></p> 
+<h2><a name="t8"></a><a id="_Forward_Propagation_96"></a>三、前向传播 (Forward Propagation)</h2> 
+<p>神经网络从输入层接收数据，逐层计算，直到输出层得到最终结果的这个过程，被称为<strong>前向传播（Forward Propagation）</strong>。</p> 
+<h3><a name="t9"></a><a id="31__100"></a>3.1 逐层计算详解</h3> 
+<p>我们来分解一下这个计算过程。每一层的每个神经元，都会接收来自<strong>前一层所有神经元</strong>的激活值作为输入，然后进行计算。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/2b8137a0030d4f4c9d2a9d4082317b1e.png" alt="[图片]"></p> 
+<p>以上图为例，<code>layer 1</code> 的激活值向量 <code>a⃗[¹]</code> 是由输入 <code>x⃗</code> 计算得出的。然后，<code>layer 2</code> 的输出 <code>a[²]</code> 是由 <code>a⃗[¹]</code> 作为输入计算得出的。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/bdadeaea03e6465bbbc46bd2057bd505.png" alt="[图片]"></p> 
+<p>最终，输出层的神经元给出预测值 <code>a[²]</code> 后，我们可以通过一个阈值（如0.5）来做出最终的分类判断 <code>ŷ</code>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/bb123705455f4219bf226ffe77677565.png" alt="[图片]"></p> 
+<h3><a name="t10"></a><a id="32__117"></a>3.2 更复杂的网络与数学符号</h3> 
+<p>当网络更深时，这个过程是完全一样的：每一层的输出，都成为下一层的输入。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/e5713b97f93b4cbcbe146fa96e767fd1.png" alt="[图片]"></p> 
+<p>我们来看一下更深网络中，<code>layer 2</code> 到 <code>layer 3</code> 的计算过程。<code>layer 3</code> 的每一个神经元，都接收来自 <code>layer 2</code> 的完整激活向量 <code>a⃗[²]</code> 作为输入，并计算出自己的激活值。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/a59391159bf44abcbfaf07a20a0e7db7.png" alt="[图片]"></p> 
+<p>为了精确描述这个过程，我们需要一套标准的符号。请注意下图中 <code>a₂[³]</code> 各部分的下标和上标的含义。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/f703317587cf4a61a3b7e6ea79327f1f.png" alt="[图片]"></p> 
+<p>这里有一个小测验，可以帮助我们巩固对符号的理解。正确的写法是 <code>a₂[³] = g(w⃗₂[³] · a⃗[²] + b₂[³])</code>，因为输入是来自上一层（<code>layer 2</code>）的<strong>整个向量</strong> <code>a⃗[²]</code>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/c948c4f8da3843ddbb628231657ae55c.png" alt="[图片]"></p> 
+<p>现在，我们来总结一下通用的数学符号：</p> 
+<ul><li><strong><code>aⱼ[ˡ]</code></strong>: 表示第 <code>l</code> 层（layer <code>l</code>）中，第 <code>j</code> 个神经元（unit <code>j</code>）的激活值。</li><li><strong><code>w⃗ⱼ[ˡ]</code>, <code>bⱼ[ˡ]</code></strong>: 分别表示第 <code>l</code> 层、第 <code>j</code> 个神经元对应的权重向量和偏置。</li><li><strong><code>a⃗[ˡ⁻¹]</code></strong>: 表示第 <code>l-1</code> 层的激活向量，它是第 <code>l</code> 层的输入。</li></ul> 
+<p>那么，第 <code>l</code> 层第 <code>j</code> 个神经元的计算公式为：<br> <strong><code>aⱼ[ˡ] = g(w⃗ⱼ[ˡ] · a⃗[ˡ⁻¹] + bⱼ[ˡ])</code></strong></p> 
+<h3><a name="t11"></a><a id="33__148"></a>3.3 完整示例：手写数字识别</h3> 
+<p>我们来看一个识别手写数字“0”或“1”的端到端示例。</p> 
+<ul><li><strong>输入 (x⃗)</strong>: 8x8像素的图片，拉直成64维的向量。</li><li><strong>Layer 1</strong>: 25个神经元，计算出 <code>a⃗[¹]</code>。</li><li><strong>Layer 2</strong>: 15个神经元，接收 <code>a⃗[¹]</code>，计算出 <code>a⃗[²]</code>。</li><li><strong>Layer 3 (Output)</strong>: 1个神经元，接收 <code>a⃗[²]</code>，计算出最终概率 <code>a[³]</code>。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/d732e9608fca498f8058fc421e947904.png" alt="[图片]"></p> 
+<p>Layer 2 的计算过程如下：</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/b28efcd0c39c449b9ce7cb17563bad52.png" alt="[图片]"></p> 
+<p>最终，输出层的计算（前向传播的最后一步）如下：</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/6e6feb6651d64bb1a4df8b0144bc2e51.png" alt="[图片]"></p> 
+<h3><a name="t12"></a><a id="34__169"></a>3.4 神经网络的应用实例</h3> 
+<p>神经网络可以学习非常复杂的非线性决策边界。比如在咖啡豆烘焙中，我们可以用神经网络来区分“优质咖啡”（红叉）和其他类别。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/01dc327ef4f2455dab97495bba187da0.png" alt="[图片]"></p> 
+<h2><a name="t13"></a><a id="_TensorFlow_176"></a>四、代码实现：使用 TensorFlow</h2> 
+<p>现代深度学习框架（如 TensorFlow）极大地简化了构建和训练神经网络的过程。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/50a8aa62e0224068b4f777a98f4fa0dc.png" alt="[图片]"></p> 
+<p>我们可以用 TensorFlow 的 <code>Dense</code> 层来搭建上面咖啡豆分类的模型。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/766848a1474f426d84a5d01f2def34b3.png" alt="[图片]"></p> 
+<p>同样，前面手写数字识别的三层网络，也可以用几行代码清晰地构建出来。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/300c9f240eb64ceeb2e6fb9c0ac7f6c9.png" alt="[图片]"></p> 
+<h3><a name="t14"></a><a id="41___NumPy__193"></a>4.1 [附录] 关于 NumPy 数组的说明</h3> 
+<p>在实际编程中，输入数据的**形状（shape）**非常重要。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/274dac69a3de4974a86b2acad176615d.png" alt="[图片]"></p> 
+<p>TensorFlow 通常期望接收 <code>(N, D)</code> 形式的二维数组（矩阵），其中 <code>N</code> 是样本数量，<code>D</code> 是特征维度。</p> 
+<ul><li><code>np.array([200, 17])</code> 创建的是一维数组，需要注意。</li><li><code>np.array([[200, 17]])</code> 创建的是 <code>1x2</code> 的二维数组，这通常是喂给模型时的正确格式（代表1个样本，2个特征）。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/12f0ac937adc46c5b444cce10cc0fb2c.png" alt="[图片]"></p> 
+<p>框架的输出通常是 Tensor 格式，可以使用 <code>.numpy()</code> 方法将其转换为 NumPy 数组，以便后续处理。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/9222b2e7ae7a4c29aea733719a7ad779.png" alt="[图片]"></p>
+        </div><div data-report-view="{&quot;mod&quot;:&quot;1585297308_001&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6548&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/2502_90283908/article/details/153649146&quot;,&quot;extend1&quot;:&quot;pc&quot;,&quot;ab&quot;:&quot;new&quot;}"><div></div></div>
+        <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-e1cc28b339.css" rel="stylesheet">
+        <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-d1e89cace4.css" rel="stylesheet">
+    </div>

@@ -1,0 +1,268 @@
+<div id="article_content" class="article_content clearfix">
+      <style>
+        /* MD / 富文本中的 .toc（含博客园搬家等嵌套结构）；.toc-box 在侧栏，不受影响 */
+        #content_views .toc,
+        /* 编辑器常在目录前后插入空 p（:empty 仍占 20px），一并去掉避免顶空隙 */
+        #content_views.markdown_views > p:empty:has(+ .toc),
+        #content_views.markdown_views > .toc + p:empty,
+        /* 富文本旧版目录标记 */
+        #content_views.htmledit_views #main-toc,
+        #content_views.htmledit_views #hr-toc,
+        #content_views.htmledit_views p[id*="-toc"] {
+          display: none !important;
+        }
+        /* 目录去掉后，紧跟的首个标题不再多出一块上边距 */
+        #content_views.markdown_views > .toc + h1,
+        #content_views.markdown_views > .toc + h2,
+        #content_views.markdown_views > .toc + h3,
+        #content_views.markdown_views > .toc + h4,
+        #content_views.markdown_views > .toc + p:empty + h1,
+        #content_views.markdown_views > .toc + p:empty + h2,
+        #content_views.markdown_views > .toc + p:empty + h3,
+        #content_views.markdown_views > .toc + p:empty + h4 {
+          margin-top: 0 !important;
+        }
+      </style>
+      <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/kdoc_html_views-1a98987dfd.css">
+      <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-a50b13a894.css">
+        <div id="content_views" class="markdown_views prism-atom-one-dark">
+          <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+          </svg>
+          <p></p>
+<div class="toc">
+ <h4><a name="t0"></a>文章目录</h4>
+ <ul><li><a href="#__9" target="_self">一 推荐系统的高级应用与方法</a></li><li><ul><li><a href="#11__13" target="_self">1.1 利用特征向量寻找相似物品</a></li><li><a href="#12__23" target="_self">1.2 协同过滤的局限性与混合方法</a></li><li><a href="#13__36" target="_self">1.3 协同过滤与基于内容的过滤对比</a></li><li><a href="#14__45" target="_self">1.4 基于深度学习的推荐系统</a></li><li><a href="#15__95" target="_self">1.5 大规模推荐系统：召回与排序</a></li><li><a href="#16_TensorFlow_131" target="_self">1.6 TensorFlow实现概览</a></li></ul>
+  </li><li><a href="#_PCA_209" target="_self">二 降维与主成分分析(PCA)</a></li><li><ul><li><a href="#21__213" target="_self">2.1 降维的动机</a></li><li><a href="#22_PCA_230" target="_self">2.2 PCA的应用：数据可视化</a></li><li><a href="#23__PCA__250" target="_self">2.3 主成分分析 (PCA) 算法</a></li><li><a href="#24_PCA_293" target="_self">2.4 PCA与线性回归的区别</a></li><li><a href="#25__309" target="_self">2.5 数据重建与实践</a></li><li><a href="#26_PCA_408" target="_self">2.6 PCA的应用总结</a></li></ul>
+ </li></ul>
+</div>
+<p></p> 
+<hr> 
+<p><em>视频链接</em><br> <a href="%E3%80%90%E3%80%90%E5%AE%98%E6%96%B9%E4%B8%AD%E8%8B%B1%E3%80%912025%E5%B9%B4%E5%85%AC%E8%AE%A4%E6%9C%80%E5%A5%BD%E7%9A%84%E3%80%90%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%AF%BE%E7%A8%8B%E3%80%91%E9%99%84%E8%AF%BE%E4%BB%B6%E3%80%81%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE%EF%BC%81%EF%BC%81%EF%BC%81--%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%91%20https://www.bilibili.com/video/BV1owrpYKEtP/?p=129&amp;share_source=copy_web&amp;vd_source=f084482bdc948a56dc505d2067a9fd4f" rel="nofollow">吴恩达机器学习p120-128</a></p> 
+<hr> 
+<h2><a name="t1"></a><a id="__9"></a>一 <span class="words-blog hl-git-1" data-tit="推荐系统" data-pretit="推荐系统">推荐系统</span>的高级应用与方法</h2> 
+<p>在上一篇文章中，我们学习了协同过滤的基础知识。现在，我们将探讨如何利用其学习成果，并介绍一种更现代的、基于<span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;深度学习\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="深度学习" data-pretit="深度学习">深度学习</span>的推荐系统<span style="color: #FC5531" class="new-words-blog" data-href="https://so.csdn.net/so/search?q=架构" data-report-view="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://so.csdn.net/so/search?q=架构&quot;,&quot;extra&quot;:{&quot;wordId&quot;:377,&quot;businessId&quot;:1,&quot;word&quot;:&quot;架构&quot;,&quot;blogTemplateId&quot;:4}}" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://so.csdn.net/so/search?q=架构&quot;,&quot;extra&quot;:{&quot;wordId&quot;:377,&quot;businessId&quot;:1,&quot;word&quot;:&quot;架构&quot;,&quot;blogTemplateId&quot;:4}}" data-report-query="spm=1001.2101.3001.11407" data-tit="架构">
+              架构 <i style="background-image: url(https://i-operation.csdnimg.cn/images/e7c3df7a602f4267be505af7ecfc3f88.png);" alt="架构" class="words-blog-icon"></i>
+              </span>。</p> 
+<h3><a name="t2"></a><a id="11__13"></a>1.1 利用<span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;特征向量\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="特征向量" data-pretit="特征向量">特征向量</span>寻找相似物品</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/f37fd1a64f714f3ebb16db85e44c1c3a.png" alt="[在此处插入图片1]"></p> 
+<p>协同过滤算法的一个强大副产品是，它为每个物品（如电影<code>i</code>）学习到了一个特征向量<code>x^(i)</code>。</p> 
+<ul><li><strong>特征的可解释性</strong>：虽然我们可能将这些特征维度想象成“浪漫”、“动作”等，但算法自动学习到的特征通常是抽象的，其具体含义很难直接解释。</li><li><strong>寻找相似物品</strong>：尽管特征难以解释，但它们在向量空间中的位置是有意义的。要找到与物品<code>i</code>相似的其他物品<code>k</code>，我们可以在特征空间中寻找与<code>x^(i)</code>最接近的向量<code>x^(k)</code>。</li><li><strong>计算方法</strong>：通过计算两个物品特征向量之间的<strong>欧氏距离的平方</strong> <code>||x^(k) - x^(i)||^2</code>。这个值最小的物品<code>k</code>，就是与物品<code>i</code>最相似的。</li></ul> 
+<h3><a name="t3"></a><a id="12__23"></a>1.2 协同过滤的局限性与混合方法</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/7dbc27b56f0548a0a265af1804d0cb5b.png" alt="[在此处插入图片2]"></p> 
+<p>传统的协同过滤算法存在一些固有的局限性，最主要的就是<strong>冷启动问题（Cold start problem）</strong>：</p> 
+<ul><li><strong>新物品问题</strong>：如何为一个几乎没有用户评分的新物品进行推荐？</li><li><strong>新用户问题</strong>：如何为一个几乎没有评分记录的新用户提供合理的推荐？</li></ul> 
+<p><strong>解决方案</strong>：引入<strong>额外信息（side information）<strong>来辅助推荐，这通常被称为</strong>混合推荐系统</strong>。</p> 
+<ul><li><strong>物品的额外信息</strong>：电影的类型、主演、制片公司等。</li><li><strong>用户的额外信息</strong>：用户的年龄、性别、地理位置等人口统计学信息，或用户明确表示的偏好。</li></ul> 
+<h3><a name="t4"></a><a id="13__36"></a>1.3 协同过滤与基于内容的过滤对比</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/50c63fefbbc54db08c080b2d6033934f.png" alt="[在此处插入图片3]"></p> 
+<p>让我们再次明确两种核心推荐思想的区别：</p> 
+<ul><li><strong>协同过滤 (Collaborative Filtering)</strong>：其核心是“协同”。它向你推荐物品，是基于那些<strong>与你品味相似的用户</strong>（即给出了与你相似评分的用户）也喜欢的物品。它不依赖于物品或用户的固有特征。</li><li><strong>基于内容的过滤 (Content-based Filtering)</strong>：其核心是“匹配”。它向你推荐物品，是基于<strong>用户特征和物品特征之间的匹配程度</strong>。它需要明确的特征作为输入。</li></ul> 
+<h3><a name="t5"></a><a id="14__45"></a>1.4 基于深度学习的推荐系统</h3> 
+<p>现代推荐系统通常会结合协同过滤和基于内容的思想，并利用深度学习来学习用户和物品的复杂特征表示。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/284345bacbaf4b02a7581f34c2eae922.png" alt="[在此处插入图片4]"></p> 
+<p><strong>1. 定义用户与物品特征</strong></p> 
+<ul><li>我们首先为用户和物品收集丰富的原始特征，形成<strong>用户特征向量<code>x_u</code><strong>和</strong>物品特征向量<code>x_m</code></strong>。</li><li><strong>用户特征示例</strong>：年龄、性别、国家、观看过的电影列表、对各类型电影的平均评分等。</li><li><strong>物品特征示例</strong>：年份、类型、影评文本、平均评分等。</li><li>这些原始特征向量的维度和类型都可以是多样的。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/a1fd0ae7e54c4b63b4b96c0ec9ad4460.png" alt="[在此处插入图片5]"></p> 
+<p><strong>2. 学习特征向量（Embedding）</strong></p> 
+<ul><li>之前，我们的预测是基于 <code>w^(j)•x^(i) + b^(j)</code>。现在，我们引入一个更强大的思路。</li><li>我们不再直接使用原始特征<code>x_u</code>和<code>x_m</code>，而是分别学习出两个新的、低维度的<strong>特征向量（或称嵌入向量, embedding）</strong>： 
+  <ul><li><code>v_u^(j)</code>：代表用户<code>j</code>的偏好，从原始用户特征<code>x_u^(j)</code>计算得出。</li><li><code>v_m^(i)</code>：代表电影<code>i</code>的属性，从原始电影特征<code>x_m^(i)</code>计算得出。</li></ul> </li><li>例如，学习到的<code>v_u</code>可能表示用户对“喜欢”的各种抽象概念的倾向，而<code>v_m</code>表示电影在“浪漫”、“动作”等抽象概念上的得分。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/cb122a25d5ec4119a2c5a9653b1ee27a.png" alt="[在此处插入图片6]"></p> 
+<p><strong>3. 神经网络架构</strong></p> 
+<ul><li>我们使用<strong>两个独立的神经网络</strong>来学习这两个嵌入向量： 
+  <ul><li><strong>用户网络 (User network)</strong>：输入是原始用户特征<code>x_u</code>，经过多层神经网络处理后，输出一个固定长度（例如32维）的嵌入向量<code>v_u</code>。</li><li><strong>物品网络 (Movie network)</strong>：输入是原始物品特征<code>x_m</code>，经过另一个独立的神经网络处理后，输出一个同样长度（32维）的嵌入向量<code>v_m</code>。</li></ul> </li><li><strong>预测</strong>：用户<code>j</code>对电影<code>i</code>的评分（或交互概率）可以通过计算两个嵌入向量的点积<code>v_u^(j) • v_m^(i)</code>来预测。对于二元分类问题，这个点积结果会被送入一个Sigmoid函数。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/f004641c7d0540a28c47cbe7af37c87d.png" alt="[在此处插入图片7]"></p> 
+<p><strong>4. 整体模型与代价函数</strong></p> 
+<ul><li>整个模型由用户网络、物品网络以及最后的点积预测层组成。</li><li><strong>代价函数</strong>： 
+  <ul><li><code>J = Σ [ (v_u^(j) • v_m^(i) - y(i,j))² ] + NN regularization term</code></li><li>代价函数的主体是所有已知评分的预测误差（例如均方误差）。求和 <code>Σ</code> 只对那些有评分的 <code>(i,j)</code> 对进行。</li><li>同时，还需要加上神经网络的正则化项（如L2正则化）来防止过拟合。</li></ul> </li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/731b1b9536c6402b82470ca86ab03ab2.png" alt="[在此处插入图片8]"></p> 
+<p><strong>5. 寻找相似物品</strong></p> 
+<ul><li>在模型训练完成后，我们得到了每个物品<code>i</code>的嵌入向量<code>v_m^(i)</code>。</li><li>与之前的协同过滤一样，我们可以通过计算嵌入向量之间的距离 <code>||v_m^(k) - v_m^(i)||^2</code> 来找到与物品<code>i</code>最相似的物品<code>k</code>。</li><li>由于这些计算不依赖于具体用户，可以<strong>预先计算并存储</strong>好所有物品之间的相似度，以便快速查询。</li></ul> 
+<h3><a name="t6"></a><a id="15__95"></a>1.5 大规模推荐系统：召回与排序</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/04521252083b43eea52aeffea075632f.png" alt="[在此处插入图片9]"></p> 
+<p>当物品库非常庞大时（例如上百万首歌曲或商品），为用户与每一个物品都计算一次预测得分是不可行的。工业界通常采用一个两阶段的流程。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/563697f57b2e4244a1f89574451edf81.png" alt="[在此处插入图片10]"></p> 
+<p><strong>第一阶段：召回 (Retrieval)</strong></p> 
+<ul><li><strong>目标</strong>：从海量的物品库中，快速筛选出一个规模较小（例如几百个）的<strong>候选物品列表</strong>。这个阶段追求的是“快”和“全”，即快速找出所有可能相关的物品，宁可错杀一千，不可放过一个。</li><li><strong>常用方法</strong>： 
+  <ol><li><strong>基于相似度的召回</strong>：例如，对于用户最近看过的10部电影，分别找出与它们最相似的10部电影。</li><li><strong>基于规则的召回</strong>：例如，找出用户最常看的3个电影类型中，排名最高的10部电影。</li><li><strong>其他策略</strong>：例如，推荐本地区的热门电影。</li></ol> </li><li>最后，将所有召回策略生成的物品合并，并移除用户已经看过或购买过的物品以及重复项。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/92a9c78fb76e48b89687d5352b989126.png" alt="[在此处插入图片11]"></p> 
+<p><strong>第二阶段：排序 (Ranking)</strong></p> 
+<ul><li><strong>目标</strong>：对召回阶段生成的几百个候选物品，使用我们训练好的、复杂的<strong>深度学习模型</strong>进行精准的预测打分。</li><li><strong>流程</strong>： 
+  <ol><li>将候选列表中的每一个物品，与当前用户的特征一起，输入到我们的双塔神经网络模型中。</li><li>模型会为每个候选物品计算出一个精确的预测得分（例如，用户喜欢的概率）。</li><li>根据这个得分对候选列表进行<strong>降序排序</strong>。</li><li>将排序最高的若干个物品展示给用户。</li></ol> </li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/3ed538107d034aa1ad052ef5634c0f45.png" alt="[在此处插入图片12]"></p> 
+<p><strong>召回与排序的权衡</strong></p> 
+<ul><li>召回的物品越多，最终推荐效果可能会越好，但排序阶段的计算成本也越高，导致推荐变慢。</li><li>为了优化这个权衡，可以进行<strong>离线实验</strong>，分析增加召回数量（例如从100增加到500）是否能显著提升最终推荐列表的质量（例如，预测<code>y=1</code>的物品比例是否更高）。</li></ul> 
+<h3><a name="t7"></a><a id="16_TensorFlow_131"></a>1.6 <span style="color: #3391E5" class="new-words-blog" data-href="https://marketing.csdn.net/questions/Q2604140858304426315?utm_source=glc" data-report-view="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://marketing.csdn.net/questions/Q2604140858304426315?utm_source=glc&quot;,&quot;extra&quot;:{&quot;wordId&quot;:142304,&quot;businessId&quot;:7,&quot;word&quot;:&quot;TensorFlow&quot;,&quot;blogTemplateId&quot;:4}}" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://marketing.csdn.net/questions/Q2604140858304426315?utm_source=glc&quot;,&quot;extra&quot;:{&quot;wordId&quot;:142304,&quot;businessId&quot;:7,&quot;word&quot;:&quot;TensorFlow&quot;,&quot;blogTemplateId&quot;:4}}" data-report-query="spm=1001.2101.3001.11407" data-tit="TensorFlow">
+              TensorFlow 
+              </span>实现概览</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/6a7da16ebc3d46fd86d6c7b8126cf05c.png" alt="[在此处插入图片13]"></p> 
+<p>使用TensorFlow中的<span style="color: #3391E5" class="new-words-blog" data-href="https://marketing.csdn.net/questions/Q2604140858304426315?utm_source=glc" data-report-view="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://marketing.csdn.net/questions/Q2604140858304426315?utm_source=glc&quot;,&quot;extra&quot;:{&quot;wordId&quot;:142306,&quot;businessId&quot;:7,&quot;word&quot;:&quot;Keras&quot;,&quot;blogTemplateId&quot;:4}}" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://marketing.csdn.net/questions/Q2604140858304426315?utm_source=glc&quot;,&quot;extra&quot;:{&quot;wordId&quot;:142306,&quot;businessId&quot;:7,&quot;word&quot;:&quot;Keras&quot;,&quot;blogTemplateId&quot;:4}}" data-report-query="spm=1001.2101.3001.11407" data-tit="Keras">
+              Keras 
+              </span> API可以模块化地、清晰地构建出我们所讨论的用于推荐系统的双塔神经网络模型。下面是一个详细的代码实现与解释。</p> 
+<p><strong>1. 定义基础网络 (User and Movie Networks)</strong></p> 
+<p>首先，我们为用户和电影分别定义独立的<span style="color: #4F46E5" class="new-words-blog" data-href="https://taotoken.net/?utm_source=blogglc" data-report-view="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://taotoken.net/?utm_source=blogglc&quot;,&quot;extra&quot;:{&quot;wordId&quot;:179202,&quot;businessId&quot;:6,&quot;word&quot;:&quot;神经网络&quot;,&quot;blogTemplateId&quot;:4}}" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://taotoken.net/?utm_source=blogglc&quot;,&quot;extra&quot;:{&quot;wordId&quot;:179202,&quot;businessId&quot;:6,&quot;word&quot;:&quot;神经网络&quot;,&quot;blogTemplateId&quot;:4}}" data-report-query="spm=1001.2101.3001.11407" data-tit="神经网络">
+              神经网络 <i style="background-image: url(https://i-operation.csdnimg.cn/images/7f533e06978e4b73acc2236e7daf01bd.png);" alt="神经网络" class="words-blog-icon"></i>
+              </span>。这两个网络的作用是将高维、异构的原始特征，转换为低维、稠密的嵌入向量 <code>v_u</code> 和 <code>v_m</code>。</p> 
+<pre data-index="0" class="new-version set-code-height set-code-hide prettyprint" name="code"><code class="prism language-python has-numbering" onclick="mdcp.signin(event)" style="position: unset;"><span class="token keyword">import</span> tensorflow <span class="token keyword">as</span> tf
+<span class="token keyword">from</span> tensorflow <span class="token keyword">import</span> keras
+
+<span class="token comment"># 定义用户网络的结构</span>
+user_NN <span class="token operator">=</span> tf<span class="token punctuation">.</span>keras<span class="token punctuation">.</span>models<span class="token punctuation">.</span>Sequential<span class="token punctuation">(</span><span class="token punctuation">[</span>
+    tf<span class="token punctuation">.</span>keras<span class="token punctuation">.</span>layers<span class="token punctuation">.</span>Dense<span class="token punctuation">(</span><span class="token number">256</span><span class="token punctuation">,</span> activation<span class="token operator">=</span><span class="token string">'relu'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    tf<span class="token punctuation">.</span>keras<span class="token punctuation">.</span>layers<span class="token punctuation">.</span>Dense<span class="token punctuation">(</span><span class="token number">128</span><span class="token punctuation">,</span> activation<span class="token operator">=</span><span class="token string">'relu'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    tf<span class="token punctuation">.</span>keras<span class="token punctuation">.</span>layers<span class="token punctuation">.</span>Dense<span class="token punctuation">(</span><span class="token number">32</span><span class="token punctuation">)</span>  <span class="token comment"># 输出32维的用户嵌入向量</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 定义物品(电影)网络的结构</span>
+item_NN <span class="token operator">=</span> tf<span class="token punctuation">.</span>keras<span class="token punctuation">.</span>models<span class="token punctuation">.</span>Sequential<span class="token punctuation">(</span><span class="token punctuation">[</span>
+    tf<span class="token punctuation">.</span>keras<span class="token punctuation">.</span>layers<span class="token punctuation">.</span>Dense<span class="token punctuation">(</span><span class="token number">256</span><span class="token punctuation">,</span> activation<span class="token operator">=</span><span class="token string">'relu'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    tf<span class="token punctuation">.</span>keras<span class="token punctuation">.</span>layers<span class="token punctuation">.</span>Dense<span class="token punctuation">(</span><span class="token number">128</span><span class="token punctuation">,</span> activation<span class="token operator">=</span><span class="token string">'relu'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    tf<span class="token punctuation">.</span>keras<span class="token punctuation">.</span>layers<span class="token punctuation">.</span>Dense<span class="token punctuation">(</span><span class="token number">32</span><span class="token punctuation">)</span>  <span class="token comment"># 输出32维的物品嵌入向量</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code><div class="opt-box"><button class="btn-code-notes mdeditor" style="background-image:url(https://i-operation.csdnimg.cn/images/7c0190c005ab41659100f583c0791aee.png);" data-report-view="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:0,&quot;ab&quot;:&quot;exp10&quot;}}" data-report-click="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:0,&quot;ab&quot;:&quot;exp10&quot;}}">AI代码解释</button><span class="code-language" data-language="python">python</span><div class="hljs-button signin active" data-title="登录复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4334&quot;}" onclick="mdcp.signin(event)"></div><span class="code-run-btn" data-idx="0" data-report-view="{&quot;spm&quot;:&quot;3001.10758&quot;,&quot;extra&quot;:{&quot;language&quot;:&quot;python&quot;, &quot;idx&quot;:&quot;0&quot;}}" data-language="python">运行</span></div><div class="hide-preCode-box"><span class="hide-preCode-bt" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.7365&quot;}"><img class="look-more-preCode contentImg-no-view" src="https://csdnimg.cn/release/blogv2/dist/pc/img/runCode/icon-arrowwhite.png" alt="" title=""></span></div><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li><li style="color: rgb(153, 153, 153);">14</li><li style="color: rgb(153, 153, 153);">15</li><li style="color: rgb(153, 153, 153);">16</li></ul></pre> 
+<p><strong>代码解释</strong>：</p> 
+<ul><li><code>tf.keras.models.Sequential([...])</code>: 我们使用<code>Sequential</code>模型来构建一个线性的层堆栈。这是一个简单快捷的建网方式。</li><li><code>tf.keras.layers.Dense(units, activation='relu')</code>: <code>Dense</code>层是全连接层，是标准的神经网络层。 
+  <ul><li>第一个参数（如<code>256</code>）是该层中的神经元数量。</li><li><code>activation='relu'</code> 指定使用ReLU作为激活函数，它能为模型引入非线性，增强模型的表达能力。</li></ul> </li><li><code>tf.keras.layers.Dense(32)</code>: 网络的最后一层不使用激活函数（或可视为使用线性激活）。它的输出就是我们最终想要的32维嵌入向量 <code>v_u</code> 或 <code>v_m</code>。</li></ul> 
+<p><strong>2. 构建完整的双塔模型</strong></p> 
+<p>接下来，我们将上述两个基础网络组合起来，构建一个接收用户和物品两路输入，并计算它们匹配度的完整模型。</p> 
+<pre data-index="1" class="new-version set-code-height set-code-hide prettyprint" name="code"><code class="prism language-python has-numbering" onclick="mdcp.signin(event)" style="position: unset;"><span class="token comment"># 1. 定义模型的输入层</span>
+num_user_features <span class="token operator">=</span> <span class="token number">100</span> <span class="token comment"># 假设用户原始特征有100维</span>
+num_item_features <span class="token operator">=</span> <span class="token number">80</span>  <span class="token comment"># 假设物品原始特征有80维</span>
+input_user <span class="token operator">=</span> tf<span class="token punctuation">.</span>keras<span class="token punctuation">.</span>layers<span class="token punctuation">.</span>Input<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">(</span>num_user_features<span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+input_item <span class="token operator">=</span> tf<span class="token punctuation">.</span>keras<span class="token punctuation">.</span>layers<span class="token punctuation">.</span>Input<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">(</span>num_item_features<span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 2. 将输入连接到对应的基础网络，得到嵌入向量</span>
+vu <span class="token operator">=</span> user_NN<span class="token punctuation">(</span>input_user<span class="token punctuation">)</span>
+vm <span class="token operator">=</span> item_NN<span class="token punctuation">(</span>input_item<span class="token punctuation">)</span>
+
+<span class="token comment"># (可选步骤) 对嵌入向量进行L2归一化，这有助于稳定训练</span>
+vu <span class="token operator">=</span> tf<span class="token punctuation">.</span>linalg<span class="token punctuation">.</span>l2_normalize<span class="token punctuation">(</span>vu<span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>
+vm <span class="token operator">=</span> tf<span class="token punctuation">.</span>linalg<span class="token punctuation">.</span>l2_normalize<span class="token punctuation">(</span>vm<span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 3. 计算两个嵌入向量的点积作为预测输出</span>
+output <span class="token operator">=</span> tf<span class="token punctuation">.</span>keras<span class="token punctuation">.</span>layers<span class="token punctuation">.</span>Dot<span class="token punctuation">(</span>axes<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">[</span>vu<span class="token punctuation">,</span> vm<span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 4. 定义完整的模型</span>
+model <span class="token operator">=</span> tf<span class="token punctuation">.</span>keras<span class="token punctuation">.</span>Model<span class="token punctuation">(</span>inputs<span class="token operator">=</span><span class="token punctuation">[</span>input_user<span class="token punctuation">,</span> input_item<span class="token punctuation">]</span><span class="token punctuation">,</span> outputs<span class="token operator">=</span>output<span class="token punctuation">)</span>
+
+<span class="token comment"># 5. 编译模型</span>
+model<span class="token punctuation">.</span><span class="token builtin">compile</span><span class="token punctuation">(</span>optimizer<span class="token operator">=</span>tf<span class="token punctuation">.</span>keras<span class="token punctuation">.</span>optimizers<span class="token punctuation">.</span>Adam<span class="token punctuation">(</span>learning_rate<span class="token operator">=</span><span class="token number">0.01</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+              loss<span class="token operator">=</span>tf<span class="token punctuation">.</span>keras<span class="token punctuation">.</span>losses<span class="token punctuation">.</span>MeanSquaredError<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code><div class="opt-box"><button class="btn-code-notes mdeditor" style="background-image:url(https://i-operation.csdnimg.cn/images/7c0190c005ab41659100f583c0791aee.png);" data-report-view="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:1,&quot;ab&quot;:&quot;exp10&quot;}}" data-report-click="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:1,&quot;ab&quot;:&quot;exp10&quot;}}">AI代码解释</button><span class="code-language" data-language="python">python</span><div class="hljs-button signin active" data-title="登录复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4334&quot;}" onclick="mdcp.signin(event)"></div><span class="code-run-btn" data-idx="1" data-report-view="{&quot;spm&quot;:&quot;3001.10758&quot;,&quot;extra&quot;:{&quot;language&quot;:&quot;python&quot;, &quot;idx&quot;:&quot;1&quot;}}" data-language="python">运行</span></div><div class="hide-preCode-box"><span class="hide-preCode-bt" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.7365&quot;}"><img class="look-more-preCode contentImg-no-view" src="https://csdnimg.cn/release/blogv2/dist/pc/img/runCode/icon-arrowwhite.png" alt="" title=""></span></div><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li><li style="color: rgb(153, 153, 153);">14</li><li style="color: rgb(153, 153, 153);">15</li><li style="color: rgb(153, 153, 153);">16</li><li style="color: rgb(153, 153, 153);">17</li><li style="color: rgb(153, 153, 153);">18</li><li style="color: rgb(153, 153, 153);">19</li><li style="color: rgb(153, 153, 153);">20</li><li style="color: rgb(153, 153, 153);">21</li><li style="color: rgb(153, 153, 153);">22</li><li style="color: rgb(153, 153, 153);">23</li></ul></pre> 
+<p><strong>代码解释</strong>：</p> 
+<ul><li><code>tf.keras.layers.Input(shape=...)</code>: 我们使用<code>Input</code>层来定义模型期望接收的数据的形状。这里我们定义了两个独立的输入：一个给用户特征，一个给物品特征。</li><li><code>vu = user_NN(input_user)</code>: 这被称为函数式API的用法。我们将<code>input_user</code>这个“符号张量”作为输入，传递给之前定义好的<code>user_NN</code>网络，其输出<code>vu</code>就是用户嵌入向量。</li><li><code>tf.linalg.l2_normalize(...)</code>: 这一步对嵌入向量进行L2归一化，使其长度变为1。这样做可以使模型更关注向量的<strong>方向</strong>（代表偏好或属性的方向）而不是其<strong>大小</strong>，有时能提升模型性能。</li><li><code>tf.keras.layers.Dot(axes=1)</code>: <code>Dot</code>层专门用于计算输入的点积。<code>axes=1</code>指定沿着特征维度进行点积运算。我们将<code>vu</code>和<code>vm</code>作为列表传入，该层会计算它们的点积，其结果就是模型的最终预测评分。</li><li><code>tf.keras.Model(...)</code>: 我们使用<code>Model</code>类来定义一个具有多输入、单输出的复杂模型。<code>inputs</code>参数接收一个输入列表，<code>outputs</code>参数指定模型的最终输出。</li><li><code>model.compile(...)</code>: 在训练之前，我们必须“编译”模型。 
+  <ul><li><code>optimizer</code>: 指定用于更新模型参数的优化算法，<code>Adam</code>是一个常用且高效的选择。</li><li><code>loss</code>: 指定代价函数。对于评分预测这样的回归任务，<code>MeanSquaredError</code>（均方误差）是一个标准的选择。</li></ul> </li></ul> 
+<h2><a name="t8"></a><a id="_PCA_209"></a>二 降维与主成分分析(<span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;PCA\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="PCA" data-pretit="pca">PCA</span>)</h2> 
+<p>现在我们转向另一个重要的无监督学习主题：<strong>降维（Dimensionality Reduction）</strong>。</p> 
+<h3><a name="t9"></a><a id="21__213"></a>2.1 降维的动机</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/dc33232bc1204c25acc67dc95ba1d998.png" alt="[在此处插入图片14]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/9baa8011b41744d8bfefe1d31abf9f23.png" alt="[在此处插入图片15]"></p> 
+<p>在很多数据集中，特征之间存在高度的相关性或冗余。</p> 
+<ul><li>例如，在汽车测量数据中，特征<code>x₁</code>（车长）和<code>x₂</code>（车宽）都反映了汽车的“大小”。<code>x₁</code>的变化范围远大于<code>x₂</code>。如果目标是减少特征数量，一个简单粗暴的方法是直接丢掉方差较小的特征<code>x₂</code>，只保留<code>x₁</code>。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/3f45b1aec76e46f58632351ede87e3cb.png" alt="[在此处插入图片16]"></p> 
+<ul><li>然而，直接丢弃特征会损失信息。一个更好的方法是<strong>创造一个新的特征<code>z</code></strong>，它能同时捕捉<code>x₁</code>（长度）和<code>x₂</code>（高度）的信息。例如，我们可以找到一个新的<code>z</code>轴，它代表了汽车的整体“尺寸”。这样，我们就成功地将2个特征压缩为了1个特征。</li><li><strong>降维的目标</strong>：用更少的特征来表示数据，同时尽可能多地保留原始数据中的信息。</li></ul> 
+<h3><a name="t10"></a><a id="22_PCA_230"></a>2.2 PCA的应用：数据可视化</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/b9f34f07b2044feeb10083b3addee763.png" alt="[在此处插入图片17]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/3a8b84298f8e41bab3aefa21d362de48.png" alt="[在此处插入图片18]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/b8ff1d6ac7a647b2bb9cb6fa8cdc4572.png" alt="[在此处插入图片19]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/2240e6f62eab4643bc26f1f5ccee0a49.png" alt="[在此处插入图片20]"></p> 
+<p>降维的一个主要应用是<strong>数据可视化</strong>。</p> 
+<ul><li>人类的视觉系统很难理解超过三维的数据。</li><li>如果我们的数据集有50个特征，我们无法直接将其画出来。</li><li>通过使用降维算法（如PCA），我们可以将50个特征压缩为2个新的特征<code>z₁</code>和<code>z₂</code>。</li><li>然后，我们可以在一个二维平面上绘制这些新的<code>(z₁, z₂)</code>坐标，从而观察数据的分布、聚类和异常点，获得对高维数据的直观理解。</li></ul> 
+<h3><a name="t11"></a><a id="23__PCA__250"></a>2.3 主成分分析 (PCA) 算法</h3> 
+<p>PCA是最常用和最基础的降维算法。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/d199b3a40d404037ac489321e822eed1.png" alt="[在此处插入图片21]"></p> 
+<p><strong>1. 数据预处理</strong></p> 
+<ul><li>在运行PCA之前，必须对数据进行预处理。</li><li><strong>均值归一化 (Mean normalization)</strong>：将每个特征的均值调整为0。</li><li><strong>特征缩放 (Feature scaling)</strong>：将每个特征的取值范围缩放到相似的区间。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/b18a65b6f37a4a768b3d20dc26b4259e.png" alt="[在此处插入图片22]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/7afb56cb0c4e441a92fe200b71fd97f1.png" alt="[在此处插入图片23]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/aba45fcc7d194195826fb6e5ef445705.png" alt="[在此处插入图片24]"></p> 
+<p><strong>2. 寻找主成分</strong></p> 
+<ul><li>PCA的核心思想是，寻找一个新的坐标轴（或方向），称为<strong>主成分（Principal Component）</strong>。</li><li>这个主成分的方向被选择为能使原始数据<strong>投影（project）<strong>到该轴上后，投影点的</strong>方差最大</strong>的方向。</li><li><strong>最大化方差的意义</strong>：方差越大，意味着数据点在投影后散布得越开，这等同于保留了原始数据中最多的信息。如果投影后所有点都挤在一起（方差小），则意味着大量原始信息丢失了。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/34489fffb2154914b224d535149e9d2a.png" alt="[在此处插入图片25]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/2658b4a228ea48f391f8597ffbcebe8e.png" alt="[在此处插入图片26]"></p> 
+<p><strong>3. 计算新坐标</strong></p> 
+<ul><li>找到了主成分轴（由一个单位向量表示）后，原始数据点 <code>x</code> 在这个新轴上的坐标 <code>z</code>，可以通过计算 <code>x</code> 与该单位向量的<strong>点积（dot product</strong>得到。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/4c4f34ea6f1a461fae22ba3e5e53bafc.png" alt="[在此处插入图片27]"></p> 
+<p><strong>4. 多个主成分</strong></p> 
+<ul><li>如果想将数据降到<code>k</code>维，PCA会找到<code>k</code>个相互<strong>正交（perpendicular</strong>的主成分。</li><li><strong>第一个主成分 <code>z₁</code></strong> 是最大化投影方差的方向。</li><li><strong>第二个主成分 <code>z₂</code></strong> 是在与<code>z₁</code>正交的所有方向中，最大化投影方差的方向，以此类推。</li></ul> 
+<h3><a name="t12"></a><a id="24_PCA_293"></a>2.4 PCA与<span style="color: #FC5531" class="new-words-blog" data-href="https://so.csdn.net/so/search?q=线性" data-report-view="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://so.csdn.net/so/search?q=线性&quot;,&quot;extra&quot;:{&quot;wordId&quot;:5319,&quot;businessId&quot;:1,&quot;word&quot;:&quot;线性&quot;,&quot;blogTemplateId&quot;:4}}" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://so.csdn.net/so/search?q=线性&quot;,&quot;extra&quot;:{&quot;wordId&quot;:5319,&quot;businessId&quot;:1,&quot;word&quot;:&quot;线性&quot;,&quot;blogTemplateId&quot;:4}}" data-report-query="spm=1001.2101.3001.11407" data-tit="线性">
+              线性 <i style="background-image: url(https://i-operation.csdnimg.cn/images/e7c3df7a602f4267be505af7ecfc3f88.png);" alt="线性" class="words-blog-icon"></i>
+              </span>回归的区别</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/04d66592def542d8a945b95292889b0e.png" alt="[在此处插入图片28]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/0c2ff5037c3c4d71996029fa422e7dc1.png" alt="[在此处插入图片29]"></p> 
+<p>PCA有时会被误认为是线性回归，但它们是完全不同的算法。</p> 
+<ul><li><strong>线性回归</strong>： 
+  <ul><li>是一个<strong>监督学习</strong>算法，有输入<code>x</code>和输出<code>y</code>。</li><li>目标是找到一条线，最小化预测值与真实值<code>y</code>之间的<strong>垂直距离</strong>（预测误差）。</li></ul> </li><li><strong>PCA</strong>： 
+  <ul><li>是一个<strong>无监督学习</strong>算法，只有输入数据<code>x</code>，没有<code>y</code>。</li><li>目标是找到一个低维度的子空间（由主成分轴定义），最小化原始数据点到这个子空间的<strong>正交投影距离</strong>，其等价于最大化投影后的方差。</li></ul> </li></ul> 
+<h3><a name="t13"></a><a id="25__309"></a>2.5 数据重建与实践</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/a7f1427413ff452d8485b81a81ca5bbd.png" alt="[在此处插入图片30]"></p> 
+<p><strong>从低维重建高维数据</strong></p> 
+<ul><li>降维是一个有信息损失的过程，但我们也可以从降维后的坐标<code>z</code>近似地<strong>重建（reconstruct</strong>出原始的高维坐标。</li><li>方法是将降维后的坐标值<code>z</code>乘以其对应的主成分单位向量。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/a6c405d6a65c407eaa8f297d688b234c.png" alt="[在此处插入图片31]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/12fb169ccdc44a9595906d3226c4b16f.png" alt="[在此处插入图片32]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/709dadf836ae4fef8fabc1ac01ed4644.png" alt="[在此处插入图片33]"></p> 
+<p><span style="color: #3391E5" class="new-words-blog" data-href="https://marketing.csdn.net/questions/Q2604140858304426315?utm_source=glc" data-report-view="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://marketing.csdn.net/questions/Q2604140858304426315?utm_source=glc&quot;,&quot;extra&quot;:{&quot;wordId&quot;:142307,&quot;businessId&quot;:7,&quot;word&quot;:&quot;Scikit-learn&quot;,&quot;blogTemplateId&quot;:4}}" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://marketing.csdn.net/questions/Q2604140858304426315?utm_source=glc&quot;,&quot;extra&quot;:{&quot;wordId&quot;:142307,&quot;businessId&quot;:7,&quot;word&quot;:&quot;Scikit-learn&quot;,&quot;blogTemplateId&quot;:4}}" data-report-query="spm=1001.2101.3001.11407" data-tit="Scikit-learn">
+              Scikit-learn 
+              </span>库提供了非常易于使用的PCA实现。下面我们将通过一个具体的例子，来展示如何使用它，并详细解释每一步的含义和结果。</p> 
+<p><strong>准备工作与数据</strong></p> 
+<p>首先，导入必要的库并创建示例数据。</p> 
+<pre data-index="2" class="new-version set-code-show prettyprint" name="code"><code class="prism language-python has-numbering" onclick="mdcp.signin(event)" style="position: unset;"><span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
+<span class="token keyword">from</span> sklearn<span class="token punctuation">.</span>decomposition <span class="token keyword">import</span> PCA
+
+<span class="token comment"># 创建一个2D的示例数据集X，包含6个样本点</span>
+X <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> 
+              <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code><div class="opt-box"><button class="btn-code-notes mdeditor" style="background-image:url(https://i-operation.csdnimg.cn/images/7c0190c005ab41659100f583c0791aee.png);" data-report-view="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:2,&quot;ab&quot;:&quot;exp10&quot;}}" data-report-click="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:2,&quot;ab&quot;:&quot;exp10&quot;}}">AI代码解释</button><span class="code-language" data-language="python">python</span><div class="hljs-button signin active" data-title="登录复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4334&quot;}" onclick="mdcp.signin(event)"></div><span class="code-run-btn" data-idx="2" data-report-view="{&quot;spm&quot;:&quot;3001.10758&quot;,&quot;extra&quot;:{&quot;language&quot;:&quot;python&quot;, &quot;idx&quot;:&quot;2&quot;}}" data-language="python">运行</span></div><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li></ul></pre> 
+<p><strong>案例1：将数据从2D降至1D</strong></p> 
+<p>我们的目标是找到一个最佳的一维直线来表示这6个点。</p> 
+<pre data-index="3" class="new-version set-code-height set-code-hide prettyprint" name="code"><code class="prism language-python has-numbering" onclick="mdcp.signin(event)" style="position: unset;"><span class="token comment"># 1. 初始化PCA模型，指定要降到的维度 n_components=1</span>
+pca_1 <span class="token operator">=</span> PCA<span class="token punctuation">(</span>n_components<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 2. 拟合数据：让PCA算法学习数据的结构</span>
+pca_1<span class="token punctuation">.</span>fit<span class="token punctuation">(</span>X<span class="token punctuation">)</span>
+
+<span class="token comment"># 3. 查看方差解释比例</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Explained variance ratio (1 component): </span><span class="token interpolation"><span class="token punctuation">{<!-- --></span>pca_1<span class="token punctuation">.</span>explained_variance_ratio_<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 4. 转换数据：将原始数据投影到新的1D主成分轴上</span>
+X_trans_1 <span class="token operator">=</span> pca_1<span class="token punctuation">.</span>transform<span class="token punctuation">(</span>X<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Transformed data (1D):\n"</span><span class="token punctuation">,</span> X_trans_1<span class="token punctuation">)</span>
+
+<span class="token comment"># 5. (可选) 重建数据：从1D数据近似恢复回2D</span>
+X_reconstructed_1 <span class="token operator">=</span> pca_1<span class="token punctuation">.</span>inverse_transform<span class="token punctuation">(</span>X_trans_1<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Reconstructed data from 1D:\n"</span><span class="token punctuation">,</span> X_reconstructed_1<span class="token punctuation">)</span>
+</code><div class="opt-box"><button class="btn-code-notes mdeditor" style="background-image:url(https://i-operation.csdnimg.cn/images/7c0190c005ab41659100f583c0791aee.png);" data-report-view="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:3,&quot;ab&quot;:&quot;exp10&quot;}}" data-report-click="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:3,&quot;ab&quot;:&quot;exp10&quot;}}">AI代码解释</button><span class="code-language" data-language="python">python</span><div class="hljs-button signin active" data-title="登录复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4334&quot;}" onclick="mdcp.signin(event)"></div><span class="code-run-btn" data-idx="3" data-report-view="{&quot;spm&quot;:&quot;3001.10758&quot;,&quot;extra&quot;:{&quot;language&quot;:&quot;python&quot;, &quot;idx&quot;:&quot;3&quot;}}" data-language="python">运行</span></div><div class="hide-preCode-box"><span class="hide-preCode-bt" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.7365&quot;}"><img class="look-more-preCode contentImg-no-view" src="https://csdnimg.cn/release/blogv2/dist/pc/img/runCode/icon-arrowwhite.png" alt="" title=""></span></div><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li><li style="color: rgb(153, 153, 153);">14</li><li style="color: rgb(153, 153, 153);">15</li><li style="color: rgb(153, 153, 153);">16</li></ul></pre> 
+<p><strong>代码解释与结果分析</strong>：</p> 
+<ul><li><code>pca_1 = PCA(n_components=1)</code>: 创建一个PCA类的实例。<code>n_components=1</code>告诉算法，我们的目标是找到1个主成分，即将数据降到1维。</li><li><code>pca_1.fit(X)</code>: 这是PCA的核心步骤。<code>.fit()</code>方法会执行以下操作： 
+  <ul><li>对数据<code>X</code>进行均值归一化。</li><li>计算数据的协方差矩阵。</li><li>找到能最大化数据投影后方差的那个方向（即第一个主成分），并将其存储在对象内部。</li></ul> </li><li><code>pca_1.explained_variance_ratio_</code>: 这是一个非常有用的属性。它返回一个列表，表示每个主成分所能解释的原始数据方差的比例。 
+  <ul><li>输出 <code>[0.992]</code> 意味着我们找到的这<strong>一个主成分就捕捉了原始2D数据中99.2%的信息（方差）</strong>。这是一个非常高的比例，说明降到1维是合理且有效的。</li></ul> </li><li><code>X_trans_1 = pca_1.transform(X)</code>: <code>.transform()</code>方法使用已经拟合好的主成分，将原始数据<code>X</code>的每个点都投影到这个新的1D轴上。 
+  <ul><li>输出 <code>X_trans_1</code> 是一个 <code>(6, 1)</code> 的数组，每一行只有一个数值，这个数值就是原始2D点在新1D坐标系中的坐标。</li></ul> </li><li><code>X_reconstructed_1 = pca_1.inverse_transform(X_trans_1)</code>: <code>.inverse_transform()</code>是一个逆向操作。它将1D的坐标“投射”回原始的2D空间。 
+  <ul><li>输出 <code>X_reconstructed_1</code> 是一个 <code>(6, 2)</code> 的数组。注意，它只是原始数据<code>X</code>的一个<strong>近似</strong>，因为在降维过程中，那0.8%的方差信息已经丢失了。所有重建后的点都精确地落在那条由第一个主成分定义的直线上。</li></ul> </li></ul> 
+<p><strong>案例2：将数据从2D转换到新的2D坐标系</strong></p> 
+<p>当<code>n_components</code>等于原始数据的维度时，PCA不会减少维度，而是会找到一组新的正交基（坐标系），即所有主成分。</p> 
+<pre data-index="4" class="new-version set-code-height set-code-hide prettyprint" name="code"><code class="prism language-python has-numbering" onclick="mdcp.signin(event)" style="position: unset;"><span class="token comment"># 1. 初始化PCA模型，n_components=2</span>
+pca_2 <span class="token operator">=</span> PCA<span class="token punctuation">(</span>n_components<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 2. 拟合数据</span>
+pca_2<span class="token punctuation">.</span>fit<span class="token punctuation">(</span>X<span class="token punctuation">)</span>
+
+<span class="token comment"># 3. 查看方差解释比例</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Explained variance ratio (2 components): </span><span class="token interpolation"><span class="token punctuation">{<!-- --></span>pca_2<span class="token punctuation">.</span>explained_variance_ratio_<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 4. 转换数据到新的2D坐标系</span>
+X_trans_2 <span class="token operator">=</span> pca_2<span class="token punctuation">.</span>transform<span class="token punctuation">(</span>X<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Transformed data (2D):\n"</span><span class="token punctuation">,</span> X_trans_2<span class="token punctuation">)</span>
+</code><div class="opt-box"><button class="btn-code-notes mdeditor" style="background-image:url(https://i-operation.csdnimg.cn/images/7c0190c005ab41659100f583c0791aee.png);" data-report-view="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:4,&quot;ab&quot;:&quot;exp10&quot;}}" data-report-click="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:4,&quot;ab&quot;:&quot;exp10&quot;}}">AI代码解释</button><span class="code-language" data-language="python">python</span><div class="hljs-button signin active" data-title="登录复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4334&quot;}" onclick="mdcp.signin(event)"></div><span class="code-run-btn" data-idx="4" data-report-view="{&quot;spm&quot;:&quot;3001.10758&quot;,&quot;extra&quot;:{&quot;language&quot;:&quot;python&quot;, &quot;idx&quot;:&quot;4&quot;}}" data-language="python">运行</span></div><div class="hide-preCode-box"><span class="hide-preCode-bt" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.7365&quot;}"><img class="look-more-preCode contentImg-no-view" src="https://csdnimg.cn/release/blogv2/dist/pc/img/runCode/icon-arrowwhite.png" alt="" title=""></span></div><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li></ul></pre> 
+<p><strong>代码解释与结果分析</strong>：</p> 
+<ul><li><code>pca_2 = PCA(n_components=2)</code>: 创建PCA实例，目标是找到2个主成分。</li><li><code>pca_2.explained_variance_ratio_</code>: 
+  <ul><li>输出 <code>[0.992, 0.008]</code> (数值可能略有不同) 意味着： 
+    <ul><li>第一个主成分（新坐标系的<code>z₁</code>轴）解释了99.2%的方差。</li><li>第二个主成分（新坐标系的<code>z₂</code>轴，与<code>z₁</code>正交）解释了剩余的0.8%的方差。</li></ul> </li></ul> </li><li><code>X_trans_2 = pca_2.transform(X)</code>: 
+  <ul><li>输出 <code>X_trans_2</code> 是一个 <code>(6, 2)</code> 的数组。这不再是降维，而是对原始数据的一次<strong>坐标系旋转</strong>。</li><li>第一列是每个点在<code>z₁</code>轴上的坐标，第二列是每个点在<code>z₂</code>轴上的坐标。因为没有信息丢失，这次的<code>inverse_transform</code>可以完美地恢复出原始数据<code>X</code>。</li></ul> </li></ul> 
+<h3><a name="t14"></a><a id="26_PCA_408"></a>2.6 PCA的应用总结</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/066d73479f8a4f1c918c67fda2b725dd.png" alt="[在此处插入图片34]"></p> 
+<p>PCA的主要应用场景：</p> 
+<ul><li><strong>数据可视化</strong>：将数据降至2维或3维进行绘图，是其最主要和最可靠的应用。</li><li><strong>数据压缩</strong>：将数据降维以减少存储空间或传输成本。</li><li><strong>加速监督学习</strong>：在将数据喂给一个监督学习模型之前，先用PCA进行降维，可以减少模型的训练时间。但这种做法需要谨慎，应优先考虑在原始数据上训练，只有在性能瓶颈确实存在时才尝试使用PCA。</li></ul>
+        </div><div data-report-view="{&quot;mod&quot;:&quot;1585297308_001&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6548&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/2502_90283908/article/details/154443828&quot;,&quot;extend1&quot;:&quot;pc&quot;,&quot;ab&quot;:&quot;new&quot;}"><div></div></div>
+        <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-e1cc28b339.css" rel="stylesheet">
+        <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-d1e89cace4.css" rel="stylesheet">
+    </div>

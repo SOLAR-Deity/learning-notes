@@ -1,0 +1,1019 @@
+<div id="article_content" class="article_content clearfix">
+      <style>
+        /* MD / 富文本中的 .toc（含博客园搬家等嵌套结构）；.toc-box 在侧栏，不受影响 */
+        #content_views .toc,
+        /* 编辑器常在目录前后插入空 p（:empty 仍占 20px），一并去掉避免顶空隙 */
+        #content_views.markdown_views > p:empty:has(+ .toc),
+        #content_views.markdown_views > .toc + p:empty,
+        /* 富文本旧版目录标记 */
+        #content_views.htmledit_views #main-toc,
+        #content_views.htmledit_views #hr-toc,
+        #content_views.htmledit_views p[id*="-toc"] {
+          display: none !important;
+        }
+        /* 目录去掉后，紧跟的首个标题不再多出一块上边距 */
+        #content_views.markdown_views > .toc + h1,
+        #content_views.markdown_views > .toc + h2,
+        #content_views.markdown_views > .toc + h3,
+        #content_views.markdown_views > .toc + h4,
+        #content_views.markdown_views > .toc + p:empty + h1,
+        #content_views.markdown_views > .toc + p:empty + h2,
+        #content_views.markdown_views > .toc + p:empty + h3,
+        #content_views.markdown_views > .toc + p:empty + h4 {
+          margin-top: 0 !important;
+        }
+      </style>
+      <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/kdoc_html_views-1a98987dfd.css">
+      <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-a50b13a894.css">
+        <div id="content_views" class="markdown_views prism-atom-one-dark">
+          <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+          </svg>
+          <p></p>
+<div class="toc">
+ <h4><a name="t0"></a>文章目录</h4>
+ <ul><li><a href="#_Activation_Functions_10" target="_self">激活函数 (Activation Functions)</a></li><li><ul><li><a href="#_14" target="_self">激活函数的作用：需求预测实例</a></li><li><a href="#_28" target="_self">常见激活函数</a></li><li><a href="#_40" target="_self">如何为网络的每一层选择激活函数</a></li><li><ul><li><a href="#_Output_Layer__44" target="_self">输出层 (Output Layer) 的选择</a></li><li><a href="#_Hidden_Layer__55" target="_self">隐藏层 (Hidden Layer) 的选择</a></li></ul>
+   </li><li><a href="#_TensorFlow__66" target="_self">选择策略总结与 TensorFlow 代码实践</a></li><li><a href="#_95" target="_self">非线性激活函数的必要性</a></li></ul>
+  </li><li><a href="#Softmax_115" target="_self">Softmax回归与多分类</a></li><li><ul><li><a href="#_Multiclass_Classification_119" target="_self">多分类问题 (Multiclass Classification)</a></li><li><a href="#Softmax__131" target="_self">Softmax 回归原理</a></li><li><a href="#Softmax__144" target="_self">Softmax 的损失函数：交叉熵</a></li><li><a href="#_Softmax__155" target="_self">将 Softmax 集成到神经网络</a></li></ul>
+  </li><li><a href="#TensorFlow_166" target="_self">TensorFlow实现与数值稳定性</a></li><li><ul><li><a href="#_170" target="_self">一个有风险的初步实现</a></li><li><a href="#_Numerical_Roundoff_Errors_188" target="_self">数值舍入误差 (Numerical Roundoff Errors)</a></li><li><a href="#from_logitsTrue_200" target="_self">使用from_logits=True提升数值稳定性</a></li><li><a href="#_212" target="_self">最终推荐的代码实现</a></li></ul>
+  </li><li><a href="#_248" target="_self">扩展主题</a></li><li><ul><li><a href="#_Multilabel_Classification_250" target="_self">多标签分类 (Multi-label Classification)</a></li><li><a href="#Adam__264" target="_self">Adam 优化算法</a></li><li><a href="#_292" target="_self">神经网络架构与导数基础</a></li><li><ul><li><a href="#_vs__294" target="_self">全连接层 vs. 卷积层</a></li><li><a href="#_311" target="_self">导数的直观定义</a></li><li><a href="#_Backpropagation__339" target="_self">反向传播 (Backpropagation) 简介</a></li></ul>
+  </li></ul>
+  </li><li><a href="#_364" target="_self">总结</a></li></ul>
+</div>
+<p></p> 
+<hr> 
+<p><em>视频链接</em><br> <a href="%E3%80%90%E3%80%90%E5%AE%98%E6%96%B9%E4%B8%AD%E8%8B%B1%E3%80%912025%E5%B9%B4%E5%85%AC%E8%AE%A4%E6%9C%80%E5%A5%BD%E7%9A%84%E3%80%90%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%AF%BE%E7%A8%8B%E3%80%91%E9%99%84%E8%AF%BE%E4%BB%B6%E3%80%81%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE%EF%BC%81%EF%BC%81%EF%BC%81--%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%91%20https://www.bilibili.com/video/BV1owrpYKEtP/?p=70&amp;share_source=copy_web&amp;vd_source=f084482bdc948a56dc505d2067a9fd4f" rel="nofollow">吴恩达机器学习p57-69</a></p> 
+<hr> 
+<h2><a name="t1"></a><a id="_Activation_Functions_10"></a>激活函数 (Activation Functions)</h2> 
+<p>激活函数是神经网络的核心组成部分，它为模型引入了非线性表达能力，这是神经网络能够学习复杂模式的基础。</p> 
+<h3><a name="t2"></a><a id="_14"></a>激活函数的作用：需求预测实例</h3> 
+<p>我们通过一个“需求预测”的例子来理解激活函数在神经网络中的具体作用。模型的输入是商品特征，如价格（price）、运费（shipping cost）等。隐藏层的作用是学习更抽象的特征，如“支付能力（affordability）”和“品牌认知度（awareness）”。<br> <img src="https://i-blog.csdnimg.cn/direct/9726d5d10e20439fa43e9c2b62d24799.png" alt="请添加图片描述"></p> 
+<p>单个神经元的计算过程包含两个步骤：</p> 
+<ol><li><strong>线性计算</strong>：输入与权重进行加权求和，并加上偏置，得到 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         z
+        
+        
+         =
+        
+        
+         
+          w
+         
+         
+          ⃗
+         
+        
+        
+         ⋅
+        
+        
+         
+          x
+         
+         
+          ⃗
+         
+        
+        
+         +
+        
+        
+         b
+        
+       
+       
+        z = \vec{w} \cdot \vec{x} + b
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.4306em;"></span><span class="mord mathnormal" style="margin-right: 0.044em;">z</span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 0.714em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.714em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord mathnormal" style="margin-right: 0.0269em;">w</span></span><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="accent-body" style="left: -0.1522em;"><span class="overlay" style="height: 0.714em; width: 0.471em;">
+             <svg width="0.471em" height="0.714em" style="width:0.471em" viewBox="0 0 471 714" preserveAspectRatio="xMinYMin">
+              <path d="M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5
+3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11
+10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63
+-1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1
+-7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
+H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
+c-16-25.333-24-45-24-59z"></path>
+             </svg></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.7973em; vertical-align: -0.0833em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.714em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord mathnormal">x</span></span><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="accent-body" style="left: -0.2077em;"><span class="overlay" style="height: 0.714em; width: 0.471em;">
+             <svg width="0.471em" height="0.714em" style="width:0.471em" viewBox="0 0 471 714" preserveAspectRatio="xMinYMin">
+              <path d="M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5
+3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11
+10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63
+-1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1
+-7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
+H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
+c-16-25.333-24-45-24-59z"></path>
+             </svg></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.6944em;"></span><span class="mord mathnormal">b</span></span></span></span></span>。</li><li><strong>激活计算</strong>：将线性结果 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         z
+        
+       
+       
+        z
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.4306em;"></span><span class="mord mathnormal" style="margin-right: 0.044em;">z</span></span></span></span></span> 输入激活函数 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         g
+        
+       
+       
+        g
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.625em; vertical-align: -0.1944em;"></span><span class="mord mathnormal" style="margin-right: 0.0359em;">g</span></span></span></span></span>，得到输出 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         a
+        
+        
+         =
+        
+        
+         g
+        
+        
+         (
+        
+        
+         z
+        
+        
+         )
+        
+       
+       
+        a = g(z)
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.4306em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.0359em;">g</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right: 0.044em;">z</span><span class="mclose">)</span></span></span></span></span>。</li></ol> 
+<p>图右侧展示了两种关键的激活函数：</p> 
+<ul><li><strong>Sigmoid 函数</strong>：<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         g
+        
+        
+         (
+        
+        
+         z
+        
+        
+         )
+        
+        
+         =
+        
+        
+         
+          1
+         
+         
+          
+           1
+          
+          
+           +
+          
+          
+           
+            e
+           
+           
+            
+             −
+            
+            
+             z
+            
+           
+          
+         
+        
+       
+       
+        g(z) = \frac{1}{1+e^{-z}}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.0359em;">g</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right: 0.044em;">z</span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 1.2484em; vertical-align: -0.4033em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.8451em;"><span class="" style="top: -2.655em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mbin mtight">+</span><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.7027em;"><span class="" style="top: -2.786em; margin-right: 0.0714em;"><span class="pstrut" style="height: 2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight" style="margin-right: 0.044em;">z</span></span></span></span></span></span></span></span></span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.394em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.4033em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>，将输出压缩到 (0, 1) 区间，常用于表示概率。</li><li><strong>ReLU (Rectified Linear Unit)</strong>：<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         g
+        
+        
+         (
+        
+        
+         z
+        
+        
+         )
+        
+        
+         =
+        
+        
+         max
+        
+        
+         ⁡
+        
+        
+         (
+        
+        
+         0
+        
+        
+         ,
+        
+        
+         z
+        
+        
+         )
+        
+       
+       
+        g(z) = \max(0, z)
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.0359em;">g</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right: 0.044em;">z</span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mop">max</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.1667em;"></span><span class="mord mathnormal" style="margin-right: 0.044em;">z</span><span class="mclose">)</span></span></span></span></span>，当输入为正时原样输出，为负时输出0，计算效率高。</li></ul> 
+<h3><a name="t3"></a><a id="_28"></a>常见激活函数</h3> 
+<p>除了Sigmoid和ReLU，线性激活函数也是一个基础选项。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/bc39310c816c48a5a236762b8db9180f.png" alt="[在这里插入图片2]"></p> 
+<p>上图汇总了三种基本激活函数：</p> 
+<ul><li><strong>线性激活函数 (Linear activation function)</strong>：表达式为 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         g
+        
+        
+         (
+        
+        
+         z
+        
+        
+         )
+        
+        
+         =
+        
+        
+         z
+        
+       
+       
+        g(z) = z
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.0359em;">g</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right: 0.044em;">z</span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 0.4306em;"></span><span class="mord mathnormal" style="margin-right: 0.044em;">z</span></span></span></span></span>，即输入等于输出，也被称为“无激活函数”。</li><li><strong>Sigmoid 激活函数</strong>：S形曲线，输出范围 (0, 1)。</li><li><strong>ReLU 激活函数</strong>：在 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         z
+        
+        
+         ≥
+        
+        
+         0
+        
+       
+       
+        z \ge 0
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.7719em; vertical-align: -0.136em;"></span><span class="mord mathnormal" style="margin-right: 0.044em;">z</span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 0.6444em;"></span><span class="mord">0</span></span></span></span></span> 时为线性，在 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         z
+        
+        
+         &lt;
+        
+        
+         0
+        
+       
+       
+        z &lt; 0
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.5782em; vertical-align: -0.0391em;"></span><span class="mord mathnormal" style="margin-right: 0.044em;">z</span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 0.6444em;"></span><span class="mord">0</span></span></span></span></span> 时为0。</li></ul> 
+<h3><a name="t4"></a><a id="_40"></a>如何为网络的每一层选择激活函数</h3> 
+<p>这是一个关键的工程决策，不同层有不同的选择标准。</p> 
+<h4><a name="t5"></a><a id="_Output_Layer__44"></a>输出层 (Output Layer) 的选择</h4> 
+<p>输出层的激活函数由任务类型和标签 <code>y</code> 的取值范围决定。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/7aca1bc519a34adaaf5c02303d7c54f8.png" alt="在这里插入图片描述"></p> 
+<ul><li><strong>二分类问题 (Binary classification)</strong>：目标 <code>y</code> 为 0 或 1。需要输出一个概率，应选择 <strong>Sigmoid</strong>。</li><li><strong>回归问题 (Regression) 且 <code>y</code> 可为负数</strong>：目标 <code>y</code> 是任意实数。不希望限制输出范围，应选择<strong>线性激活函数 (Linear activation function)</strong>。</li><li><strong>回归问题 (Regression) 且 <code>y</code> 只能为非负数</strong>：目标 <code>y</code> 大于等于0。<strong>ReLU</strong> 函数可以确保输出非负。</li></ul> 
+<h4><a name="t6"></a><a id="_Hidden_Layer__55"></a>隐藏层 (Hidden Layer) 的选择</h4> 
+<p>对于所有隐藏层，<strong>ReLU 是最常用且推荐的选择</strong>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/09c7f8d227e3486f987e83883113cf54.png" alt="在这里插入图片描述"></p> 
+<p>选择ReLU的主要原因是其能有效避免“梯度消失”问题，从而加速训练：</p> 
+<ul><li><strong>Sigmoid 的问题</strong>：其函数曲线在两端区域非常平坦，导致梯度接近于0，使得参数更新极其缓慢。</li><li><strong>ReLU 的优势</strong>：在 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         z
+        
+        
+         &gt;
+        
+        
+         0
+        
+       
+       
+        z&gt;0
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.5782em; vertical-align: -0.0391em;"></span><span class="mord mathnormal" style="margin-right: 0.044em;">z</span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 0.6444em;"></span><span class="mord">0</span></span></span></span></span> 区域，梯度恒为1，保证了梯度的有效传递，使网络学习速度更快。</li></ul> 
+<h3><a name="t7"></a><a id="_TensorFlow__66"></a>选择策略总结与 TensorFlow 代码实践</h3> 
+<p>我们将上述选择策略进行总结并展示其代码实现。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/4843be0adba84d4ab2ca130a276d239f.png" alt="在这里插入图片描述"></p> 
+<p><strong>选择策略总结</strong>:</p> 
+<ul><li><strong>隐藏层</strong>: <strong>使用 ReLU</strong>。</li><li><strong>输出层</strong>: 
+  <ul><li><strong>二分类</strong>: <strong>Sigmoid</strong>。</li><li><strong>回归 (y可正负)</strong>: <strong>Linear</strong>。</li><li><strong>回归 (y≥0)</strong>: <strong>ReLU</strong>。</li></ul> </li></ul> 
+<p><strong>TensorFlow/Keras 代码实现</strong>:<br> 一个用于二分类任务的三层网络结构示例：</p> 
+<ul><li>Layer 1 (隐藏层): 25个单元, <code>relu</code> 激活。</li><li>Layer 2 (隐藏层): 15个单元, <code>relu</code> 激活。</li><li>Layer 3 (输出层): 1个单元, <code>sigmoid</code> 激活。</li></ul> 
+<pre data-index="0" class="new-version set-code-show prettyprint" name="code"><code class="prism language-python has-numbering" onclick="mdcp.signin(event)" style="position: unset;"><span class="token keyword">from</span> tf<span class="token punctuation">.</span>keras<span class="token punctuation">.</span>layers <span class="token keyword">import</span> Dense
+model <span class="token operator">=</span> Sequential<span class="token punctuation">(</span><span class="token punctuation">[</span>
+    Dense<span class="token punctuation">(</span>units<span class="token operator">=</span><span class="token number">25</span><span class="token punctuation">,</span> activation<span class="token operator">=</span><span class="token string">'relu'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment"># Layer 1</span>
+    Dense<span class="token punctuation">(</span>units<span class="token operator">=</span><span class="token number">15</span><span class="token punctuation">,</span> activation<span class="token operator">=</span><span class="token string">'relu'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment"># Layer 2</span>
+    Dense<span class="token punctuation">(</span>units<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> activation<span class="token operator">=</span><span class="token string">'sigmoid'</span><span class="token punctuation">)</span>     <span class="token comment"># Layer 3</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code><div class="opt-box"><button class="btn-code-notes mdeditor" style="background-image:url(https://i-operation.csdnimg.cn/images/7c0190c005ab41659100f583c0791aee.png);" data-report-view="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:0,&quot;ab&quot;:&quot;exp10&quot;}}" data-report-click="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:0,&quot;ab&quot;:&quot;exp10&quot;}}">AI代码解释</button><span class="code-language" data-language="python">python</span><div class="hljs-button signin active" data-title="登录复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4334&quot;}" onclick="mdcp.signin(event)"></div><span class="code-run-btn" data-idx="0" data-report-view="{&quot;spm&quot;:&quot;3001.10758&quot;,&quot;extra&quot;:{&quot;language&quot;:&quot;python&quot;, &quot;idx&quot;:&quot;0&quot;}}" data-language="python">运行</span></div><ul class="pre-numbering" style="opacity: 0.00920601;"><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li></ul></pre> 
+<h3><a name="t8"></a><a id="_95"></a>非线性激活函数的必要性</h3> 
+<p>如果所有隐藏层都使用线性激活函数，整个深度网络将退化为一个等效的单层线性模型，失去深度学习的能力。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/1c2f0b3b7c7641b8adcb20c99af94f5f.png" alt="在这里插入图片描述"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/6d7f2c4043d2459e9954f3459726376a.png" alt="[在这里插入图片7]"></p> 
+<p>代数推导证明，一个两层的线性网络 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         a
+        
+        
+       
+       
+        =
+       
+       
+        
+         w
+        
+        
+         1
+        
+        
+       
+       
+        (
+       
+       
+        
+         w
+        
+        
+         1
+        
+        
+       
+       
+        x
+       
+       
+        +
+       
+       
+        
+         b
+        
+        
+         1
+        
+        
+       
+       
+        )
+       
+       
+        +
+       
+       
+        
+         b
+        
+        
+         1
+        
+        
+       
+      
+      
+       a^{} = w_1^{}(w_1^{} x + b_1^{}) + b_1^{}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.4306em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.363em;"><span class="" style="top: -2.363em; margin-right: 0.05em;"><span class="pstrut" style="height: 2em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right: 0.0269em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.363em;"><span class="" style="top: -2.4519em; margin-left: -0.0269em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2481em;"><span class=""></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right: 0.0269em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.363em;"><span class="" style="top: -2.4519em; margin-left: -0.0269em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2481em;"><span class=""></span></span></span></span></span></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.363em;"><span class="" style="top: -2.4519em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2481em;"><span class=""></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.9425em; vertical-align: -0.2481em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.363em;"><span class="" style="top: -2.4519em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2481em;"><span class=""></span></span></span></span></span></span></span></span></span></span> 可以被简化为 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        f
+       
+       
+        (
+       
+       
+        x
+       
+       
+        )
+       
+       
+        =
+       
+       
+        w
+       
+       
+        x
+       
+       
+        +
+       
+       
+        b
+       
+      
+      
+       f(x) = wx + b
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.1076em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 0.6667em; vertical-align: -0.0833em;"></span><span class="mord mathnormal" style="margin-right: 0.0269em;">w</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.6944em;"></span><span class="mord mathnormal">b</span></span></span></span></span> 的形式，与单层模型无异。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/77b1236cf2e741489e2b99c802e992a6.png" alt="在这里插入图片描述"></p> 
+<p><strong>核心结论</strong>:</p> 
+<ul><li>如果所有层都是线性的，网络等价于<strong>线性回归</strong>。</li><li>如果隐藏层线性、输出层Sigmoid，网络等价于<strong>逻辑回归</strong>。</li><li><strong>准则</strong>: <strong>禁止在隐藏层中使用线性激活函数</strong>，应使用 <strong>ReLU</strong>。</li></ul> 
+<h2><a name="t9"></a><a id="Softmax_115"></a>Softmax回归与多分类</h2> 
+<p>当分类任务的类别超过两个时，需要使用Softmax回归。</p> 
+<h3><a name="t10"></a><a id="_Multiclass_Classification_119"></a>多分类问题 (Multiclass Classification)</h3> 
+<p>MNIST手写数字识别是典型的多分类问题，标签 <code>y</code> 可以是 {0, 1, …, 9} 中的一个。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/16973949fb3a4996af7f2fb8824f88d7.png" alt="[在这里插入图片9]"></p> 
+<p>多分类任务需要学习能够分割多个类别的决策边界。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/5b417215262f4282b1315ee5e45b50fe.png" alt="[在这里插入图片10]"></p> 
+<h3><a name="t11"></a><a id="Softmax__131"></a>Softmax 回归原理</h3> 
+<p>Softmax是Sigmoid在多分类任务上的推广，用于计算样本属于每个类别的概率。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/86889f61861a436192964aeb50cd0545.png" alt="[在这里插入图片11]"></p> 
+<p><strong>Softmax 回归计算步骤</strong>:</p> 
+<ol><li><strong>为每个类别</strong> <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         j
+        
+       
+       
+        j
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.854em; vertical-align: -0.1944em;"></span><span class="mord mathnormal" style="margin-right: 0.0572em;">j</span></span></span></span></span> 计算一个独立的线性得分 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          z
+         
+         
+          j
+         
+        
+        
+         =
+        
+        
+         
+          
+           w
+          
+          
+           ⃗
+          
+         
+         
+          j
+         
+        
+        
+         ⋅
+        
+        
+         
+          x
+         
+         
+          ⃗
+         
+        
+        
+         +
+        
+        
+         
+          b
+         
+         
+          j
+         
+        
+       
+       
+        z_j = \vec{w}_j \cdot \vec{x} + b_j
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.7167em; vertical-align: -0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right: 0.044em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3117em;"><span class="" style="top: -2.55em; margin-left: -0.044em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right: 0.0572em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2861em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 1.0001em; vertical-align: -0.2861em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.714em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord mathnormal" style="margin-right: 0.0269em;">w</span></span><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="accent-body" style="left: -0.1522em;"><span class="overlay" style="height: 0.714em; width: 0.471em;">
+              <svg width="0.471em" height="0.714em" style="width:0.471em" viewBox="0 0 471 714" preserveAspectRatio="xMinYMin">
+               <path d="M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5
+3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11
+10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63
+-1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1
+-7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
+H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
+c-16-25.333-24-45-24-59z"></path>
+              </svg></span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3117em;"><span class="" style="top: -2.55em; margin-left: -0.0269em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right: 0.0572em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2861em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.7973em; vertical-align: -0.0833em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.714em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord mathnormal">x</span></span><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="accent-body" style="left: -0.2077em;"><span class="overlay" style="height: 0.714em; width: 0.471em;">
+             <svg width="0.471em" height="0.714em" style="width:0.471em" viewBox="0 0 471 714" preserveAspectRatio="xMinYMin">
+              <path d="M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5
+3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11
+10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63
+-1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1
+-7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
+H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
+c-16-25.333-24-45-24-59z"></path>
+             </svg></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.9805em; vertical-align: -0.2861em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3117em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right: 0.0572em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2861em;"><span class=""></span></span></span></span></span></span></span></span></span></span>。</li><li>使用Softmax函数将得分转换为概率分布：<br> <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          a
+         
+         
+          j
+         
+        
+        
+         =
+        
+        
+         P
+        
+        
+         (
+        
+        
+         y
+        
+        
+         =
+        
+        
+         j
+        
+        
+         ∣
+        
+        
+         
+          x
+         
+         
+          ⃗
+         
+        
+        
+         )
+        
+        
+         =
+        
+        
+         
+          
+           e
+          
+          
+           
+            z
+           
+           
+            j
+           
+          
+         
+         
+          
+           
+            ∑
+           
+           
+            
+             k
+            
+            
+             =
+            
+            
+             1
+            
+           
+           
+            N
+           
+          
+          
+           
+            e
+           
+           
+            
+             z
+            
+            
+             k
+            
+           
+          
+         
+        
+       
+       
+        a_j = P(y=j|\vec{x}) = \frac{e^{z_j}}{\sum_{k=1}^{N} e^{z_k}}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.7167em; vertical-align: -0.2861em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3117em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right: 0.0572em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2861em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.1389em;">P</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right: 0.0359em;">y</span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.0572em;">j</span><span class="mord">∣</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.714em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord mathnormal">x</span></span><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="accent-body" style="left: -0.2077em;"><span class="overlay" style="height: 0.714em; width: 0.471em;">
+             <svg width="0.471em" height="0.714em" style="width:0.471em" viewBox="0 0 471 714" preserveAspectRatio="xMinYMin">
+              <path d="M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5
+3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11
+10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63
+-1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1
+-7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
+H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
+c-16-25.333-24-45-24-59z"></path>
+             </svg></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 1.594em; vertical-align: -0.6547em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.9393em;"><span class="" style="top: -2.5703em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mop mtight"><span class="mop op-symbol small-op mtight" style="position: relative; top: 0em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.8852em;"><span class="" style="top: -2.1786em; margin-left: 0em; margin-right: 0.0714em;"><span class="pstrut" style="height: 2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right: 0.0315em;">k</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span class="" style="top: -2.8971em; margin-right: 0.0714em;"><span class="pstrut" style="height: 2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right: 0.109em;">N</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.3214em;"><span class=""></span></span></span></span></span></span><span class="mspace mtight" style="margin-right: 0.1952em;"></span><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.665em;"><span class="" style="top: -2.8575em; margin-right: 0.0714em;"><span class="pstrut" style="height: 2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right: 0.044em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3448em;"><span class="" style="top: -2.3448em; margin-left: -0.044em; margin-right: 0.1em;"><span class="pstrut" style="height: 2.6944em;"></span><span class="mord mathnormal mtight" style="margin-right: 0.0315em;">k</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.3496em;"><span class=""></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.394em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.779em;"><span class="" style="top: -2.9714em; margin-right: 0.0714em;"><span class="pstrut" style="height: 2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right: 0.044em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3448em;"><span class="" style="top: -2.3448em; margin-left: -0.044em; margin-right: 0.1em;"><span class="pstrut" style="height: 2.6595em;"></span><span class="mord mathnormal mtight" style="margin-right: 0.0572em;">j</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.5092em;"><span class=""></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.6547em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span><br> 该公式通过归一化，确保所有类别的输出概率之和为1。</li></ol> 
+<h3><a name="t12"></a><a id="Softmax__144"></a>Softmax 的损失函数：交叉熵</h3> 
+<p>Softmax回归通常配合<strong>交叉熵损失 (Cross-entropy Loss)</strong> 使用。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/71ef23c619504520aaf0e0608a09ea2b.png" alt="[在这里插入图片12]"></p> 
+<p>如果一个样本的真实类别是 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        j
+       
+      
+      
+       j
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.854em; vertical-align: -0.1944em;"></span><span class="mord mathnormal" style="margin-right: 0.0572em;">j</span></span></span></span></span>，其损失仅取决于模型预测为类别 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        j
+       
+      
+      
+       j
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.854em; vertical-align: -0.1944em;"></span><span class="mord mathnormal" style="margin-right: 0.0572em;">j</span></span></span></span></span> 的概率 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         a
+        
+        
+         j
+        
+       
+      
+      
+       a_j
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.7167em; vertical-align: -0.2861em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3117em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right: 0.0572em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2861em;"><span class=""></span></span></span></span></span></span></span></span></span></span>：<br> <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        l
+       
+       
+        o
+       
+       
+        s
+       
+       
+        s
+       
+       
+        =
+       
+       
+        −
+       
+       
+        log
+       
+       
+        ⁡
+       
+       
+        
+         a
+        
+        
+         j
+        
+       
+      
+      
+       loss = -\log a_j
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.6944em;"></span><span class="mord mathnormal" style="margin-right: 0.0197em;">l</span><span class="mord mathnormal">oss</span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 0.9805em; vertical-align: -0.2861em;"></span><span class="mord">−</span><span class="mspace" style="margin-right: 0.1667em;"></span><span class="mop">lo<span style="margin-right: 0.0139em;">g</span></span><span class="mspace" style="margin-right: 0.1667em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3117em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right: 0.0572em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2861em;"><span class=""></span></span></span></span></span></span></span></span></span></span><br> 当预测概率 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         a
+        
+        
+         j
+        
+       
+      
+      
+       a_j
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.7167em; vertical-align: -0.2861em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3117em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right: 0.0572em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2861em;"><span class=""></span></span></span></span></span></span></span></span></span></span> 趋近1时，损失趋近0；当 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         a
+        
+        
+         j
+        
+       
+      
+      
+       a_j
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.7167em; vertical-align: -0.2861em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3117em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right: 0.0572em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2861em;"><span class=""></span></span></span></span></span></span></span></span></span></span> 趋近0时，损失趋向无穷大。</p> 
+<h3><a name="t13"></a><a id="_Softmax__155"></a>将 Softmax 集成到神经网络</h3> 
+<p>一个标准的多分类神经网络结构如下：</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/1cb650c2884d4f858c49a62745fa0302.png" alt="[在这里插入图片13]"></p> 
+<ul><li><strong>输入层</strong></li><li><strong>若干使用 ReLU 的隐藏层</strong></li><li><strong>一个使用 Softmax 激活的输出层</strong>，其神经元数量等于类别总数 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         N
+        
+       
+       
+        N
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.6833em;"></span><span class="mord mathnormal" style="margin-right: 0.109em;">N</span></span></span></span></span>。</li></ul> 
+<h2><a name="t14"></a><a id="TensorFlow_166"></a>TensorFlow实现与数值稳定性</h2> 
+<p>在代码实现中，数值稳定性是一个必须考虑的重要问题。</p> 
+<h3><a name="t15"></a><a id="_170"></a>一个有风险的初步实现</h3> 
+<p>一个直接但不被推荐的实现方式如下：</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/95b268d70d594197875e6c80288f4524.png" alt="[在这里插入图片14]"></p> 
+<pre data-index="1" class="new-version set-code-show prettyprint" name="code"><code class="prism language-python has-numbering" onclick="mdcp.signin(event)" style="position: unset;"><span class="token comment"># 不推荐的实现方式</span>
+model <span class="token operator">=</span> Sequential<span class="token punctuation">(</span><span class="token punctuation">[</span>
+    Dense<span class="token punctuation">(</span>units<span class="token operator">=</span><span class="token number">25</span><span class="token punctuation">,</span> activation<span class="token operator">=</span><span class="token string">'relu'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    Dense<span class="token punctuation">(</span>units<span class="token operator">=</span><span class="token number">15</span><span class="token punctuation">,</span> activation<span class="token operator">=</span><span class="token string">'relu'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    Dense<span class="token punctuation">(</span>units<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">,</span> activation<span class="token operator">=</span><span class="token string">'softmax'</span><span class="token punctuation">)</span> <span class="token comment"># 在输出层直接使用 softmax</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span>
+model<span class="token punctuation">.</span><span class="token builtin">compile</span><span class="token punctuation">(</span>loss<span class="token operator">=</span>SparseCategoricalCrossentropy<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code><div class="opt-box"><button class="btn-code-notes mdeditor" style="background-image:url(https://i-operation.csdnimg.cn/images/7c0190c005ab41659100f583c0791aee.png);" data-report-view="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:1,&quot;ab&quot;:&quot;exp10&quot;}}" data-report-click="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:1,&quot;ab&quot;:&quot;exp10&quot;}}">AI代码解释</button><span class="code-language" data-language="python">python</span><div class="hljs-button signin active" data-title="登录复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4334&quot;}" onclick="mdcp.signin(event)"></div><span class="code-run-btn" data-idx="1" data-report-view="{&quot;spm&quot;:&quot;3001.10758&quot;,&quot;extra&quot;:{&quot;language&quot;:&quot;python&quot;, &quot;idx&quot;:&quot;1&quot;}}" data-language="python">运行</span></div><ul class="pre-numbering" style="opacity: 0.00920601;"><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li></ul></pre> 
+<p>吴恩达老师明确指出<strong>不要使用此版本</strong>，因为它存在数值稳定性风险。</p> 
+<h3><a name="t16"></a><a id="_Numerical_Roundoff_Errors_188"></a>数值舍入误差 (Numerical Roundoff Errors)</h3> 
+<p>由于计算机浮点数精度有限，数学上等价的计算可能产生不同结果。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/427ad48f753146b4963fb84439abe96c.png" alt="[在这里插入图片15]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/94994e6202b24204a32db1ffb1b5973e.png" alt="[在这里插入图片16]"></p> 
+<p>如上图Jupyter Notebook所示，两种数学上等价的计算会因舍入误差产生微小差异。在深度学习的迭代计算中，这种误差可能被放大。</p> 
+<h3><a name="t17"></a><a id="from_logitsTrue_200"></a>使用from_logits=True提升数值稳定性</h3> 
+<p>Softmax和交叉熵涉及的指数和对数运算对精度敏感。将它们分开计算会增加数值不稳定的风险。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/90a5dfafb71e4b04b216f2e41415696e.png" alt="[在这里插入图片17]"><br> <img src="https://i-blog.csdnimg.cn/direct/51dcc361321f4ed0b451349cddfd8e66.png" alt="在这里插入图片描述"></p> 
+<p><strong>推荐的做法是</strong>：</p> 
+<ol><li>让模型的输出层保持<strong>线性激活</strong>（<code>activation='linear'</code>），直接输出原始的线性得分，这被称为 <strong>logits</strong>。</li><li>将 logits 传递给损失函数，并设置参数 <code>from_logits=True</code>。TensorFlow会使用一个数值上更稳定的内部算法来合并计算Softmax和交叉熵。</li></ol> 
+<h3><a name="t18"></a><a id="_212"></a>最终推荐的代码实现</h3> 
+<p>以下是<strong>官方推荐的、更稳健的</strong>代码实现模板。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/2cc2e78775b1423e9afe18bef0a12e73.png" alt="在这里插入图片描述"></p> 
+<p><strong>多分类推荐代码</strong>:</p> 
+<pre data-index="2" class="new-version set-code-height set-code-hide prettyprint" name="code"><code class="prism language-python has-numbering" onclick="mdcp.signin(event)" style="position: unset;"><span class="token comment"># 最后一层使用 'linear' 激活</span>
+model <span class="token operator">=</span> Sequential<span class="token punctuation">(</span><span class="token punctuation">[</span>
+    Dense<span class="token punctuation">(</span>units<span class="token operator">=</span><span class="token number">25</span><span class="token punctuation">,</span> activation<span class="token operator">=</span><span class="token string">'relu'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    Dense<span class="token punctuation">(</span>units<span class="token operator">=</span><span class="token number">15</span><span class="token punctuation">,</span> activation<span class="token operator">=</span><span class="token string">'relu'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    Dense<span class="token punctuation">(</span>units<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">,</span> activation<span class="token operator">=</span><span class="token string">'linear'</span><span class="token punctuation">)</span> 
+<span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment"># 在损失函数中设置 from_logits=True</span>
+loss_fn <span class="token operator">=</span> SparseCategoricalCrossentropy<span class="token punctuation">(</span>from_logits<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+model<span class="token punctuation">.</span><span class="token builtin">compile</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span> loss<span class="token operator">=</span>loss_fn<span class="token punctuation">)</span>
+
+<span class="token comment"># 预测时，模型输出的是logits</span>
+logits <span class="token operator">=</span> model<span class="token punctuation">(</span>X<span class="token punctuation">)</span> 
+<span class="token comment"># 需要概率时，手动调用softmax</span>
+f_x <span class="token operator">=</span> tf<span class="token punctuation">.</span>nn<span class="token punctuation">.</span>softmax<span class="token punctuation">(</span>logits<span class="token punctuation">)</span>
+</code><div class="opt-box"><button class="btn-code-notes mdeditor" style="background-image:url(https://i-operation.csdnimg.cn/images/7c0190c005ab41659100f583c0791aee.png);" data-report-view="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:2,&quot;ab&quot;:&quot;exp10&quot;}}" data-report-click="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:2,&quot;ab&quot;:&quot;exp10&quot;}}">AI代码解释</button><span class="code-language" data-language="python">python</span><div class="hljs-button signin active" data-title="登录复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4334&quot;}" onclick="mdcp.signin(event)"></div><span class="code-run-btn" data-idx="2" data-report-view="{&quot;spm&quot;:&quot;3001.10758&quot;,&quot;extra&quot;:{&quot;language&quot;:&quot;python&quot;, &quot;idx&quot;:&quot;2&quot;}}" data-language="python">运行</span></div><div class="hide-preCode-box"><span class="hide-preCode-bt" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.7365&quot;}"><img class="look-more-preCode contentImg-no-view" src="https://csdnimg.cn/release/blogv2/dist/pc/img/runCode/icon-arrowwhite.png" alt="" title=""></span></div><ul class="pre-numbering" style="opacity: 0.00920601;"><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li><li style="color: rgb(153, 153, 153);">14</li></ul></pre> 
+<p><img src="https://i-blog.csdnimg.cn/direct/e0f847d84457415a911c0ea8c4b26930.png" alt="在这里插入图片描述"></p> 
+<p><strong>二分类推荐代码</strong>:</p> 
+<pre data-index="3" class="new-version set-code-show prettyprint" name="code"><code class="prism language-python has-numbering" onclick="mdcp.signin(event)" style="position: unset;">model <span class="token operator">=</span> Sequential<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span> Dense<span class="token punctuation">(</span>units<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> activation<span class="token operator">=</span><span class="token string">'linear'</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+model<span class="token punctuation">.</span><span class="token builtin">compile</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span> loss<span class="token operator">=</span>BinaryCrossentropy<span class="token punctuation">(</span>from_logits<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+logit <span class="token operator">=</span> model<span class="token punctuation">(</span>X<span class="token punctuation">)</span>
+f_x <span class="token operator">=</span> tf<span class="token punctuation">.</span>nn<span class="token punctuation">.</span>sigmoid<span class="token punctuation">(</span>logit<span class="token punctuation">)</span> <span class="token comment"># 手动应用sigmoid</span>
+</code><div class="opt-box"><button class="btn-code-notes mdeditor" style="background-image:url(https://i-operation.csdnimg.cn/images/7c0190c005ab41659100f583c0791aee.png);" data-report-view="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:3,&quot;ab&quot;:&quot;exp10&quot;}}" data-report-click="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:3,&quot;ab&quot;:&quot;exp10&quot;}}">AI代码解释</button><span class="code-language" data-language="python">python</span><div class="hljs-button signin active" data-title="登录复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4334&quot;}" onclick="mdcp.signin(event)"></div><span class="code-run-btn" data-idx="3" data-report-view="{&quot;spm&quot;:&quot;3001.10758&quot;,&quot;extra&quot;:{&quot;language&quot;:&quot;python&quot;, &quot;idx&quot;:&quot;3&quot;}}" data-language="python">运行</span></div><ul class="pre-numbering" style="opacity: 0.00920601;"><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li></ul></pre> 
+<h2><a name="t19"></a><a id="_248"></a>扩展主题</h2> 
+<h3><a name="t20"></a><a id="_Multilabel_Classification_250"></a>多标签分类 (Multi-label Classification)</h3> 
+<p>多标签分类允许一个样本同时属于多个类别（N选多）。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/808e5a4b36c74d55a7a531e389ecccd3.png" alt="[在这里插入图片21]"></p> 
+<p>例如，一张图片可同时被标记为“车”和“行人”。其标签 <code>y</code> 是一个二元向量，如 <code>[1, 0, 1]</code>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/fd5a6083fd48468eb237f7835fe19033.png" alt="[在这里插入图片22]"></p> 
+<p>解决方法是构建一个有N个输出单元的网络，并为<strong>每个输出单元使用 Sigmoid 激活函数</strong>，使其能独立地为每个标签预测一个概率。</p> 
+<h3><a name="t21"></a><a id="Adam__264"></a>Adam 优化算法</h3> 
+<p>梯度下降算法对学习率 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        α
+       
+      
+      
+       \alpha
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.4306em;"></span><span class="mord mathnormal" style="margin-right: 0.0037em;">α</span></span></span></span></span> 的选择非常敏感。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/edd5a0bcb6dc413b97709e5b0805fcdf.png" alt="[在这里插入图片23]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/cf2d03540ac24d0090c1ba0cb662c6ee.png" alt="[在这里插入图片24]"></p> 
+<p><strong>Adam (Adaptive Moment Estimation)</strong> 算法是一种更高级的优化器，它能为每个参数自适应地调整学习率。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/22853c779ee64508a30bfadb6884202b.png" alt="[在这里插入图片25]"></p> 
+<p>Adam的核心思想是：对梯度持续稳定的参数增大学习率，对梯度来回振荡的参数减小学习率。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/f46a241465a74921ad18572e8f55961b.png" alt="[在这里插入图片26]"></p> 
+<p>在Keras中使用Adam非常简单，它也是目前深度学习任务的首选优化器。</p> 
+<pre data-index="4" class="new-version set-code-show prettyprint" name="code"><code class="prism language-python has-numbering" onclick="mdcp.signin(event)" style="position: unset;">model<span class="token punctuation">.</span><span class="token builtin">compile</span><span class="token punctuation">(</span>
+    optimizer<span class="token operator">=</span>tf<span class="token punctuation">.</span>keras<span class="token punctuation">.</span>optimizers<span class="token punctuation">.</span>Adam<span class="token punctuation">(</span>learning_rate<span class="token operator">=</span><span class="token number">1e</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+    loss<span class="token operator">=</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">)</span>
+</code><div class="opt-box"><button class="btn-code-notes mdeditor" style="background-image:url(https://i-operation.csdnimg.cn/images/7c0190c005ab41659100f583c0791aee.png);" data-report-view="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:4,&quot;ab&quot;:&quot;exp10&quot;}}" data-report-click="{&quot;spm&quot;:&quot;3001.10436&quot;,&quot;dest&quot;:&quot;https://developer.huaweicloud.com/codeartsco.html?source=dmzntgwopczb&amp;sourcead=csdnzb&quot;,&quot;extra&quot;:{&quot;index&quot;:4,&quot;ab&quot;:&quot;exp10&quot;}}">AI代码解释</button><span class="code-language" data-language="python">python</span><div class="hljs-button signin active" data-title="登录复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4334&quot;}" onclick="mdcp.signin(event)"></div><span class="code-run-btn" data-idx="4" data-report-view="{&quot;spm&quot;:&quot;3001.10758&quot;,&quot;extra&quot;:{&quot;language&quot;:&quot;python&quot;, &quot;idx&quot;:&quot;4&quot;}}" data-language="python">运行</span></div><ul class="pre-numbering" style="opacity: 0.00920601;"><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li></ul></pre> 
+<h3><a name="t22"></a><a id="_292"></a>神经网络架构与导数基础</h3> 
+<h4><a name="t23"></a><a id="_vs__294"></a>全连接层 vs. 卷积层</h4> 
+<p>我们目前使用的<code>Dense</code>层是<strong>全连接层</strong>，其每个神经元都与前一层的所有神经元相连。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/d45d488a07f4499d9b453950c1ddb1cd.png" alt="[在这里插入图片27]"></p> 
+<p><strong>卷积层 (Convolutional Layer)</strong> 的神经元只连接到前一层的一个局部区域。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/9b8c722a58eb4521ac7cb9c6283e9cc5.png" alt="[在这里插入图片28]"></p> 
+<p>这使得卷积层在处理图像等结构化数据时，参数更少、计算更快、更不易过拟合。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/9ed9f4f7d5714062826d3719129217d3.png" alt="[在这里插入图片29]"></p> 
+<h4><a name="t24"></a><a id="_311"></a>导数的直观定义</h4> 
+<p>导数是神经网络进行参数更新的依据，其直观意义是“变化放大系数”。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/4ce5e502fae84e49a8fed04375b00f2e.png" alt="[在这里插入图片30]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/8c33cb1345134b5d99a98df7e1867398.png" alt="[在这里插入图片31]"></p> 
+<p>如果导数为 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        k
+       
+      
+      
+       k
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.6944em;"></span><span class="mord mathnormal" style="margin-right: 0.0315em;">k</span></span></span></span></span>，则输入 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        w
+       
+      
+      
+       w
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.4306em;"></span><span class="mord mathnormal" style="margin-right: 0.0269em;">w</span></span></span></span></span> 的微小变化 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        ϵ
+       
+      
+      
+       \epsilon
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></span> 会引起输出 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        J
+       
+       
+        (
+       
+       
+        w
+       
+       
+        )
+       
+      
+      
+       J(w)
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.0962em;">J</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right: 0.0269em;">w</span><span class="mclose">)</span></span></span></span></span> 产生约 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        k
+       
+       
+        ×
+       
+       
+        ϵ
+       
+      
+      
+       k \times \epsilon
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.7778em; vertical-align: -0.0833em;"></span><span class="mord mathnormal" style="margin-right: 0.0315em;">k</span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></span> 的变化。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/7a219191b9584cab80e41bf138a7dae1.png" alt="[在这里插入图片32]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/8a78bd88c18a49269c7a80805c2848d6.png" alt="[在这里插入图片33]"></p> 
+<p>我们可以使用<code>sympy</code>等符号计算库来求导。<br> <img src="https://i-blog.csdnimg.cn/direct/7d04bf2c5fcb4ee085a17802572e53e9.png" alt="在这里插入图片描述"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/ec9f8b7c40e443f0a11fd44f94714e99.png" alt="[在这里插入图片35]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/7e6ee75321144d5a99864270b8b55e30.png" alt="[在这里插入图片36]"></p> 
+<h4><a name="t25"></a><a id="_Backpropagation__339"></a>反向传播 (Backpropagation) 简介</h4> 
+<p><strong>反向传播</strong>是高效计算神经网络中所有参数梯度的核心算法，它基于微积分的<strong>链式法则</strong>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/3ec726e0c8514c5c8bad6ac30ba0d676.png" alt="在这里插入图片描述"></p> 
+<p>它通过一个<strong>计算图</strong>，首先进行<strong>前向传播</strong>计算出最终损失。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/9a6cfd6e803947548ee8ab6849e02fac.png" alt="在这里插入图片描述"></p> 
+<p>然后，从最终损失开始，<strong>反向</strong>传播梯度，利用链式法则逐层计算出损失对每个参数的导数。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/80434b7c63164565a70f2f442ce5e7e4.png" alt="在这里插入图片描述"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/4008223f58fd46c98d0cd26e147e7f7c.png" alt="在这里插入图片描述"></p> 
+<p>反向传播通过复用中间计算结果，极大地提升了梯度计算的效率。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/86ac5adfd2a646e683ef8842520c181d.png" alt="在这里插入图片描述"></p> 
+<h2><a name="t26"></a><a id="_364"></a>总结</h2> 
+<p>本文详细探讨了神经网络的几个关键高级主题：</p> 
+<ul><li><strong>激活函数选择</strong>：隐藏层用ReLU，输出层根据任务选择。</li><li><strong>Softmax回归</strong>：处理多分类问题的理论与实践。</li><li><strong>编码最佳实践</strong>：使用 <code>from_logits=True</code> 提升数值稳定性。</li><li><strong>Adam优化器</strong>：使用自适应学习率算法加速并稳定训练。</li><li><strong>反向传播原理</strong>：理解神经网络高效学习的内部机制。</li></ul>
+        </div><div data-report-view="{&quot;mod&quot;:&quot;1585297308_001&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6548&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/2502_90283908/article/details/153728566&quot;,&quot;extend1&quot;:&quot;pc&quot;,&quot;ab&quot;:&quot;new&quot;}"><div></div></div>
+        <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-e1cc28b339.css" rel="stylesheet">
+        <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-d1e89cace4.css" rel="stylesheet">
+    </div>

@@ -1,0 +1,171 @@
+<div id="article_content" class="article_content clearfix">
+      <style>
+        /* MD / 富文本中的 .toc（含博客园搬家等嵌套结构）；.toc-box 在侧栏，不受影响 */
+        #content_views .toc,
+        /* 编辑器常在目录前后插入空 p（:empty 仍占 20px），一并去掉避免顶空隙 */
+        #content_views.markdown_views > p:empty:has(+ .toc),
+        #content_views.markdown_views > .toc + p:empty,
+        /* 富文本旧版目录标记 */
+        #content_views.htmledit_views #main-toc,
+        #content_views.htmledit_views #hr-toc,
+        #content_views.htmledit_views p[id*="-toc"] {
+          display: none !important;
+        }
+        /* 目录去掉后，紧跟的首个标题不再多出一块上边距 */
+        #content_views.markdown_views > .toc + h1,
+        #content_views.markdown_views > .toc + h2,
+        #content_views.markdown_views > .toc + h3,
+        #content_views.markdown_views > .toc + h4,
+        #content_views.markdown_views > .toc + p:empty + h1,
+        #content_views.markdown_views > .toc + p:empty + h2,
+        #content_views.markdown_views > .toc + p:empty + h3,
+        #content_views.markdown_views > .toc + p:empty + h4 {
+          margin-top: 0 !important;
+        }
+      </style>
+      <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/kdoc_html_views-1a98987dfd.css">
+      <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-a50b13a894.css">
+        <div id="content_views" class="markdown_views prism-atom-one-dark">
+          <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+          </svg>
+          <p></p>
+<div class="toc">
+ <h4><a name="t0"></a>文章目录</h4>
+ <ul><li><a href="#__Reinforcement_Learning_10" target="_self">一 强化学习入门 (Reinforcement Learning)</a></li><li><ul><li><a href="#11__14" target="_self">1.1 强化学习的基本概念</a></li><li><a href="#12__37" target="_self">1.2 强化学习的应用</a></li></ul>
+  </li><li><a href="#__48" target="_self">二 强化学习的关键术语</a></li><li><ul><li><a href="#21__52" target="_self">2.1 状态、行动与奖励</a></li><li><a href="#22__Return__67" target="_self">2.2 回报 (Return) 与折扣因子</a></li><li><a href="#23__Policy_91" target="_self">2.3 策略 (Policy)</a></li><li><a href="#24__101" target="_self">2.4 强化学习的目标</a></li><li><a href="#25__108" target="_self">2.5 术语总结</a></li></ul>
+  </li><li><a href="#_QLearning__124" target="_self">三 Q-Learning 算法</a></li><li><ul><li><a href="#31__MDP_128" target="_self">3.1 马尔可夫决策过程 (MDP)</a></li><li><a href="#32__Qfunction_140" target="_self">3.2 状态-行动价值函数 (Q-function)</a></li><li><a href="#33_Q_149" target="_self">3.3 利用Q函数选择行动</a></li><li><a href="#34_Jupyter_Notebook__162" target="_self">3.4 Jupyter Notebook 实验分析</a></li><li><ul><li><a href="#35__BELLMAN_EQUATION_223" target="_self">**3.5 贝尔曼方程 (BELLMAN EQUATION)**</a></li><li><a href="#__STOCHASTIC_ENVIRONMENT_291" target="_self">**四 随机环境 (STOCHASTIC ENVIRONMENT)**</a></li></ul>
+  </li></ul>
+ </li></ul>
+</div>
+<p></p> 
+<hr> 
+<p><em>视频链接</em><br> <a href="%E3%80%90%E3%80%90%E5%AE%98%E6%96%B9%E4%B8%AD%E8%8B%B1%E3%80%912025%E5%B9%B4%E5%85%AC%E8%AE%A4%E6%9C%80%E5%A5%BD%E7%9A%84%E3%80%90%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%AF%BE%E7%A8%8B%E3%80%91%E9%99%84%E8%AF%BE%E4%BB%B6%E3%80%81%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE%EF%BC%81%EF%BC%81%EF%BC%81--%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%91%20https://www.bilibili.com/video/BV1owrpYKEtP/?p=138&amp;share_source=copy_web&amp;vd_source=f084482bdc948a56dc505d2067a9fd4f" rel="nofollow">吴恩达机器学习p129-137</a></p> 
+<hr> 
+<h2><a name="t1"></a><a id="__Reinforcement_Learning_10"></a>一 <span class="words-blog hl-git-1" data-tit="强化学习" data-pretit="强化学习">强化学习</span>入门 (Reinforcement Learning)</h2> 
+<p>在完成监督学习和无监督学习的探讨之后，我们将进入<span style="color: #4F46E5" class="new-words-blog" data-href="https://taotoken.net/?utm_source=blogglc" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://taotoken.net/?utm_source=blogglc&quot;,&quot;extra&quot;:{&quot;wordId&quot;:179201,&quot;businessId&quot;:6,&quot;word&quot;:&quot;机器学习&quot;,&quot;blogTemplateId&quot;:4}}" data-report-query="spm=1001.2101.3001.11407" data-tit="机器学习">
+              机器学习 <i style="background-image: url(https://i-operation.csdnimg.cn/images/7f533e06978e4b73acc2236e7daf01bd.png);" alt="机器学习" class="words-blog-icon"></i>
+              </span>的第三大分支：<strong>强化学习（Reinforcement Learning, RL）</strong>。</p> 
+<h3><a name="t2"></a><a id="11__14"></a>1.1 强化学习的基本概念</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/33fac9347f704c2d95df91eea7f2f6ef.png" alt="[在此处插入图片1]"></p> 
+<p>强化学习（RL）研究的是一个<strong>智能体（agent）<strong>如何在一个</strong>环境（environment）<strong>中采取一系列</strong>行动（actions）</strong>，以最大化其获得的累积<strong>奖励（reward）</strong>。</p> 
+<ul><li><strong>应用案例：自动驾驶直升机</strong> 
+  <ul><li><strong>目标</strong>：教会计算机如何自主飞行一架配备了GPS、加速计、罗盘等传感器的直升机。</li><li><strong>挑战</strong>：我们很难像监督学习那样，为直升机的每一种可能状态都提供一个“正确”的操控指令作为标签。</li></ul> </li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/32a19b38584f408cbefc22be5d59eb15.png" alt="[在此处插入图片2]"></p> 
+<p><strong>强化学习与监督学习的核心区别</strong>：</p> 
+<ul><li><strong>监督学习 (Supervised Learning)</strong>：数据是成对的 <code>(x, y)</code>，算法学习一个从输入 <code>x</code> 到正确输出 <code>y</code> 的直接映射。</li><li><strong>强化学习 (Reinforcement Learning)</strong>：数据是一系列的状态 <code>s</code> 和行动 <code>a</code>。算法不是学习一个“正确”的行动<code>y</code>，而是通过<strong>奖励函数（reward function</strong>的反馈来学习。 
+  <ul><li><strong>状态 (State <code>s</code>)</strong>: 描述环境在某一时刻的状况（例如，直升机的位置和姿态）。</li><li><strong>行动 (Action <code>a</code>)</strong>: 智能体可以执行的操作（例如，如何移动直升机的控制杆）。</li><li><strong>奖励函数 (Reward Function)</strong>：用于评估在某个状态下采取某个行动的好坏。 
+    <ul><li><strong>正奖励 (Positive reward)</strong>：鼓励好的行为（例如，直升机平稳飞行，奖励 <code>+1</code>）。</li><li><strong>负奖励 (Negative reward)</strong>：惩罚坏的行为（例如，直升机飞行糟糕或坠毁，奖励 <code>-1000</code>）。</li></ul> </li></ul> </li><li>算法的目标是通过与环境的交互（试错），学习一个能获得最高总奖励的行动策略。</li></ul> 
+<h3><a name="t3"></a><a id="12__37"></a>1.2 强化学习的应用</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/2351071095aa4162aa6b0930f57262f9.png" alt="[在此处插入图片3]"></p> 
+<p>强化学习在许多需要进行序贯决策的复杂问题中都取得了巨大成功：</p> 
+<ul><li><strong>机器人控制</strong>：训练机器人完成行走、抓取等复杂任务。</li><li><strong>工厂优化</strong>：优化生产线的调度和资源分配，以提高效率。</li><li><strong>金融交易</strong>：制定股票买卖策略以最大化收益。</li><li><strong>玩游戏</strong>：训练AI在围棋、星际争霸、视频游戏中达到甚至超越人类顶尖水平。</li></ul> 
+<h2><a name="t4"></a><a id="__48"></a>二 强化学习的关键术语</h2> 
+<p>为了更深入地理解RL，我们需要定义一些核心术语。我们将以一个简化的<strong>火星车（Mars Rover</strong>示例来贯穿整个讲解。</p> 
+<h3><a name="t5"></a><a id="21__52"></a>2.1 状态、行动与奖励</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/ecffa43bf4054192ac8b7a4b2197e7c7.png" alt="[在此处插入图片4]"></p> 
+<p><strong>火星车示例环境</strong>：</p> 
+<ul><li><strong>状态 (States <code>s</code>)</strong>: 火星车所在的位置格子。这个环境共有6个离散状态，标记为 <code>s=1</code> 到 <code>s=6</code>。 
+  <ul><li>状态1和状态6是<strong>终止状态（terminal states）</strong>，到达这些状态后，任务（episode）结束。</li></ul> </li><li><strong>行动 (Actions <code>a</code>)</strong>: 在任何非终止状态下，火星车都可以选择向左（left）或向右（right）移动。</li><li><strong>奖励 (Rewards <code>R(s)</code>)</strong>: 奖励仅与<strong>到达</strong>的状态有关。 
+  <ul><li>到达状态1，获得 <code>+100</code> 的奖励。</li><li>到达状态6，获得 <code>+40</code> 的奖励。</li><li>到达任何其他状态（2, 3, 4, 5），奖励为 <code>0</code>。</li></ul> </li><li><strong>状态转移 (State Transition)</strong>：RL中的一个基本单元可以表示为元组 <code>(s, a, R(s'), s')</code>，意为：在状态 <code>s</code>，采取行动 <code>a</code>，会转移到新状态 <code>s'</code>，并获得与新状态相关的奖励 <code>R(s')</code>。例如，<code>(4, left, 0, 3)</code> 表示在状态4向左移动，会到达状态3，并获得0奖励。</li></ul> 
+<h3><a name="t6"></a><a id="22__Return__67"></a>2.2 回报 (<span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;Return\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="Return" data-pretit="return">Return</span>) 与折扣因子</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/5b9021c419094c58aa9ab74728782cf0.png" alt="[在此处插入图片5]"></p> 
+<p><span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;智能体\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="智能体" data-pretit="智能体">智能体</span>的目标是最大化其获得的<strong>累积奖励</strong>，这个累积奖励被称为<strong>回报（Return）</strong>。</p> 
+<ul><li><strong>问题</strong>：直接将未来的所有奖励相加可能会导致问题（例如，在一个无限循环的任务中，回报可能是无限大）。更重要的是，通常我们更看重眼前的奖励，而不是遥远的未来奖励。</li><li><strong>折扣回报 (Discounted Return)</strong>：为了解决这个问题，我们引入<strong>折扣因子（Discount Factor）<code>γ</code></strong>（gamma），一个介于0和1之间的数（例如0.9）。</li><li><strong>回报公式</strong>： 
+  <ul><li><code>Return = R₁ + γ*R₂ + γ²*R₃ + γ³*R₄ + ...</code></li><li><code>R_t</code> 是在第 <code>t</code> 个时间步获得的奖励。</li></ul> </li><li><strong>折扣因子的作用</strong>： 
+  <ul><li><code>γ</code> 值越接近0，智能体越“短视”，只关心眼前的奖励。</li><li><code>γ</code> 值越接近1，智能体越有“远见”，会更多地考虑长远未来的奖励。</li></ul> </li><li><strong>示例计算</strong>： 
+  <ul><li>假设火星车从状态4开始，依次向左移动三次到达状态1。</li><li>如果 <code>γ = 0.9</code>，回报为 <code>0 + (0.9)*0 + (0.9)²*0 + (0.9)³*100 = 72.9</code>。</li><li>如果 <code>γ = 0.5</code>，回报为 <code>0 + (0.5)*0 + (0.5)²*0 + (0.5)³*100 = 12.5</code>。</li></ul> </li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/43bd5aca506048e4b8b4bd9d193c2a2a.png" alt="[在此处插入图片6]"></p> 
+<p>上图展示了从不同状态出发，采取不同行动序列所能获得的回报。回报的值不仅取决于最终的奖励，还严重依赖于采取的行动路径和折扣因子 <code>γ</code> 的大小。</p> 
+<h3><a name="t7"></a><a id="23__Policy_91"></a>2.3 策略 (Policy)</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/6783afadc2e9489d903aa41d64f7b4f1.png" alt="[在此处插入图片7]"></p> 
+<p><strong>策略（Policy）<code>π</code></strong> 是一个函数，它定义了智能体的行为方式。</p> 
+<ul><li><strong>定义</strong>：策略 <code>π(s)</code> 是一个从状态 <code>s</code> 到行动 <code>a</code> 的映射，即 <code>a = π(s)</code>。</li><li><strong>作用</strong>：策略告诉智能体，在给定的任何一个状态下，应该采取什么行动。</li><li>例如，一个可能的策略是：在状态2, 3, 4都向左移动，在状态5向右移动。</li></ul> 
+<h3><a name="t8"></a><a id="24__101"></a>2.4 强化学习的目标</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/1ee7818f53b24afa9ef175fdc1fb7d4e.png" alt="[在此处插入图片8]"></p> 
+<p><strong>强化学习的最终目标是：找到一个最优策略 <code>π*</code>，使得智能体在任何状态 <code>s</code> 下，遵循这个策略所能获得的回报（的期望值）最大化。</strong></p> 
+<h3><a name="t9"></a><a id="25__108"></a>2.5 术语总结</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/820b62435cc240678a0da54cfa8a5111.png" alt="[在此处插入图片9]"></p> 
+<p>下表总结了我们在不同RL问题中遇到的核心术语：</p> 
+<div class="table-box"><table><thead><tr><th align="left">术语</th><th align="left">火星车 (Mars Rover)</th><th align="left">直升机 (Helicopter)</th><th align="left">国际象棋 (Chess)</th></tr></thead><tbody><tr><td align="left"><strong>状态 <code>s</code></strong></td><td align="left">6个离散位置</td><td align="left">直升机的位置、姿态</td><td align="left">棋盘上棋子的布局</td></tr><tr><td align="left"><strong>行动 <code>a</code></strong></td><td align="left">向左、向右</td><td align="left">如何移动控制杆</td><td align="left">所有合法的下一步棋</td></tr><tr><td align="left"><strong>奖励 <code>R</code></strong></td><td align="left">100, 0, 40</td><td align="left">+1 (平稳), -1000 (坠毁)</td><td align="left">+1 (赢), 0 (平), -1 (输)</td></tr><tr><td align="left"><strong>折扣因子 <code>γ</code></strong></td><td align="left">例如 0.5</td><td align="left">例如 0.99 (有远见)</td><td align="left">例如 0.995</td></tr><tr><td align="left"><strong>回报 (Return)</strong></td><td align="left"><code>R₁ + γR₂ + ...</code></td><td align="left"><code>R₁ + γR₂ + ...</code></td><td align="left"><code>R₁ + γR₂ + ...</code></td></tr><tr><td align="left"><strong>策略 <code>π</code></strong></td><td align="left"><code>π(s)</code> -&gt; <code>a</code></td><td align="left"><code>π(s)</code> -&gt; <code>a</code></td><td align="left"><code>π(s)</code> -&gt; <code>a</code></td></tr></tbody></table></div>
+<h2><a name="t10"></a><a id="_QLearning__124"></a>三 Q-Learning 算法</h2> 
+<p>现在，我们介绍一种非常经典和重要的<span style="color: #FC5531" class="new-words-blog" data-href="https://so.csdn.net/so/search?q=强化学习算法" data-report-view="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://so.csdn.net/so/search?q=强化学习算法&quot;,&quot;extra&quot;:{&quot;wordId&quot;:690,&quot;businessId&quot;:1,&quot;word&quot;:&quot;强化学习算法&quot;,&quot;blogTemplateId&quot;:4}}" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://so.csdn.net/so/search?q=强化学习算法&quot;,&quot;extra&quot;:{&quot;wordId&quot;:690,&quot;businessId&quot;:1,&quot;word&quot;:&quot;强化学习算法&quot;,&quot;blogTemplateId&quot;:4}}" data-report-query="spm=1001.2101.3001.11407" data-tit="强化学习算法">
+              强化学习算法 <i style="background-image: url(https://i-operation.csdnimg.cn/images/e7c3df7a602f4267be505af7ecfc3f88.png);" alt="强化学习算法" class="words-blog-icon"></i>
+              </span>：<strong>Q-Learning</strong>。它通过学习一个称为<strong>Q函数</strong>的特殊函数来找到最优策略。</p> 
+<h3><a name="t11"></a><a id="31__MDP_128"></a>3.1 马尔可夫决策过程 (MDP)</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/9c5bcd0fb80b4692b68334bc375962e3.png" alt="[在此处插入图片10]"></p> 
+<p>强化学习问题通常被建模为<strong>马尔可夫决策过程（Markov Decision Process, MDP）</strong>。</p> 
+<ul><li>MDP描述了智能体（Agent）与环境（Environment）之间的交互循环： 
+  <ol><li>智能体在一个状态 <code>s</code>，根据其策略 <code>π</code> 选择一个行动 <code>a</code>。</li><li>环境接收到行动 <code>a</code>，更新其状态，并返回一个新的状态 <code>s'</code> 和一个奖励 <code>R</code>。</li><li>智能体接收到新的状态和奖励，然后重复这个过程。</li></ol> </li><li><strong>马尔可夫性质</strong>：未来的状态只取决于当前的状态和行动，而与过去的历史无关。</li></ul> 
+<h3><a name="t12"></a><a id="32__Qfunction_140"></a>3.2 状态-行动价值函数 (Q-function)</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/52a13d28277e4d85ad715daadd9e36f1.png" alt="[在此处插入图片11]"></p> 
+<p><strong>状态-行动价值函数 <code>Q(s, a)</code></strong>，简称<strong>Q函数</strong>，是Q-Learning算法的核心。</p> 
+<ul><li><strong>定义</strong>：<code>Q(s, a)</code> 的值代表了<strong>回报</strong>，这个回报是在你处于状态 <code>s</code>，<strong>首先执行了一次行动 <code>a</code></strong>，然后<strong>从那以后都遵循最优策略</strong>所能得到的。</li><li><code>Q(s, a)</code> 衡量了在状态 <code>s</code> 下，采取行动 <code>a</code> 有多好。</li></ul> 
+<h3><a name="t13"></a><a id="33_Q_149"></a>3.3 利用Q函数选择行动</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/1ba856aac73b44749ec4da1af6e9f686.png" alt="[在此处插入图片12]"></p> 
+<p>一旦我们拥有了<strong>最优的Q函数 <code>Q*</code></strong>，找到最优策略 <code>π*</code> 就变得非常简单：</p> 
+<ul><li><strong>最优回报</strong>：在任何状态 <code>s</code>，你能获得的最大可能回报是 <code>max_a Q*(s, a)</code>。</li><li><strong>最优策略 <code>π*(s)</code></strong>：在任何状态 <code>s</code>，应该选择那个能使 <code>Q*(s, a)</code> 值最大的行动 <code>a</code>。 
+  <ul><li><code>π*(s) = argmax_a Q*(s, a)</code></li></ul> </li></ul> 
+<h3><a name="t14"></a><a id="34_Jupyter_Notebook__162"></a>3.4 <span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;Jupyter Notebook\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="Jupyter Notebook" data-pretit="jupyter notebook">Jupyter Notebook</span> 实验分析</h3> 
+<p><span style="color: #3391E5" class="new-words-blog" data-href="https://download.csdn.net/download/sinat_41393249/85582071?utm_source=kw_dl_0616" data-report-view="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/sinat_41393249/85582071?utm_source=kw_dl_0616&quot;,&quot;extra&quot;:{&quot;wordId&quot;:172674,&quot;businessId&quot;:4,&quot;word&quot;:&quot;jupyter&quot;,&quot;blogTemplateId&quot;:4}}" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/sinat_41393249/85582071?utm_source=kw_dl_0616&quot;,&quot;extra&quot;:{&quot;wordId&quot;:172674,&quot;businessId&quot;:4,&quot;word&quot;:&quot;jupyter&quot;,&quot;blogTemplateId&quot;:4}}" data-report-query="spm=1001.2101.3001.11407" data-tit="Jupyter">
+              Jupyter 
+              </span> Notebook中的交互式示例极好地展示了环境的关键参数——特别是<strong>奖励（rewards）<strong>和</strong>折扣因子（discount factor <code>γ</code>）</strong>——如何深刻地影响最终学到的最优策略 <code>π*</code> 和状态-行动价值函数 <code>Q(s,a)</code>。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/9b647f7f93ed40388310bde252ba5cd8.png" alt="[在此处插入图片13]"></p> 
+<p><strong>实验一：基准情况 (Baseline)</strong></p> 
+<ul><li><strong>参数设置</strong>: 
+  <ul><li><code>terminal_left_reward = 100</code></li><li><code>terminal_right_reward = 40</code></li><li><code>each_step_reward = 0</code></li><li><code>gamma = 0.5</code></li></ul> </li><li><strong>结果分析</strong>: 
+  <ul><li><strong>Q(s,a) 表</strong>: 
+    <ul><li><code>Q(4, left)</code>: 值为12.5。计算方式为：<code>R(3) + γ * max(Q(3,left), Q(3,right)) = 0 + 0.5 * 25 = 12.5</code>。</li><li><code>Q(4, right)</code>: 值为20.0。计算方式为：<code>R(5) + γ * max(Q(5,left), Q(5,right)) = 0 + 0.5 * 40 = 20.0</code>。</li></ul> </li><li><strong>最优策略</strong>: 
+    <ul><li>在状态4，因为 <code>Q(4, right) = 20.0 &gt; Q(4, left) = 12.5</code>，所以最优行动是<strong>向右</strong>。</li><li>在状态3，因为 <code>Q(3, left) = 25.0 &gt; Q(3, right) = 12.5</code>，所以最优行动是<strong>向左</strong>。</li></ul> </li><li><strong>策略解读</strong>: 这个策略表现出一种平衡。在离高奖励（100）较远的位置（状态4、5），智能体倾向于先去获取较近但较低的奖励（40）。当离高奖励足够近时（状态2、3），它才会选择朝高奖励方向前进。这反映了<code>γ=0.5</code>时，未来的奖励有显著折扣，使得距离成为一个重要的考量因素。</li></ul> </li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/561e8158ce5a44da83a479d604289694.png" alt="[在此处插入图片14]"></p> 
+<p><strong>实验二：降低右侧奖励</strong></p> 
+<ul><li><strong>参数变化</strong>: <code>terminal_right_reward</code> 从 40 降低到 <strong>10</strong>。 
+  <ul><li><em>博主注：这张截图的代码单元格中显示的参数 <code>terminal_right_reward = 40</code> 与其下方的输出结果不符。从输出结果中 <code>Optimal policy</code> 在状态5的价值为10.0以及 <code>Q(5, right)</code> 的值为10.0来看，实际运行的参数应为 <code>terminal_right_reward = 10</code>。以下分析基于此推断。</em></li></ul> </li><li><strong>参数设置</strong>: <code>terminal_right_reward = 10</code>, <code>gamma = 0.5</code></li><li><strong>结果分析</strong>: 
+  <ul><li><strong>Q(s,a) 表</strong>: 右侧终点奖励的大幅降低，导致所有导向右侧的Q值全面下降。例如，<code>Q(5, right)</code> 直接等于10，而 <code>Q(4, right)</code> 则变为 <code>R(5) + γ * max(Q(5,left), Q(5,right)) = 0 + 0.5 * 10 = 5.0</code>。</li><li><strong>最优策略</strong>: 现在，在所有中间状态（2, 3, 4, 5），最优策略都统一变成了<strong>向左</strong>。</li><li><strong>策略解读</strong>: 当右侧的奖励变得几乎没有吸引力时，即使考虑到折扣，向左去追求100的巨大奖励也成为了在任何位置的唯一合理选择。</li></ul> </li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/a57e685897ab42d7868960e8d5803368.png" alt="[在此处插入图片15]"></p> 
+<p><strong>实验三：增加折扣因子 (更有远见)</strong></p> 
+<ul><li><strong>参数变化</strong>: <code>gamma</code> 从 0.5 增加到 <strong>0.9</strong>。 
+  <ul><li><em>博主注：这张截图的代码单元格显示 <code>gamma = 0.9</code>，但下方的输出结果与上一个实验（<code>gamma=0.5</code>, <code>reward=10</code>）完全相同。这通常意味着代码单元格被修改后没有被重新执行。因此，我们在此分析如果<strong>正确执行</strong>了 <code>gamma = 0.9</code> 且 <code>terminal_right_reward = 40</code>（恢复基准奖励）会发生什么。</em></li></ul> </li><li><strong>假如执行的参数</strong>: <code>terminal_left_reward = 100</code>, <code>terminal_right_reward = 40</code>, <code>gamma = 0.9</code></li><li><strong>预期结果分析</strong>: 
+  <ul><li><strong>Q(s,a) 表</strong>: 所有Q值都会显著增加，因为未来的奖励衰减得更慢了。 
+    <ul><li><code>Q(4, right)</code> 会变为 <code>R(5) + 0.9 * Q(5, right) = 0 + 0.9 * (R(6) + ...) = 0 + 0.9 * 40 = 36</code>。</li><li><code>Q(4, left)</code> 会变为 <code>R(3) + 0.9 * Q(3, left) = 0 + 0.9 * (R(2) + 0.9 * Q(2,left)) = 0.9 * (0.9 * (R(1))) = 0.81 * 100 = 81</code>。</li></ul> </li><li><strong>最优策略</strong>: 由于 <code>Q(4, left) = 81 &gt; Q(4, right) = 36</code>，在状态4的最优策略会从基准情况的向右，戏剧性地变为<strong>向左</strong>。事实上，所有中间状态的策略都会变成向左。</li><li><strong>策略解读</strong>: 当智能体变得更有远见（<code>γ</code>值高）时，它愿意为了一个遥远的、更大的奖励（100）而放弃一个较近的、较小的奖励（40）。高<code>γ</code>值放大了长期回报的价值。</li></ul> </li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/4b3ce982c9dd45c3b9b0e16242f35f03.png" alt="[在此处插入图片16]"></p> 
+<p><strong>实验四：降低折扣因子 (更短视)</strong></p> 
+<ul><li><strong>参数变化</strong>: <code>gamma</code> 从 0.5 降低到 <strong>0.3</strong>。</li><li><strong>参数设置</strong>: <code>terminal_left_reward = 100</code>, <code>terminal_right_reward = 40</code>, <code>gamma = 0.3</code></li><li><strong>结果分析</strong>: 
+  <ul><li><strong>Q(s,a) 表</strong>: 所有Q值都大幅下降，因为未来的奖励被剧烈地折扣了。 
+    <ul><li><code>Q(4, left)</code> 变为 <code>R(3) + 0.3 * Q(3, left) = 0 + 0.3 * (R(2) + 0.3 * Q(2, left)) = 0 + 0.3 * (0 + 0.3 * (0 + 0.3*100)) = 2.7</code>。</li><li><code>Q(4, right)</code> 变为 <code>R(5) + 0.3 * Q(5, right) = 0 + 0.3 * 40 = 12.0</code>。</li></ul> </li><li><strong>最优策略</strong>: 在状态4，<code>Q(4, right) = 12.0 &gt; Q(4, left) = 2.7</code>，最优策略是<strong>向右</strong>。在状态3，<code>Q(3, left)=9.0</code> &gt; <code>Q(3, right)=3.6</code>，策略是向左。最终策略与基准情况相同，但Q值的差异更悬殊。</li><li><strong>策略解读</strong>: 极度短视的智能体（<code>γ=0.3</code>）更不愿意为了遥远的奖励而付出多步的行动。在状态4，即使左边的最终奖励更高，但需要走3步（<code>0.3³</code>的剧烈衰减），而右边只需要走2步（<code>0.3²</code>的衰减）。计算下来，走右边在当前看来“更划算”。这清晰地展示了折扣因子如何决定智能体的决策是偏向即时满足还是长期规划。</li></ul> </li></ul> 
+<h4><a name="t15"></a><a id="35__BELLMAN_EQUATION_223"></a><strong>3.5 贝尔曼方程 (BELLMAN EQUATION)</strong></h4> 
+<p><img src="https://i-blog.csdnimg.cn/direct/5f96eb6caea84707b0e79d83cb5f416f.png" alt="[在此处插入图片17]"></p> 
+<p>我们如何能计算出这些Q值呢？答案是<strong>贝尔曼方程</strong>。它是动态规划和强化学习的基石，为 <code>Q(s, a)</code> 函数提供了一个至关重要的递归关系。</p> 
+<p><strong>方程定义</strong></p> 
+<p><code>Q(s, a) = R(s') + γ * max_a' Q(s', a')</code></p> 
+<ul><li><strong>符号解释</strong>: 
+  <ul><li><code>s</code>: 当前状态</li><li><code>a</code>: 在当前状态下采取的行动</li><li><code>s'</code>: 采取行动 <code>a</code> 后转移到的下一个状态</li><li><code>R(s')</code>: 到达下一个状态 <code>s'</code> 后获得的即时奖励</li><li><code>γ</code>: 折扣因子</li><li><code>a'</code>: 在下一个状态 <code>s'</code> 时，所有可能的行动</li><li><code>max_a' Q(s', a')</code>: 在下一个状态 <code>s'</code>，采取最优行动所能带来的最大Q值。</li></ul> </li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/dd736a8d4218498786a04e68f004229f.png" alt="[在此处插入图片19]"></p> 
+<p><strong>贝尔曼方程的深入解释</strong></p> 
+<p>贝尔曼方程的核心思想是将一个长期、多步的价值评估问题，分解为一个单步的即时奖励和下一步的价值评估问题。让我们拆解这个方程来理解其内在逻辑：</p> 
+<p><code>Q(s, a)</code> 的定义是：从状态 <code>s</code> 开始，执行一次行动 <code>a</code>，<strong>然后从此以后都遵循最优策略</strong>所能获得的总回报。</p> 
+<p>这个总回报 <code>Q(s, a)</code> 可以被精确地分为两个部分：</p> 
+<ol><li><strong>即时奖励 (Reward you get right away)</strong>: 当你从 <code>s</code> 采取行动 <code>a</code> 并到达 <code>s'</code> 时，你立即获得的奖励。在我们的火星车例子中，这个奖励是 <code>R(s')</code>。</li><li><strong>未来最优回报的折扣值 (Return from behaving optimally starting from state s’)</strong>: 当你到达状态 <code>s'</code> 之后，如果你从此开始遵循最优策略，你所能获得的最大未来回报。这个值，根据Q函数的定义，正是 <code>max_a' Q(s', a')</code>。由于这部分回报发生在一步之后，我们需要用折扣因子 <code>γ</code> 对其进行折现。</li></ol> 
+<p>将这两部分加起来，就得到了贝尔-曼方程。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/fc04e869f8734d4f8d4b644147b8688d.png" alt="[在此处插入图片20]"></p> 
+<p><strong>从回报公式推导贝尔曼方程</strong></p> 
+<p>我们知道回报的完整定义是 <code>Return = R₁ + γR₂ + γ²R₃ + ...</code>。<br> 那么 <code>Q(s, a)</code> 就是从 <code>s</code> 开始，执行 <code>a</code> 后的这个回报序列。<br> <code>Q(s, a) = R₁ + γR₂ + γ²R₃ + ...</code><br> <code>Q(s, a) = R₁ + γ * (R₂ + γR₃ + γ²R₄ + ...)</code></p> 
+<ul><li><code>R₁</code> 是你马上得到的奖励，即 <code>R(s')</code>。</li><li>括号里的 <code>(R₂ + γR₃ + ...)</code> 正是从下一个状态 <code>s'</code> 开始，遵循最优策略所能获得的回报。根据定义，这正是 <code>max_a' Q(s', a')</code>。</li><li>因此，<code>Q(s, a) = R(s') + γ * max_a' Q(s', a')</code>。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/860ded3976764b4eb7bc31a621927363.png" alt="[在此处插入图片18]"></p> 
+<p><strong>通过火星车示例验证方程</strong></p> 
+<p>让我们用基准实验（<code>γ = 0.5</code>）的结果来具体验证：</p> 
+<ul><li><strong>计算 <code>Q(2, right)</code></strong>: 
+  <ul><li><code>s = 2</code>, <code>a = right</code>, <code>s' = 3</code></li><li><code>R(s') = R(3) = 0</code></li><li><code>max_a' Q(3, a')</code> 是在状态3能获得的最大Q值，从图中可知是 <code>25</code>。</li><li>代入方程：<code>Q(2, right) = R(3) + 0.5 * max_a' Q(3, a') = 0 + 0.5 * 25 = 12.5</code>。这与图中 <code>Q(2, right)</code> 的值完全吻合。</li></ul> </li><li><strong>计算 <code>Q(4, left)</code></strong>: 
+  <ul><li><code>s = 4</code>, <code>a = left</code>, <code>s' = 3</code></li><li><code>R(s') = R(3) = 0</code></li><li><code>max_a' Q(3, a') = 25</code></li><li>代入方程：<code>Q(4, left) = R(3) + 0.5 * max_a' Q(3, a') = 0 + 0.5 * 25 = 12.5</code>。这也与图中 <code>Q(4, left)</code> 的值吻合。</li></ul> </li></ul> 
+<p>这个方程建立了一个所有Q值之间必须满足的自洽关系。Q-Learning等算法就是通过不断迭代更新，使得整个Q值表逐渐趋近于满足贝尔曼方程，从而找到最优的Q函数。</p> 
+<h4><a name="t16"></a><a id="__STOCHASTIC_ENVIRONMENT_291"></a><strong>四 随机环境 (STOCHASTIC ENVIRONMENT)</strong></h4> 
+<p><img src="https://i-blog.csdnimg.cn/direct/a2dad0232c514cddbc97cbb3317684c9.png" alt="[在此处插入图片21]"></p> 
+<p>在之前的讨论中，我们假设环境是<strong>确定性的（deterministic）</strong>，即在状态<code>s</code>采取行动<code>a</code>，总会100%转移到同一个新状态<code>s'</code>。但在现实世界中，环境往往是<strong>随机的（stochastic）</strong>。</p> 
+<ul><li>例如，当火星车选择向左移动时，可能有90%的概率成功向左，但有10%的概率因为轮子打滑而意外向右移动。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/39a0c2590c914fb1884e2701d91bb0f4.png" alt="[在此处插入图片22]"></p> 
+<p><strong>期望回报 (Expected Return)</strong></p> 
+<ul><li>在随机环境下，我们无法保证单次任务能获得确定的回报。</li><li>因此，强化学习的目标被修正为：<strong>最大化期望回报（Expected Return）</strong>，即在所有可能发生的随机结果上，对回报求平均值。</li><li>相应的，<code>Q(s, a)</code>的定义也变为期望回报，贝尔曼方程也会引入期望的计算，形式会变得更复杂。这超出了本入门课程的范围，但在更高级的RL课程中是核心内容。</li></ul>
+        </div><div data-report-view="{&quot;mod&quot;:&quot;1585297308_001&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6548&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/2502_90283908/article/details/154449740&quot;,&quot;extend1&quot;:&quot;pc&quot;,&quot;ab&quot;:&quot;new&quot;}"><div></div></div>
+        <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-e1cc28b339.css" rel="stylesheet">
+        <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-d1e89cace4.css" rel="stylesheet">
+    </div>

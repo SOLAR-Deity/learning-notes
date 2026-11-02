@@ -1,0 +1,123 @@
+<div id="article_content" class="article_content clearfix">
+      <style>
+        /* MD / 富文本中的 .toc（含博客园搬家等嵌套结构）；.toc-box 在侧栏，不受影响 */
+        #content_views .toc,
+        /* 编辑器常在目录前后插入空 p（:empty 仍占 20px），一并去掉避免顶空隙 */
+        #content_views.markdown_views > p:empty:has(+ .toc),
+        #content_views.markdown_views > .toc + p:empty,
+        /* 富文本旧版目录标记 */
+        #content_views.htmledit_views #main-toc,
+        #content_views.htmledit_views #hr-toc,
+        #content_views.htmledit_views p[id*="-toc"] {
+          display: none !important;
+        }
+        /* 目录去掉后，紧跟的首个标题不再多出一块上边距 */
+        #content_views.markdown_views > .toc + h1,
+        #content_views.markdown_views > .toc + h2,
+        #content_views.markdown_views > .toc + h3,
+        #content_views.markdown_views > .toc + h4,
+        #content_views.markdown_views > .toc + p:empty + h1,
+        #content_views.markdown_views > .toc + p:empty + h2,
+        #content_views.markdown_views > .toc + p:empty + h3,
+        #content_views.markdown_views > .toc + p:empty + h4 {
+          margin-top: 0 !important;
+        }
+      </style>
+      <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/kdoc_html_views-1a98987dfd.css">
+      <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-a50b13a894.css">
+        <div id="content_views" class="markdown_views prism-atom-one-dark">
+          <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+          </svg>
+          <p></p>
+<div class="toc">
+ <h4><a name="t0"></a>文章目录</h4>
+ <ul><li><a href="#__9" target="_self">一 决策树的特征处理</a></li><li><ul><li><a href="#11__13" target="_self">1.1 处理多值分类特征：独热编码</a></li><li><a href="#12__39" target="_self">1.2 处理连续特征</a></li></ul>
+  </li><li><a href="#__54" target="_self">二 用于回归任务的决策树</a></li><li><ul><li><a href="#21__58" target="_self">2.1 回归树的结构与预测</a></li><li><a href="#22__74" target="_self">2.2 回归树的分裂标准：方差缩减</a></li></ul>
+  </li><li><a href="#__91" target="_self">三 集成学习：从决策树到森林</a></li><li><ul><li><a href="#31__93" target="_self">3.1 决策树的敏感性</a></li><li><a href="#32__100" target="_self">3.2 树集成：群体的智慧</a></li><li><a href="#33_Bagging__110" target="_self">3.3 Bagging 与随机森林</a></li><li><a href="#34_XGBoost_142" target="_self">3.4 提升法与XGBoost</a></li></ul>
+  </li><li><a href="#__173" target="_self">四 决策树与神经网络的对比</a></li></ul>
+</div>
+<p></p> 
+<hr> 
+<p><em>视频链接</em><br> <a href="%E3%80%90%E3%80%90%E5%AE%98%E6%96%B9%E4%B8%AD%E8%8B%B1%E3%80%912025%E5%B9%B4%E5%85%AC%E8%AE%A4%E6%9C%80%E5%A5%BD%E7%9A%84%E3%80%90%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%AF%BE%E7%A8%8B%E3%80%91%E9%99%84%E8%AF%BE%E4%BB%B6%E3%80%81%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE%EF%BC%81%EF%BC%81%EF%BC%81--%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%91%20https://www.bilibili.com/video/BV1owrpYKEtP/?p=86&amp;share_source=copy_web&amp;vd_source=f084482bdc948a56dc505d2067a9fd4f" rel="nofollow">吴恩达机器学习p92-p99</a></p> 
+<hr> 
+<h2><a name="t1"></a><a id="__9"></a>一 决策树的特征处理</h2> 
+<p>在上一篇文章中，我们介绍了决策树的基本概念。现在，我们将探讨决策树如何处理不同类型的特征，包括具有多个值的分类特征和连续值特征。</p> 
+<h3><a name="t2"></a><a id="11__13"></a>1.1 处理多值分类特征：独热编码</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/ea76e2bf1fe04bd89c8256ca1d34a67f.png" alt="[在此处插入图片1]"></p> 
+<p>在之前的例子中，我们的分类特征都只有两个可能的值（例如，“Pointy” vs “Floppy”）。但如果一个特征有三个或更多的可能值呢？例如，上图中的“Ear shape”（耳朵形状）特征现在有三种可能的值：“Pointy”（尖耳朵）、“Oval”（椭圆形耳朵）和“Floppy”（软塌耳朵）。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/fb493b700f2344139d13ccd394fbe15f.png" alt="[在此处插入图片2]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/0427c92339684c21bc669e91cff30f8c.png" alt="[在此处插入图片3]"></p> 
+<p>直接使用这种多值特征可能会给某些算法带来问题。一种标准、通用的处理方法是<strong>独热编码（One-hot encoding）</strong>。其规则是：</p> 
+<ul><li><strong>如果一个分类特征有 <code>k</code> 个可能的取值，那么就创建 <code>k</code> 个新的二元（binary）特征，每个特征只取0或1。</strong></li><li>对于一个样本，其原始特征值对应的那个新特征为1，其余 <code>k-1</code> 个新特征都为0。</li></ul> 
+<p>如上图所示，“Ear shape”这个特征被转换成了三个新的特征：“Pointy ears”、“Floppy ears”和“Oval ears”。</p> 
+<ul><li>第一行样本的耳朵是“Pointy”，所以在新特征中，“Pointy ears”为1，其余两个为0。</li><li>第二行样本的耳朵是“Oval”，所以在新特征中，“Oval ears”为1，其余两个为0。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/0df46836ddaf406c8947e62503e7c5d0.png" alt="[在此处插入图片4]"></p> 
+<p>这种将分类数据转换为数值数据的技术不仅适用于决策树，也适用于<strong>神经网络</strong>等其他多种机器学习模型，因为这些模型通常期望输入是数值形式。通过独热编码，我们可以将所有分类特征（如“Face shape”、“Whiskers”）都转换为0和1的表示，从而形成一个完全由数值组成的输入数据集。</p> 
+<h3><a name="t3"></a><a id="12__39"></a>1.2 处理连续特征</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/6e6a4d59ad6e4d5983bbfe264225e517.png" alt="[在此处插入图片5]"></p> 
+<p>除了分类特征，数据集中也常常包含<strong>连续特征（Continuous features）</strong>，例如上图中新增的“Weight (lbs.)”（体重，单位为磅）。决策树同样可以处理这类特征。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/69a231f66b274f22bd021322da154c31.png" alt="[在此处插入图片6]"></p> 
+<p>对于一个连续特征，决策树需要决定一个<strong>分割点（split point）</strong>，将其转换为一个二元判断。例如，对于体重特征，一个可能的分割是“Weight &lt;= 9 lbs.”。</p> 
+<ul><li><strong>决策过程</strong>：算法会尝试所有可能的分割点。通常，这些分割点会选择在两个相邻数据点的中间位置。</li><li><strong>选择标准</strong>：对于每一个尝试的分割点，算法都会像处理分类特征一样，计算其<strong>信息增益</strong>。</li><li>最终，算法会选择那个能够提供<strong>最高信息增益</strong>的分割点作为这个连续特征的最佳分割策略。例如，如果“Weight &lt;= 9”这个分割带来的信息增益高于其他所有可能的分割，也高于其他所有特征，那么它就会被选为当前节点的分裂标准。</li></ul> 
+<h2><a name="t4"></a><a id="__54"></a>二 用于回归任务的决策树</h2> 
+<p>决策树不仅能用于分类任务，也能用于<strong>回归（Regression</strong>任务，即预测一个连续的数值。</p> 
+<h3><a name="t5"></a><a id="21__58"></a>2.1 回归树的结构与预测</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/f6168733c04c4ca099dd71c55eb2abe1.png" alt="[在此处插入图片7]"></p> 
+<p>当我们的目标 <code>y</code> 是一个连续数值（如体重）时，这个问题就从分类问题变成了回归问题。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/1fe8d3ed2b834a1fa6398aa027d91288.png" alt="[在此处插入图片8]"></p> 
+<p>用于回归任务的决策树（简称<strong>回归树</strong>）的结构与分类树类似，但其叶节点的内容不同：</p> 
+<ul><li><strong>分类树的叶节点</strong>：包含一个类别标签（如“Cat”或“Not cat”）。</li><li><strong>回归树的叶节点</strong>：包含一个具体的<strong>数值</strong>。</li><li><strong>预测方法</strong>：一个新样本从根节点开始，沿着树的分支走到某个叶节点，该叶节点中的数值就是模型对这个样本的预测值。</li><li><strong>叶节点数值的确定</strong>：在训练过程中，落入某个叶节点的<strong>所有训练样本</strong>，其目标值 <code>y</code> 的<strong>平均值</strong>，会被作为这个叶节点的预测值。例如，左下角的叶节点包含4个训练样本，它们的体重分别是7.2, 8.4, 7.6, 10.2，其平均值为8.35，因此该叶节点的预测值就是8.35。</li></ul> 
+<h3><a name="t6"></a><a id="22__74"></a>2.2 回归树的分裂标准：方差缩减</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/c9887c40c7b141ef8f1fb901ce2f5a67.png" alt="[在此处插入图片9]"></p> 
+<p>对于回归树，我们不再使用基于熵的信息增益来选择最佳分裂特征，因为熵是为分类问题定义的。取而代之，我们使用<strong>方差（Variance</strong>作为不纯度的衡量标准。</p> 
+<ul><li><strong>目标</strong>：选择一个分裂，使得分裂后各个子节点中目标值 <code>y</code> 的方差尽可能小。</li><li><strong>计算过程</strong>： 
+  <ol><li>计算分裂前父节点中所有样本目标值 <code>y</code> 的方差。</li><li>对每个可能的特征和分裂点，计算分裂后子节点方差的加权平均值。</li><li>选择那个能使<strong>方差缩减（Variance Reduction</strong>程度最大的分裂。</li></ol> </li><li>在图例中，根节点的方差为20.51。 
+  <ul><li>按“Ear shape”分裂，分裂后的加权方差为 <code>(5/10)*1.47 + (5/10)*21.87 = 11.67</code>，方差缩减了 <code>20.51 - 11.67 = 8.84</code>。</li><li>按“Face Shape”分裂，方差缩减了 <code>0.64</code>。</li><li>按“Whiskers”分裂，方差缩减了 <code>6.22</code>。</li></ul> </li><li>因为“Ear shape”带来的方差缩减最大，所以算法选择它作为根节点的分裂特征。这个过程会递归地进行下去，直到满足停止分裂的条件。</li></ul> 
+<h2><a name="t7"></a><a id="__91"></a>三 集成学习：从决策树到森林</h2> 
+<h3><a name="t8"></a><a id="31__93"></a>3.1 决策树的敏感性</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/f05ab78dfb4d4bed918b77db914eead0.png" alt="[在此处插入图片10]"></p> 
+<p>单个决策树有一个显著的缺点：<strong>它们对训练数据中的微小变化高度敏感</strong>。如上图所示，仅仅改变一个训练样本的标签（从猫变成狗），就可能导致学习算法构建出一棵结构完全不同的决策树。这种不稳定性是模型<strong>高方差（high variance</strong>的表现。</p> 
+<h3><a name="t9"></a><a id="32__100"></a>3.2 树集成：群体的智慧</h3> 
+<p><img src="https://i-blog.csdnimg.cn/direct/f690abb75dfe4d9995e24a4ffab0adc2.png" alt="[在此处插入图片11]"></p> 
+<p>为了解决单个决策树不稳定的问题，我们可以使用<strong>树集成（Tree ensemble</strong>的方法。</p> 
+<ul><li><strong>核心思想</strong>：不只训练一棵树，而是训练多棵不同的决策树。</li><li><strong>预测方法</strong>：当对新样本进行预测时，让这多棵树分别进行预测，然后通过“<strong>投票</strong>”的方式（少数服从多数）来决定最终的预测结果。</li><li><strong>效果</strong>：集成多个不同模型的预测，通常可以得到比任何单个模型更准确、更稳定的结果。</li></ul> 
+<h3><a name="t10"></a><a id="33_Bagging__110"></a>3.3 Bagging 与随机森林</h3> 
+<p><strong>Bagging（Bootstrap Aggregating）</strong> 是构建树集成的一种常用技术。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/4aaa1bc511fa4b22977995b16141bd6d.png" alt="[在此处插入图片12]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/b53e856782ec401da05c8ff6718feed3.png" alt="[在此处插入图片13]"></p> 
+<p>它的基础是<strong>有放回抽样（Sampling with replacement）</strong>，也称为<strong>自助法（Bootstrap）</strong>。这意味着从一个大小为 <code>m</code> 的数据集中抽取一个样本时，我们会把它放回，所以它有可能被再次抽中。通过这种方式，我们可以从原始数据集中生成多个大小相同但内容不同的新数据集。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/d201b37d94e04c128738d34bbd925c81.png" alt="[在此处插入图片14]"></p> 
+<p><strong>Bagging 算法流程</strong>：</p> 
+<ol><li>给定一个大小为 <code>m</code> 的训练集。</li><li>循环 <code>B</code> 次（例如 <code>B=100</code>）：<br> a. 使用有放回抽样，从原始训练集中创建一个新的、大小为 <code>m</code> 的训练集。<br> b. 在这个新的数据集上训练一棵决策树。</li><li>最终得到一个由 <code>B</code> 棵决策树组成的集成，称为<strong>袋装决策树（Bagged decision tree）</strong>。</li></ol> 
+<p><img src="https://i-blog.csdnimg.cn/direct/3a54dbf171184268afe00b7440946bdb.png" alt="[在此处插入图片15]"></p> 
+<p><strong>随机森林（Random Forest）</strong> 算法在Bagging的基础上增加了一步，以进一步增强树之间的差异性：</p> 
+<ul><li>在Bagging的每一步训练决策树时，当需要在某个节点选择分裂特征时，算法并<strong>不会</strong>考虑所有 <code>n</code> 个可用的特征。</li><li>相反，它会先从 <code>n</code> 个特征中，<strong>随机选择一个大小为 <code>k</code> 的子集</strong>（其中 <code>k &lt; n</code>，一个常见的经验法则是 <code>k = sqrt(n)</code>）。</li><li>然后，算法只在这个 <code>k</code> 个特征的子集中，寻找信息增益最大或方差缩减最大的最佳分裂特征。</li></ul> 
+<p>这种对特征的随机化选择，确保了集成中的每棵树都有很大的不同，从而进一步降低了模型的方差，使得随机森林成为一个非常强大和鲁棒的算法。</p> 
+<h3><a name="t11"></a><a id="34_XGBoost_142"></a>3.4 提升法与XGBoost</h3> 
+<p>**提升法（Boosting）**是构建树集成的另一种核心技术。</p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/1f789cd3daf64c11b287baf8a6eab872.png" alt="[在此处插入图片16]"></p> 
+<p>与Bagging中并行、独立地训练多棵树不同，提升法是<strong>串行</strong>的：</p> 
+<ol><li>它首先训练一棵树。</li><li>然后，它会分析这棵树的错误，并<strong>提高那些被错误分类的样本的权重</strong>。</li><li>接着，它训练第二棵树，这棵树会更加关注那些在第一步中被分错的“困难”样本。</li><li>这个过程会持续进行 <code>B</code> 轮，每一棵新的树都致力于修正前面所有树留下的残差或错误。<br> 最终，所有树的预测会以某种加权方式结合起来，形成最终预测。</li></ol> 
+<p><img src="https://i-blog.csdnimg.cn/direct/8da653facec348ee87418e978ca93ef1.png" alt="[在此处插入图片17]"></p> 
+<p><strong>XGBoost (eXtreme Gradient Boosting)</strong> 是提升树算法的一个高度优化和流行的实现。它之所以被广泛使用，是因为：</p> 
+<ul><li>它是一个开源、快速且高效的实现。</li><li>它内置了优秀的分裂标准和停止分裂的准则。</li><li>它包含了正则化项来防止过拟合。</li><li>它在机器学习竞赛（如Kaggle）中表现极其出色，是一个非常有竞争力的算法。</li></ul> 
+<p><img src="https://i-blog.csdnimg.cn/direct/0530228ec1e04d559fd389771eaead08.png" alt="[在此处插入图片18]"></p> 
+<p>在实践中使用XGBoost非常直接。像<code>scikit-learn</code>一样，它提供了简单的API：</p> 
+<ul><li><strong>分类任务</strong>：使用 <code>XGBClassifier</code>。</li><li><strong>回归任务</strong>：使用 <code>XGBRegressor</code>。<br> 使用时，只需导入相应的类，创建模型实例，然后调用 <code>.fit()</code> 方法进行训练，再调用 <code>.predict()</code> 方法进行预测。</li></ul> 
+<h2><a name="t12"></a><a id="__173"></a>四 决策树与神经网络的对比</h2> 
+<p><img src="https://i-blog.csdnimg.cn/direct/8ec77777b9ed4135bcc5099c1dc39b9b.png" alt="[在此处插入图片19]"></p> 
+<p><img src="https://i-blog.csdnimg.cn/direct/f9e59f29f8d449ceb7eafaa4580e01f1.png" alt="[在此处插入图片20]"></p> 
+<p>决策树（及其集成）和神经网络都是强大的模型，但它们各有优劣，适用于不同的场景。</p> 
+<p><strong>决策树和树集成（如随机森林, XGBoost）</strong>：</p> 
+<ul><li><strong>优点</strong>： 
+  <ul><li>在<strong>表格数据（或称结构化数据</strong>上表现非常好。这是它们最擅长的领域。</li><li>训练和预测速度通常很快。</li><li>单个的小决策树具有很好的<strong>可解释性</strong>，人类可以直观地理解其决策逻辑。</li></ul> </li><li><strong>缺点</strong>： 
+  <ul><li>不推荐用于<strong>非结构化数据</strong>，如图像、音频和文本。</li></ul> </li></ul> 
+<p><strong>神经网络</strong>：</p> 
+<ul><li><strong>优点</strong>： 
+  <ul><li>在<strong>所有类型的数据</strong>上都表现出色，包括结构化和非结构化数据。</li><li>在处理图像、音频、文本等非结构化数据时，是目前最先进的方法。</li><li>可以很好地与<strong>迁移学习</strong>结合使用。</li><li>在构建由多个模型协同工作的复杂系统时，将多个神经网络串联起来可能更容易。</li></ul> </li><li><strong>缺点</strong>： 
+  <ul><li>训练和推理可能比决策树慢。</li><li>通常被认为是“黑箱”模型，可解释性较差。</li></ul> </li></ul>
+        </div><div data-report-view="{&quot;mod&quot;:&quot;1585297308_001&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6548&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/2502_90283908/article/details/154202620&quot;,&quot;extend1&quot;:&quot;pc&quot;,&quot;ab&quot;:&quot;new&quot;}"><div></div></div>
+        <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-e1cc28b339.css" rel="stylesheet">
+        <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-d1e89cace4.css" rel="stylesheet">
+    </div>
